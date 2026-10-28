@@ -1,0 +1,10 @@
+{
+  "name": "oncampus-app",
+  "version": "1.0.0",
+  "description": "OnCampus - Student Freelancing & Collaboration Platform",
+  "scripts": {
+    "build": "npm --prefix client install --include=dev && npm --prefix client run build && npm --prefix server install --include=dev",
+    "start": "node server/src/index.js",
+    "seed": "node server/src/seed.js"
+  }
+}
