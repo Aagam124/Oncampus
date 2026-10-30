@@ -38,7 +38,7 @@ function Layout() {
   }, [location.pathname]);
 
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen bg-[#fafbfd] dark:bg-surface-950 text-surface-900 dark:text-surface-100 transition-colors duration-200">
       <Navbar />
       <main className="flex-1">
         <Outlet />

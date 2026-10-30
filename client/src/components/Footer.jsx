@@ -3,21 +3,21 @@ import { GraduationCap, Github, Linkedin, Twitter, Heart, Sparkles } from 'lucid
 
 export default function Footer() {
   return (
-    <footer className="bg-white border-t border-surface-200/80 pt-16 pb-12">
+    <footer className="bg-white dark:bg-surface-950 border-t border-surface-200/80 dark:border-surface-800/80 pt-16 pb-12 transition-colors">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 pb-12 border-b border-surface-100">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 pb-12 border-b border-surface-100 dark:border-surface-800">
           {/* Brand info (2 cols) */}
           <div className="lg:col-span-2 space-y-4">
             <Link to="/" className="flex items-center gap-2.5">
               <div className="w-9 h-9 bg-gradient-to-tr from-brand-600 to-indigo-500 rounded-xl flex items-center justify-center shadow-glow-sm">
                 <GraduationCap className="w-5 h-5 text-white" />
               </div>
-              <span className="text-xl font-black tracking-tight text-surface-900">
+              <span className="text-xl font-black tracking-tight text-surface-900 dark:text-white">
                 On<span className="bg-gradient-to-r from-brand-600 to-indigo-600 bg-clip-text text-transparent">Campus</span>
               </span>
             </Link>
 
-            <p className="text-xs text-surface-500 leading-relaxed max-w-sm">
+            <p className="text-xs text-surface-500 dark:text-surface-400 leading-relaxed max-w-sm">
               The premier student freelancing marketplace and peer collaboration network. Connecting university talent with high-impact projects, hackathons, and clients.
             </p>
 
@@ -26,7 +26,7 @@ export default function Footer() {
                 href="https://github.com"
                 target="_blank"
                 rel="noreferrer"
-                className="w-8 h-8 rounded-full bg-surface-100 hover:bg-surface-200 text-surface-600 hover:text-surface-900 flex items-center justify-center transition-colors"
+                className="w-8 h-8 rounded-full bg-surface-100 dark:bg-surface-800 hover:bg-surface-200 dark:hover:bg-surface-700 text-surface-600 dark:text-surface-300 hover:text-surface-900 dark:hover:text-white flex items-center justify-center transition-colors"
                 aria-label="GitHub"
               >
                 <Github className="w-4 h-4" />
@@ -35,7 +35,7 @@ export default function Footer() {
                 href="https://linkedin.com"
                 target="_blank"
                 rel="noreferrer"
-                className="w-8 h-8 rounded-full bg-surface-100 hover:bg-surface-200 text-surface-600 hover:text-brand-600 flex items-center justify-center transition-colors"
+                className="w-8 h-8 rounded-full bg-surface-100 dark:bg-surface-800 hover:bg-surface-200 dark:hover:bg-surface-700 text-surface-600 dark:text-surface-300 hover:text-brand-600 flex items-center justify-center transition-colors"
                 aria-label="LinkedIn"
               >
                 <Linkedin className="w-4 h-4" />
@@ -44,7 +44,7 @@ export default function Footer() {
                 href="https://twitter.com"
                 target="_blank"
                 rel="noreferrer"
-                className="w-8 h-8 rounded-full bg-surface-100 hover:bg-surface-200 text-surface-600 hover:text-sky-500 flex items-center justify-center transition-colors"
+                className="w-8 h-8 rounded-full bg-surface-100 dark:bg-surface-800 hover:bg-surface-200 dark:hover:bg-surface-700 text-surface-600 dark:text-surface-300 hover:text-sky-500 flex items-center justify-center transition-colors"
                 aria-label="Twitter"
               >
                 <Twitter className="w-4 h-4" />
@@ -54,32 +54,32 @@ export default function Footer() {
 
           {/* Column: Marketplace */}
           <div className="space-y-3">
-            <h4 className="text-xs font-bold uppercase tracking-wider text-surface-900">
+            <h4 className="text-xs font-bold uppercase tracking-wider text-surface-900 dark:text-surface-200">
               Marketplace
             </h4>
-            <ul className="space-y-2 text-xs text-surface-600 font-medium">
+            <ul className="space-y-2 text-xs text-surface-600 dark:text-surface-400 font-medium">
               <li>
-                <Link to="/services" className="hover:text-brand-600 transition-colors">
+                <Link to="/services" className="hover:text-brand-600 dark:hover:text-brand-400 transition-colors">
                   All Services
                 </Link>
               </li>
               <li>
-                <Link to="/services?category=web-development" className="hover:text-brand-600 transition-colors">
+                <Link to="/services?category=web-development" className="hover:text-brand-600 dark:hover:text-brand-400 transition-colors">
                   Web Development
                 </Link>
               </li>
               <li>
-                <Link to="/services?category=ui-ux-design" className="hover:text-brand-600 transition-colors">
+                <Link to="/services?category=ui-ux-design" className="hover:text-brand-600 dark:hover:text-brand-400 transition-colors">
                   UI/UX Design
                 </Link>
               </li>
               <li>
-                <Link to="/services?category=video-editing" className="hover:text-brand-600 transition-colors">
+                <Link to="/services?category=video-editing" className="hover:text-brand-600 dark:hover:text-brand-400 transition-colors">
                   Video Editing
                 </Link>
               </li>
               <li>
-                <Link to="/services?category=tutoring" className="hover:text-brand-600 transition-colors">
+                <Link to="/services?category=tutoring" className="hover:text-brand-600 dark:hover:text-brand-400 transition-colors">
                   Peer Tutoring
                 </Link>
               </li>
@@ -88,27 +88,27 @@ export default function Footer() {
 
           {/* Column: Collaborations */}
           <div className="space-y-3">
-            <h4 className="text-xs font-bold uppercase tracking-wider text-surface-900">
+            <h4 className="text-xs font-bold uppercase tracking-wider text-surface-900 dark:text-surface-200">
               Teammates & Projects
             </h4>
-            <ul className="space-y-2 text-xs text-surface-600 font-medium">
+            <ul className="space-y-2 text-xs text-surface-600 dark:text-surface-400 font-medium">
               <li>
-                <Link to="/projects" className="hover:text-brand-600 transition-colors">
+                <Link to="/projects" className="hover:text-brand-600 dark:hover:text-brand-400 transition-colors">
                   Explore Projects
                 </Link>
               </li>
               <li>
-                <Link to="/projects/new" className="hover:text-brand-600 transition-colors">
+                <Link to="/projects/new" className="hover:text-brand-600 dark:hover:text-brand-400 transition-colors">
                   Post a Teammate Search
                 </Link>
               </li>
               <li>
-                <Link to="/projects?type=collaboration" className="hover:text-brand-600 transition-colors">
+                <Link to="/projects?type=collaboration" className="hover:text-brand-600 dark:hover:text-brand-400 transition-colors">
                   Hackathon Teams
                 </Link>
               </li>
               <li>
-                <Link to="/projects?type=hiring" className="hover:text-brand-600 transition-colors">
+                <Link to="/projects?type=hiring" className="hover:text-brand-600 dark:hover:text-brand-400 transition-colors">
                   Student Hiring Gigs
                 </Link>
               </li>
@@ -117,27 +117,27 @@ export default function Footer() {
 
           {/* Column: Student Resources */}
           <div className="space-y-3">
-            <h4 className="text-xs font-bold uppercase tracking-wider text-surface-900">
+            <h4 className="text-xs font-bold uppercase tracking-wider text-surface-900 dark:text-surface-200">
               Campus Platform
             </h4>
-            <ul className="space-y-2 text-xs text-surface-600 font-medium">
+            <ul className="space-y-2 text-xs text-surface-600 dark:text-surface-400 font-medium">
               <li>
-                <Link to="/register" className="hover:text-brand-600 transition-colors">
+                <Link to="/register" className="hover:text-brand-600 dark:hover:text-brand-400 transition-colors">
                   Join as Student
                 </Link>
               </li>
               <li>
-                <Link to="/login" className="hover:text-brand-600 transition-colors">
+                <Link to="/login" className="hover:text-brand-600 dark:hover:text-brand-400 transition-colors">
                   Sign In
                 </Link>
               </li>
               <li>
-                <Link to="/orders" className="hover:text-brand-600 transition-colors">
+                <Link to="/orders" className="hover:text-brand-600 dark:hover:text-brand-400 transition-colors">
                   Order Deliveries
                 </Link>
               </li>
               <li>
-                <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-brand-600 bg-brand-50 px-2 py-0.5 rounded-full">
+                <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-brand-600 dark:text-brand-400 bg-brand-50 dark:bg-brand-950/60 px-2 py-0.5 rounded-full border border-brand-200/50 dark:border-brand-800/50">
                   <Sparkles className="w-3 h-3" />
                   <span>Version 2.0 Pro</span>
                 </span>
@@ -147,16 +147,16 @@ export default function Footer() {
         </div>
 
         {/* Bottom row */}
-        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-surface-400">
+        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-surface-400 dark:text-surface-500">
           <p>© {new Date().getFullYear()} OnCampus. Built for student creators.</p>
           <div className="flex items-center gap-6">
-            <Link to="#" className="hover:text-surface-600 transition-colors">
+            <Link to="#" className="hover:text-surface-600 dark:hover:text-surface-300 transition-colors">
               Privacy Policy
             </Link>
-            <Link to="#" className="hover:text-surface-600 transition-colors">
+            <Link to="#" className="hover:text-surface-600 dark:hover:text-surface-300 transition-colors">
               Terms of Service
             </Link>
-            <Link to="#" className="hover:text-surface-600 transition-colors">
+            <Link to="#" className="hover:text-surface-600 dark:hover:text-surface-300 transition-colors">
               Campus Guidelines
             </Link>
           </div>

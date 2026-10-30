@@ -30,10 +30,10 @@ export default function Pagination({ currentPage, totalPages, onPageChange, tota
   return (
     <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mt-6">
       {totalItems !== undefined && (
-        <p className="text-sm text-surface-500">
-          Showing <span className="font-medium text-surface-700">{startItem}</span> to{' '}
-          <span className="font-medium text-surface-700">{endItem}</span> of{' '}
-          <span className="font-medium text-surface-700">{totalItems}</span> results
+        <p className="text-sm text-surface-500 dark:text-surface-400">
+          Showing <span className="font-medium text-surface-700 dark:text-surface-200">{startItem}</span> to{' '}
+          <span className="font-medium text-surface-700 dark:text-surface-200">{endItem}</span> of{' '}
+          <span className="font-medium text-surface-700 dark:text-surface-200">{totalItems}</span> results
         </p>
       )}
 
@@ -41,7 +41,7 @@ export default function Pagination({ currentPage, totalPages, onPageChange, tota
         <button
           onClick={() => onPageChange(currentPage - 1)}
           disabled={currentPage === 1}
-          className="p-2 rounded-lg text-surface-500 hover:bg-surface-100 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+          className="p-2 rounded-lg text-surface-500 dark:text-surface-400 hover:bg-surface-100 dark:hover:bg-surface-800 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
           aria-label="Previous page"
         >
           <ChevronLeft className="w-4 h-4" />
@@ -49,7 +49,7 @@ export default function Pagination({ currentPage, totalPages, onPageChange, tota
 
         {getPageNumbers().map((page, idx) =>
           page === '...' ? (
-            <span key={`dots-${idx}`} className="px-2 text-surface-400">
+            <span key={`dots-${idx}`} className="px-2 text-surface-400 dark:text-surface-500">
               …
             </span>
           ) : (
@@ -59,7 +59,7 @@ export default function Pagination({ currentPage, totalPages, onPageChange, tota
               className={`min-w-[36px] h-9 rounded-lg text-sm font-medium transition-colors ${
                 page === currentPage
                   ? 'bg-brand-600 text-white shadow-sm'
-                  : 'text-surface-600 hover:bg-surface-100'
+                  : 'text-surface-600 dark:text-surface-300 hover:bg-surface-100 dark:hover:bg-surface-800'
               }`}
             >
               {page}
@@ -70,7 +70,7 @@ export default function Pagination({ currentPage, totalPages, onPageChange, tota
         <button
           onClick={() => onPageChange(currentPage + 1)}
           disabled={currentPage === totalPages}
-          className="p-2 rounded-lg text-surface-500 hover:bg-surface-100 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+          className="p-2 rounded-lg text-surface-500 dark:text-surface-400 hover:bg-surface-100 dark:hover:bg-surface-800 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
           aria-label="Next page"
         >
           <ChevronRight className="w-4 h-4" />
