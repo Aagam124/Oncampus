@@ -12,6 +12,7 @@ import {
   Clock,
   Send,
   Trash2,
+  Bookmark,
 } from 'lucide-react';
 import api from '@/lib/axios';
 import useAuthStore from '@/store/authStore';
@@ -38,6 +39,30 @@ export default function ProjectDetail() {
   // Delete project
   const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
+
+  // Bookmark / Favorite
+  const [isSaved, setIsSaved] = useState(false);
+
+  useEffect(() => {
+    if (user?.savedProjects?.includes(id)) {
+      setIsSaved(true);
+    }
+  }, [user, id]);
+
+  const handleToggleFavorite = async () => {
+    if (!isAuthenticated) {
+      navigate('/login', { state: { from: `/projects/${id}` } });
+      return;
+    }
+    try {
+      const res = await api.post(`/users/favorites/${id}`);
+      const saved = res.data?.data?.isFavorite;
+      setIsSaved(saved);
+      addToast(saved ? 'Project saved to favorites' : 'Project removed from favorites', 'success');
+    } catch {
+      addToast('Failed to update favorites', 'error');
+    }
+  };
 
   const fetchProject = async () => {
     try {
@@ -155,15 +180,29 @@ export default function ProjectDetail() {
             <span>Back to Projects</span>
           </Link>
 
-          {isOwner && (
+          <div className="flex items-center gap-2.5">
             <button
-              onClick={() => setDeleteConfirmOpen(true)}
-              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg border border-red-200 bg-red-50 hover:bg-red-100 text-red-600 font-medium text-sm transition-colors"
+              onClick={handleToggleFavorite}
+              className={`inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full border text-xs font-semibold transition-colors ${
+                isSaved
+                  ? 'bg-[#0071e3]/10 border-[#0071e3]/30 text-[#0071e3]'
+                  : 'bg-white dark:bg-[#161617] border-black/[0.08] dark:border-white/[0.1] text-[#6e6e73] hover:text-[#1d1d1f] dark:hover:text-white'
+              }`}
             >
-              <Trash2 className="w-4 h-4" />
-              <span>Delete Project</span>
+              <Bookmark className={`w-3.5 h-3.5 ${isSaved ? 'fill-[#0071e3]' : ''}`} />
+              <span>{isSaved ? 'Saved' : 'Save Project'}</span>
             </button>
-          )}
+
+            {isOwner && (
+              <button
+                onClick={() => setDeleteConfirmOpen(true)}
+                className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full border border-red-200 bg-red-50 hover:bg-red-100 text-red-600 font-medium text-xs transition-colors"
+              >
+                <Trash2 className="w-4 h-4" />
+                <span>Delete Project</span>
+              </button>
+            )}
+          </div>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">

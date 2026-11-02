@@ -16,6 +16,7 @@ import {
   CheckCircle2,
   Clock,
   ArrowUpRight,
+  Bookmark,
 } from 'lucide-react';
 import useAuthStore from '@/store/authStore';
 import api from '@/lib/axios';
@@ -27,6 +28,7 @@ export default function Dashboard() {
   const { user } = useAuthStore();
   const [stats, setStats] = useState(null);
   const [recentOrders, setRecentOrders] = useState([]);
+  const [savedProjects, setSavedProjects] = useState([]);
   const [loading, setLoading] = useState(true);
 
   const firstName = user?.firstName || 'Student';
@@ -34,11 +36,12 @@ export default function Dashboard() {
   useEffect(() => {
     const fetchDashboard = async () => {
       try {
-        const [servicesRes, ordersRes, notifsRes, convsRes] = await Promise.allSettled([
+        const [servicesRes, ordersRes, notifsRes, convsRes, favsRes] = await Promise.allSettled([
           api.get('/services/my/listings'),
           api.get('/orders'),
           api.get('/notifications/unread-count'),
           api.get('/conversations'),
+          api.get('/users/favorites'),
         ]);
 
         let activeServicesCount = 0;
@@ -55,6 +58,11 @@ export default function Dashboard() {
           const orders = ordersRes.value.data?.data?.orders || ordersRes.value.data?.orders || [];
           setRecentOrders(orders);
           pendingOrdersCount = orders.filter((o) => o.status === 'pending').length;
+        }
+
+        if (favsRes.status === 'fulfilled') {
+          const favs = favsRes.value.data?.data?.favorites || [];
+          setSavedProjects(favs);
         }
 
         if (notifsRes.status === 'fulfilled') {
@@ -267,6 +275,64 @@ export default function Dashboard() {
                   >
                     Explore Services
                   </Link>
+                </div>
+              )}
+            </div>
+
+            {/* Saved Favorite Projects */}
+            <div className="bg-white rounded-3xl border border-surface-200/80 shadow-sm overflow-hidden">
+              <div className="p-6 border-b border-surface-100 flex items-center justify-between">
+                <div>
+                  <h2 className="font-bold text-surface-900 text-lg">Saved Collaborations</h2>
+                  <p className="text-xs text-surface-500 mt-0.5">Projects and gigs you bookmarked to apply for</p>
+                </div>
+                <Link
+                  to="/projects"
+                  className="text-xs text-brand-600 hover:text-brand-800 font-bold flex items-center gap-1 transition-colors"
+                >
+                  <span>Explore Projects</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </Link>
+              </div>
+
+              {savedProjects.length > 0 ? (
+                <div className="divide-y divide-surface-100">
+                  {savedProjects.map((p) => {
+                    const ownerName = p.owner?.firstName ? `${p.owner.firstName} ${p.owner.lastName || ''}` : 'Team Lead';
+                    return (
+                      <Link
+                        key={p._id}
+                        to={`/projects/${p._id}`}
+                        className="flex items-center justify-between p-5 hover:bg-surface-50/70 transition-colors group"
+                      >
+                        <div className="flex items-center gap-3.5 min-w-0">
+                          <div className="w-9 h-9 rounded-xl bg-brand-50 text-brand-600 flex items-center justify-center flex-shrink-0">
+                            <Bookmark className="w-4 h-4 fill-brand-600" />
+                          </div>
+                          <div className="min-w-0">
+                            <p className="text-sm font-bold text-surface-900 truncate group-hover:text-brand-600 transition-colors">
+                              {p.title}
+                            </p>
+                            <p className="text-xs text-surface-400 mt-0.5">
+                              Lead: <span className="font-semibold text-surface-600">{ownerName}</span> • {p.category?.replace(/-/g, ' ')}
+                            </p>
+                          </div>
+                        </div>
+
+                        <div className="flex items-center gap-2 flex-shrink-0 ml-4">
+                          <span className="text-xs font-semibold text-brand-600 flex items-center gap-0.5 group-hover:translate-x-0.5 transition-transform">
+                            View <ArrowRight className="w-3.5 h-3.5" />
+                          </span>
+                        </div>
+                      </Link>
+                    );
+                  })}
+                </div>
+              ) : (
+                <div className="px-6 py-10 text-center space-y-2">
+                  <p className="text-xs text-surface-500">
+                    No bookmarked projects yet. Click "Save Project" on any collaboration to track it here.
+                  </p>
                 </div>
               )}
             </div>

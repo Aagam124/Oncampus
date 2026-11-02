@@ -6,6 +6,7 @@ import ServiceCard from '@/components/ServiceCard';
 import Pagination from '@/components/Pagination';
 import LoadingSpinner from '@/components/LoadingSpinner';
 import EmptyState from '@/components/EmptyState';
+import { SkeletonCard } from '@/components/Skeleton';
 import useAuthStore from '@/store/authStore';
 
 const CATEGORIES = [
@@ -307,21 +308,29 @@ export default function ServiceBrowse() {
 
             {/* Content state */}
             {loading ? (
-              <div className="py-20 flex justify-center">
-                <LoadingSpinner message="Loading services..." />
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                {Array.from({ length: 6 }).map((_, i) => (
+                  <SkeletonCard key={i} />
+                ))}
               </div>
             ) : services.length === 0 ? (
               <EmptyState
                 title="No services found"
                 description="Try tweaking your search keywords or removing some filters to find what you need."
-                actionText="Reset Filters"
+                actionLabel="Reset Filters"
                 onAction={resetFilters}
               />
             ) : (
               <>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {services.map((service) => (
-                    <ServiceCard key={service._id} service={service} />
+                  {services.map((service, idx) => (
+                    <div
+                      key={service._id}
+                      className="animate-card-fade-up"
+                      style={{ animationDelay: `${Math.min(idx * 50, 450)}ms` }}
+                    >
+                      <ServiceCard service={service} />
+                    </div>
                   ))}
                 </div>
 

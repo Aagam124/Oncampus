@@ -6,6 +6,8 @@ import ProjectCard from '@/components/ProjectCard';
 import Pagination from '@/components/Pagination';
 import LoadingSpinner from '@/components/LoadingSpinner';
 import EmptyState from '@/components/EmptyState';
+import { SkeletonCard } from '@/components/Skeleton';
+import Button from '@/components/Button';
 import useAuthStore from '@/store/authStore';
 
 const CATEGORIES = [
@@ -275,21 +277,29 @@ export default function ProjectBrowse() {
             )}
 
             {loading ? (
-              <div className="py-20 flex justify-center">
-                <LoadingSpinner message="Discovering campus projects..." />
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                {Array.from({ length: 6 }).map((_, i) => (
+                  <SkeletonCard key={i} />
+                ))}
               </div>
             ) : projects.length === 0 ? (
               <EmptyState
                 title="No projects found"
                 description="Be the first to post a collaboration opportunity or tweak your search criteria."
-                actionText="Reset Filters"
+                actionLabel="Reset Filters"
                 onAction={resetFilters}
               />
             ) : (
               <>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                  {projects.map((project) => (
-                    <ProjectCard key={project._id} project={project} />
+                  {projects.map((project, idx) => (
+                    <div
+                      key={project._id}
+                      className="animate-card-fade-up"
+                      style={{ animationDelay: `${Math.min(idx * 50, 400)}ms` }}
+                    >
+                      <ProjectCard project={project} />
+                    </div>
                   ))}
                 </div>
 
