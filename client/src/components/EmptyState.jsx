@@ -1,36 +1,44 @@
+import React from 'react';
 import { Inbox } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import Button from '@/components/Button';
 
 export default function EmptyState({
   icon: Icon = Inbox,
   title = 'Nothing here yet',
-  description = 'There are no items to display.',
+  description = 'There are no items to display at this time.',
   actionLabel,
   actionTo,
   onAction,
+  className = '',
 }) {
   return (
-    <div className="flex flex-col items-center justify-center py-16 text-center">
-      <div className="w-16 h-16 rounded-full bg-surface-100 dark:bg-surface-800 flex items-center justify-center mb-4 border border-transparent dark:border-surface-700">
-        <Icon className="w-8 h-8 text-surface-400 dark:text-surface-500" />
+    <div className={`flex flex-col items-center justify-center py-16 px-4 text-center max-w-md mx-auto ${className}`}>
+      {/* Icon Capsule */}
+      <div className="w-16 h-16 rounded-3xl bg-[#f5f5f7] dark:bg-[#1c1c1e] border border-black/[0.06] dark:border-white/[0.08] flex items-center justify-center mb-5 shadow-xs">
+        <Icon className="w-7 h-7 text-[#86868b] dark:text-[#a1a1a6]" />
       </div>
-      <h3 className="text-lg font-semibold text-surface-900 dark:text-surface-100 mb-1">{title}</h3>
-      <p className="text-sm text-surface-500 dark:text-surface-400 max-w-sm mb-6">{description}</p>
-      {actionLabel && actionTo && (
-        <Link
-          to={actionTo}
-          className="px-4 py-2 bg-brand-600 hover:bg-brand-700 text-white text-sm font-medium rounded-lg transition-all duration-200"
-        >
-          {actionLabel}
-        </Link>
-      )}
-      {actionLabel && onAction && !actionTo && (
-        <button
-          onClick={onAction}
-          className="px-4 py-2 bg-brand-600 hover:bg-brand-700 text-white text-sm font-medium rounded-lg transition-all duration-200"
-        >
-          {actionLabel}
-        </button>
+
+      {/* Typography */}
+      <h3 className="text-base sm:text-lg font-bold tracking-tight text-[#1d1d1f] dark:text-[#f5f5f7] mb-1.5">
+        {title}
+      </h3>
+      <p className="text-xs sm:text-sm text-[#86868b] dark:text-[#a1a1a6] leading-relaxed mb-6 max-w-xs">
+        {description}
+      </p>
+
+      {/* Action Button */}
+      {actionLabel && (
+        <>
+          {actionTo ? (
+            <Button to={actionTo} variant="primary" size="sm">
+              {actionLabel}
+            </Button>
+          ) : onAction ? (
+            <Button onClick={onAction} variant="primary" size="sm">
+              {actionLabel}
+            </Button>
+          ) : null}
+        </>
       )}
     </div>
   );
