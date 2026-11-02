@@ -7,7 +7,7 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import LoadingSpinner from '@/components/LoadingSpinner';
 
-// Pages
+// Student Pages
 import Landing from '@/pages/Landing';
 import Login from '@/pages/Login';
 import Register from '@/pages/Register';
@@ -24,12 +24,29 @@ import ProfileEdit from '@/pages/ProfileEdit';
 import OrderList from '@/pages/OrderList';
 import OrderDetail from '@/pages/OrderDetail';
 import Messages from '@/pages/Messages';
-import AdminDashboard from '@/pages/admin/AdminDashboard';
-import AdminUsers from '@/pages/admin/AdminUsers';
-import AdminServices from '@/pages/admin/AdminServices';
-import AdminReports from '@/pages/admin/AdminReports';
 
-// Layout wrapper
+// Admin Command Center Pages & Layout
+import AdminLayout from '@/components/admin/AdminLayout';
+import AdminDashboard from '@/pages/admin/AdminDashboard';
+import AdminAnalytics from '@/pages/admin/AdminAnalytics';
+import AdminUsers from '@/pages/admin/AdminUsers';
+import AdminVerification from '@/pages/admin/AdminVerification';
+import AdminSuspended from '@/pages/admin/AdminSuspended';
+import AdminProjects from '@/pages/admin/AdminProjects';
+import AdminServices from '@/pages/admin/AdminServices';
+import AdminOrders from '@/pages/admin/AdminOrders';
+import AdminDisputes from '@/pages/admin/AdminDisputes';
+import AdminPortal from '@/pages/admin/AdminPortal';
+import AdminReports from '@/pages/admin/AdminReports';
+import AdminArchived from '@/pages/admin/AdminArchived';
+import AdminAnnouncements from '@/pages/admin/AdminAnnouncements';
+import AdminNotifications from '@/pages/admin/AdminNotifications';
+import AdminHealth from '@/pages/admin/AdminHealth';
+import AdminRoles from '@/pages/admin/AdminRoles';
+import AdminAuditLogs from '@/pages/admin/AdminAuditLogs';
+import AdminSettings from '@/pages/admin/AdminSettings';
+
+// Public & Student Layout wrapper
 function Layout() {
   const location = useLocation();
 
@@ -89,6 +106,31 @@ export default function App() {
   return (
     <ToastProvider>
       <Routes>
+        {/* Admin Command Center (Dedicated Persistent SaaS Layout) */}
+        <Route element={<ProtectedRoute adminOnly />}>
+          <Route element={<AdminLayout />}>
+            <Route path="/admin" element={<AdminDashboard />} />
+            <Route path="/admin/analytics" element={<AdminAnalytics />} />
+            <Route path="/admin/users" element={<AdminUsers />} />
+            <Route path="/admin/verification" element={<AdminVerification />} />
+            <Route path="/admin/suspended" element={<AdminSuspended />} />
+            <Route path="/admin/projects" element={<AdminProjects />} />
+            <Route path="/admin/services" element={<AdminServices />} />
+            <Route path="/admin/orders" element={<AdminOrders />} />
+            <Route path="/admin/disputes" element={<AdminDisputes />} />
+            <Route path="/admin/portal" element={<AdminPortal />} />
+            <Route path="/admin/reports" element={<AdminReports />} />
+            <Route path="/admin/archived" element={<AdminArchived />} />
+            <Route path="/admin/announcements" element={<AdminAnnouncements />} />
+            <Route path="/admin/notifications" element={<AdminNotifications />} />
+            <Route path="/admin/health" element={<AdminHealth />} />
+            <Route path="/admin/roles" element={<AdminRoles />} />
+            <Route path="/admin/audit-logs" element={<AdminAuditLogs />} />
+            <Route path="/admin/settings" element={<AdminSettings />} />
+          </Route>
+        </Route>
+
+        {/* Student-facing & Public Portal Routes */}
         <Route element={<Layout />}>
           {/* Public routes */}
           <Route path="/" element={<Landing />} />
@@ -100,7 +142,7 @@ export default function App() {
           <Route path="/projects/:id" element={<ProjectDetail />} />
           <Route path="/users/:id" element={<PublicProfile />} />
 
-          {/* Protected routes */}
+          {/* Student Protected routes */}
           <Route element={<ProtectedRoute />}>
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/services/new" element={<ServiceCreate />} />
@@ -110,14 +152,6 @@ export default function App() {
             <Route path="/orders" element={<OrderList />} />
             <Route path="/orders/:id" element={<OrderDetail />} />
             <Route path="/messages" element={<Messages />} />
-          </Route>
-
-          {/* Admin routes */}
-          <Route element={<ProtectedRoute adminOnly />}>
-            <Route path="/admin" element={<AdminDashboard />} />
-            <Route path="/admin/users" element={<AdminUsers />} />
-            <Route path="/admin/services" element={<AdminServices />} />
-            <Route path="/admin/reports" element={<AdminReports />} />
           </Route>
 
           {/* Catch all */}

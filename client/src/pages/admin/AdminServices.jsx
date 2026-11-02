@@ -1,42 +1,60 @@
-import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
 import {
-  CheckCircle,
-  XCircle,
-  ExternalLink,
+  Briefcase,
+  Search,
   Filter,
   Eye,
-  AlertCircle,
+  Archive,
+  EyeOff,
+  CheckCircle2,
+  XCircle,
+  ExternalLink,
+  ChevronLeft,
+  ChevronRight,
 } from 'lucide-react';
 import api from '@/lib/axios';
-import { useToast } from '@/hooks/useToast';
-import Badge from '@/components/Badge';
 import LoadingSpinner from '@/components/LoadingSpinner';
-import Pagination from '@/components/Pagination';
+import Modal from '@/components/Modal';
+import Button from '@/components/Button';
+import { useToast } from '@/hooks/useToast';
 
 export default function AdminServices() {
-  const { addToast } = useToast();
   const [services, setServices] = useState([]);
+  const [search, setSearch] = useState('');
+  const [status, setStatus] = useState('');
+  const [portalStatus, setPortalStatus] = useState('');
+  const [pagination, setPagination] = useState({ page: 1, limit: 15, total: 0, pages: 1 });
   const [loading, setLoading] = useState(true);
-  const [statusFilter, setStatusFilter] = useState('');
-  const [page, setPage] = useState(1);
-  const [pagination, setPagination] = useState({ page: 1, limit: 20, total: 0, pages: 1 });
+
+  // Modals
+  const [selectedService, setSelectedService] = useState(null);
+  const [inspectOpen, setInspectOpen] = useState(false);
+  const [actionOpen, setActionOpen] = useState(false);
+  const [actionType, setActionType] = useState(''); // 'publish', 'hide', 'archive', 'reject'
+  const [actionReason, setActionReason] = useState('');
+  const [submitting, setSubmitting] = useState(false);
+
+  const { addToast } = useToast();
 
   const fetchServices = async () => {
     try {
       setLoading(true);
-      const params = new URLSearchParams();
-      if (statusFilter) params.append('status', statusFilter);
-      params.append('page', page);
-      params.append('limit', '20');
+      const params = new URLSearchParams({
+        page: pagination.page,
+        limit: pagination.limit,
+      });
+      if (search) params.append('search', search);
+      if (status) params.append('status', status);
+      if (portalStatus) params.append('portalStatus', portalStatus);
 
       const res = await api.get(`/admin/services?${params.toString()}`);
-      const payload = res.data?.data?.services || [];
-      const pInfo = res.data?.data?.pagination || { page: 1, limit: 20, total: payload.length, pages: 1 };
-      setServices(payload);
-      setPagination(pInfo);
+      setServices(res.data?.data || []);
+      if (res.data?.pagination) {
+        setPagination((prev) => ({ ...prev, ...res.data.pagination }));
+      }
     } catch (err) {
-      addToast('Failed to load services', 'error');
+      console.error('Failed to load services:', err);
+      addToast('Failed to load services list', 'error');
     } finally {
       setLoading(false);
     }
@@ -44,174 +62,339 @@ export default function AdminServices() {
 
   useEffect(() => {
     fetchServices();
-  }, [statusFilter, page]);
+  }, [pagination.page, status, portalStatus]);
 
-  const handleUpdateStatus = async (serviceId, status) => {
+  const handleSearchSubmit = (e) => {
+    e.preventDefault();
+    setPagination((p) => ({ ...p, page: 1 }));
+    fetchServices();
+  };
+
+  const openActionModal = (service, type) => {
+    setSelectedService(service);
+    setActionType(type);
+    setActionReason('');
+    setActionOpen(true);
+  };
+
+  const handleExecuteAction = async () => {
+    if (!selectedService) return;
     try {
-      await api.put(`/admin/services/${serviceId}`, { status });
-      addToast(`Service marked as "${status}"`, 'success');
+      setSubmitting(true);
+      await api.put(`/admin/services/${selectedService._id}/portal-status`, {
+        action: actionType,
+        reason: actionReason,
+      });
+
+      addToast(`Service updated to ${actionType} successfully`, 'success');
+      setActionOpen(false);
       fetchServices();
     } catch (err) {
       addToast(err.response?.data?.message || 'Failed to update service status', 'error');
+    } finally {
+      setSubmitting(false);
     }
   };
 
   return (
-    <div className="bg-surface-50 min-h-screen py-10">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
-        {/* Header */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-          <div>
-            <div className="flex items-center gap-2 text-xs font-semibold text-brand-600 mb-1">
-              <Link to="/admin" className="hover:underline">Admin</Link>
-              <span>/</span>
-              <span>Services</span>
-            </div>
-            <h1 className="text-3xl font-extrabold text-surface-900 tracking-tight">
-              Service Moderation & Approvals
-            </h1>
-            <p className="text-sm text-surface-600 mt-1">
-              Review published peer listings to maintain high academic and quality standards.
-            </p>
+    <div className="space-y-6 animate-in fade-in duration-200">
+      {/* Header */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+          <div className="flex items-center gap-2 text-[#8b5cf6] text-xs font-bold uppercase tracking-wider mb-1">
+            <Briefcase className="w-4 h-4" />
+            <span>Marketplace Moderation</span>
           </div>
-
-          {/* Status Filter */}
-          <div className="flex gap-2">
-            {[
-              { val: '', label: 'All Listings' },
-              { val: 'active', label: 'Active' },
-              { val: 'under-review', label: 'Under Review' },
-              { val: 'rejected', label: 'Rejected' },
-            ].map((tab) => (
-              <button
-                key={tab.val}
-                onClick={() => {
-                  setStatusFilter(tab.val);
-                  setPage(1);
-                }}
-                className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors ${
-                  statusFilter === tab.val
-                    ? 'bg-brand-600 text-white'
-                    : 'bg-white border border-surface-200 text-surface-600 hover:bg-surface-100'
-                }`}
-              >
-                {tab.label}
-              </button>
-            ))}
-          </div>
+          <h1 className="text-2xl sm:text-3xl font-black text-[#0f172a] dark:text-white tracking-tight">
+            Services & Gigs Directory
+          </h1>
+          <p className="text-xs sm:text-sm text-[#64748b] dark:text-[#94a3b8] mt-1">
+            Review student freelancing offerings, pricing models, and control portal visibility.
+          </p>
         </div>
 
-        {/* Services Table */}
-        <div className="bg-white rounded-2xl border border-surface-200 shadow-sm overflow-hidden">
-          {loading ? (
-            <div className="py-20 flex justify-center">
-              <LoadingSpinner message="Loading services..." />
-            </div>
-          ) : services.length === 0 ? (
-            <p className="text-sm text-surface-500 text-center py-12">No services found in this category.</p>
-          ) : (
-            <div className="overflow-x-auto">
-              <table className="w-full text-left border-collapse text-xs">
-                <thead>
-                  <tr className="bg-surface-50 border-b border-surface-200 text-surface-500 uppercase font-semibold tracking-wider">
-                    <th className="py-3.5 px-4">Service</th>
-                    <th className="py-3.5 px-4">Provider</th>
-                    <th className="py-3.5 px-4">Category</th>
-                    <th className="py-3.5 px-4">Pricing</th>
-                    <th className="py-3.5 px-4">Orders</th>
-                    <th className="py-3.5 px-4">Status</th>
-                    <th className="py-3.5 px-4 text-right">Moderation Actions</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-surface-100">
-                  {services.map((s) => {
-                    const providerName = s.provider?.firstName
-                      ? `${s.provider.firstName} ${s.provider.lastName || ''}`
-                      : 'Unknown';
-
-                    return (
-                      <tr key={s._id} className="hover:bg-surface-50/50 transition-colors">
-                        <td className="py-3 px-4 font-semibold text-surface-900 max-w-xs">
-                          <Link
-                            to={`/services/${s._id}`}
-                            className="hover:text-brand-600 flex items-center gap-1.5 truncate"
-                          >
-                            <span className="truncate">{s.title}</span>
-                            <ExternalLink className="w-3 h-3 text-surface-400 flex-shrink-0" />
-                          </Link>
-                        </td>
-
-                        <td className="py-3 px-4 text-surface-600">
-                          {providerName}
-                        </td>
-
-                        <td className="py-3 px-4 capitalize text-surface-600">
-                          {s.category?.replace(/-/g, ' ')}
-                        </td>
-
-                        <td className="py-3 px-4 font-bold text-surface-800">
-                          ₹{(s.pricing?.amount || 0).toLocaleString()}
-                        </td>
-
-                        <td className="py-3 px-4 text-surface-500">
-                          {s.orderCount || 0}
-                        </td>
-
-                        <td className="py-3 px-4">
-                          <Badge
-                            variant={
-                              s.status === 'active'
-                                ? 'success'
-                                : s.status === 'rejected'
-                                ? 'danger'
-                                : 'warning'
-                            }
-                          >
-                            {s.status}
-                          </Badge>
-                        </td>
-
-                        <td className="py-3 px-4 text-right space-x-1.5 whitespace-nowrap">
-                          {s.status !== 'active' && (
-                            <button
-                              onClick={() => handleUpdateStatus(s._id, 'active')}
-                              className="px-2.5 py-1 bg-emerald-50 text-emerald-700 hover:bg-emerald-100 rounded-lg font-semibold transition-colors inline-flex items-center gap-1"
-                            >
-                              <CheckCircle className="w-3 h-3" />
-                              <span>Approve</span>
-                            </button>
-                          )}
-
-                          {s.status !== 'rejected' && (
-                            <button
-                              onClick={() => handleUpdateStatus(s._id, 'rejected')}
-                              className="px-2.5 py-1 bg-red-50 text-red-600 hover:bg-red-100 rounded-lg font-semibold transition-colors inline-flex items-center gap-1"
-                            >
-                              <XCircle className="w-3 h-3" />
-                              <span>Reject</span>
-                            </button>
-                          )}
-                        </td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
-            </div>
-          )}
-
-          {/* Pagination */}
-          {pagination.pages > 1 && (
-            <div className="p-4 border-t border-surface-100">
-              <Pagination
-                currentPage={pagination.page}
-                totalPages={pagination.pages}
-                onPageChange={(p) => setPage(p)}
-              />
-            </div>
-          )}
+        <div className="text-xs font-bold px-3 py-1.5 rounded-xl bg-white dark:bg-[#161f30] border border-black/[0.06] dark:border-white/[0.08] shadow-xs">
+          Total Services: <strong className="text-[#8b5cf6]">{pagination.total}</strong>
         </div>
       </div>
+
+      {/* Filter and Search Bar */}
+      <div className="p-4 rounded-2xl bg-white dark:bg-[#161f30] border border-black/[0.06] dark:border-white/[0.08] shadow-apple-card flex flex-col md:flex-row items-center justify-between gap-3">
+        <form onSubmit={handleSearchSubmit} className="relative w-full md:w-80">
+          <Search className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-[#94a3b8]" />
+          <input
+            type="text"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            placeholder="Search services by title, skills or tags..."
+            className="w-full pl-9 pr-4 py-2 rounded-xl bg-[#f8fafc] dark:bg-[#0e131f] border border-black/[0.06] dark:border-white/[0.08] text-xs text-[#0f172a] dark:text-white placeholder:text-[#94a3b8] focus:outline-none focus:border-[#0071e3]"
+          />
+        </form>
+
+        <div className="flex items-center gap-2 w-full md:w-auto">
+          <select
+            value={portalStatus}
+            onChange={(e) => {
+              setPortalStatus(e.target.value);
+              setPagination((p) => ({ ...p, page: 1 }));
+            }}
+            className="px-3 py-2 rounded-xl bg-[#f8fafc] dark:bg-[#0e131f] border border-black/[0.06] dark:border-white/[0.08] text-xs font-semibold text-[#0f172a] dark:text-white focus:outline-none"
+          >
+            <option value="">All Portal States</option>
+            <option value="published">Published</option>
+            <option value="hidden">Hidden from Portal</option>
+            <option value="archived">Archived</option>
+          </select>
+        </div>
+      </div>
+
+      {/* Services Table */}
+      <div className="rounded-2xl bg-white dark:bg-[#161f30] border border-black/[0.06] dark:border-white/[0.08] shadow-apple-card overflow-hidden">
+        {loading ? (
+          <div className="py-16 flex items-center justify-center">
+            <LoadingSpinner message="Loading services..." />
+          </div>
+        ) : services.length === 0 ? (
+          <div className="py-16 text-center text-xs text-[#94a3b8]">
+            No services found matching current criteria.
+          </div>
+        ) : (
+          <div className="overflow-x-auto">
+            <table className="w-full text-left text-xs">
+              <thead className="bg-[#f8fafc] dark:bg-[#0e131f] border-b border-black/[0.05] dark:border-white/[0.06] text-[#64748b] dark:text-[#94a3b8] font-bold uppercase tracking-wider text-[10px]">
+                <tr>
+                  <th className="py-3.5 px-4">Service</th>
+                  <th className="py-3.5 px-4">Student Provider</th>
+                  <th className="py-3.5 px-4">Pricing</th>
+                  <th className="py-3.5 px-4">Category</th>
+                  <th className="py-3.5 px-4">Portal Status</th>
+                  <th className="py-3.5 px-4 text-right">Actions</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-black/[0.04] dark:divide-white/[0.05]">
+                {services.map((s) => {
+                  const pStatus = s.portalStatus || 'published';
+                  return (
+                    <tr key={s._id} className="hover:bg-[#f8fafc]/60 dark:hover:bg-[#141b2b] transition-colors">
+                      <td className="py-3.5 px-4 max-w-xs">
+                        <div className="font-bold text-[#0f172a] dark:text-white truncate">
+                          {s.title}
+                        </div>
+                        <div className="text-[11px] text-[#64748b] truncate">
+                          {s.description}
+                        </div>
+                      </td>
+
+                      <td className="py-3.5 px-4">
+                        <div className="font-semibold text-[#0f172a] dark:text-white">
+                          {s.provider ? `${s.provider.firstName} ${s.provider.lastName}` : 'Student'}
+                        </div>
+                        <div className="text-[11px] text-[#64748b]">{s.provider?.email}</div>
+                      </td>
+
+                      <td className="py-3.5 px-4">
+                        <span className="font-bold text-[#0f172a] dark:text-white">
+                          ₹{(s.pricing?.amount || s.price || 0).toLocaleString()}
+                        </span>
+                        <span className="text-[10px] text-[#64748b] block capitalize">
+                          {s.pricing?.type || 'Fixed'}
+                        </span>
+                      </td>
+
+                      <td className="py-3.5 px-4">
+                        <span className="capitalize px-2 py-0.5 rounded bg-black/[0.04] dark:bg-white/[0.06] text-[10px] font-semibold">
+                          {s.category}
+                        </span>
+                      </td>
+
+                      <td className="py-3.5 px-4">
+                        {pStatus === 'published' ? (
+                          <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-[#34c759]/10 text-[#34c759]">
+                            <CheckCircle2 className="w-3 h-3" /> Published
+                          </span>
+                        ) : pStatus === 'hidden' ? (
+                          <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-[#ef4444]/10 text-[#ef4444]">
+                            <EyeOff className="w-3 h-3" /> Hidden
+                          </span>
+                        ) : (
+                          <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-amber-500/10 text-amber-500">
+                            <Archive className="w-3 h-3" /> Archived
+                          </span>
+                        )}
+                      </td>
+
+                      <td className="py-3.5 px-4 text-right">
+                        <div className="flex items-center justify-end gap-1.5">
+                          <button
+                            onClick={() => {
+                              setSelectedService(s);
+                              setInspectOpen(true);
+                            }}
+                            className="p-1.5 rounded-lg text-[#64748b] hover:text-[#0f172a] dark:hover:text-white hover:bg-black/[0.04]"
+                            title="Inspect Service"
+                          >
+                            <Eye className="w-4 h-4" />
+                          </button>
+
+                          {pStatus === 'published' ? (
+                            <button
+                              onClick={() => openActionModal(s, 'hide')}
+                              className="p-1.5 rounded-lg text-[#ef4444] hover:bg-[#ef4444]/10"
+                              title="Hide from Portal"
+                            >
+                              <EyeOff className="w-4 h-4" />
+                            </button>
+                          ) : (
+                            <button
+                              onClick={() => openActionModal(s, 'publish')}
+                              className="p-1.5 rounded-lg text-[#34c759] hover:bg-[#34c759]/10"
+                              title="Restore to Portal"
+                            >
+                              <CheckCircle2 className="w-4 h-4" />
+                            </button>
+                          )}
+
+                          {pStatus !== 'archived' && (
+                            <button
+                              onClick={() => openActionModal(s, 'archive')}
+                              className="p-1.5 rounded-lg text-[#64748b] hover:bg-black/[0.04]"
+                              title="Archive Service"
+                            >
+                              <Archive className="w-4 h-4" />
+                            </button>
+                          )}
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+        )}
+
+        {/* Pagination Bar */}
+        <div className="p-4 border-t border-black/[0.05] dark:border-white/[0.06] flex items-center justify-between text-xs text-[#64748b]">
+          <span>Page {pagination.page} of {pagination.pages || 1}</span>
+          <div className="flex items-center gap-2">
+            <button
+              disabled={pagination.page <= 1}
+              onClick={() => setPagination((p) => ({ ...p, page: p.page - 1 }))}
+              className="p-1.5 rounded-lg border border-black/[0.06] dark:border-white/[0.08] disabled:opacity-40"
+            >
+              <ChevronLeft className="w-4 h-4" />
+            </button>
+            <button
+              disabled={pagination.page >= pagination.pages}
+              onClick={() => setPagination((p) => ({ ...p, page: p.page + 1 }))}
+              className="p-1.5 rounded-lg border border-black/[0.06] dark:border-white/[0.08] disabled:opacity-40"
+            >
+              <ChevronRight className="w-4 h-4" />
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Inspect Modal */}
+      {inspectOpen && selectedService && (
+        <Modal
+          isOpen={inspectOpen}
+          onClose={() => setInspectOpen(false)}
+          title="Service Inspector"
+        >
+          <div className="space-y-4 text-xs">
+            <div>
+              <h3 className="text-base font-bold text-[#0f172a] dark:text-white">
+                {selectedService.title}
+              </h3>
+              <p className="text-[11px] text-[#64748b] mt-0.5">
+                Provider: {selectedService.provider?.firstName} {selectedService.provider?.lastName} ({selectedService.provider?.email})
+              </p>
+            </div>
+
+            <div>
+              <h4 className="font-bold text-[#0f172a] dark:text-white mb-1">Service Description</h4>
+              <p className="text-[#64748b] leading-relaxed whitespace-pre-wrap">
+                {selectedService.description}
+              </p>
+            </div>
+
+            <div className="flex items-center gap-4">
+              <div>
+                <span className="text-[#94a3b8] block">Price</span>
+                <span className="font-bold text-[#0f172a] dark:text-white">
+                  ₹{selectedService.pricing?.amount || selectedService.price}
+                </span>
+              </div>
+              <div>
+                <span className="text-[#94a3b8] block">Category</span>
+                <span className="font-bold capitalize">{selectedService.category}</span>
+              </div>
+              <div>
+                <span className="text-[#94a3b8] block">Rating</span>
+                <span className="font-bold">{selectedService.rating || 0} ★</span>
+              </div>
+            </div>
+
+            <div className="pt-3 border-t border-black/[0.06] dark:border-white/[0.08] flex items-center justify-between">
+              <a
+                href={`/services/${selectedService._id}`}
+                target="_blank"
+                rel="noreferrer"
+                className="text-[#0071e3] font-bold flex items-center gap-1 hover:underline"
+              >
+                View on Public Portal <ExternalLink className="w-3.5 h-3.5" />
+              </a>
+              <Button variant="secondary" size="xs" onClick={() => setInspectOpen(false)}>
+                Close
+              </Button>
+            </div>
+          </div>
+        </Modal>
+      )}
+
+      {/* Action Modal */}
+      {actionOpen && selectedService && (
+        <Modal
+          isOpen={actionOpen}
+          onClose={() => setActionOpen(false)}
+          title={`Confirm Action: ${actionType.toUpperCase()}`}
+        >
+          <div className="space-y-4 text-xs">
+            <p className="text-[#64748b] dark:text-[#94a3b8]">
+              You are about to set service <strong>"{selectedService.title}"</strong> to{' '}
+              <strong className="text-[#0f172a] dark:text-white">{actionType}</strong>.
+            </p>
+
+            <div>
+              <label className="block font-bold text-[#0f172a] dark:text-white mb-1">
+                Reason / Student Notification:
+              </label>
+              <textarea
+                value={actionReason}
+                onChange={(e) => setActionReason(e.target.value)}
+                placeholder="Enter justification for this action..."
+                rows={3}
+                className="w-full p-2.5 rounded-xl bg-[#f8fafc] dark:bg-[#0e131f] border border-black/[0.06] dark:border-white/[0.08] text-xs focus:outline-none focus:border-[#0071e3]"
+              />
+            </div>
+
+            <div className="flex items-center justify-end gap-2 pt-2">
+              <Button variant="secondary" size="sm" onClick={() => setActionOpen(false)}>
+                Cancel
+              </Button>
+              <Button
+                variant={actionType === 'hide' ? 'danger' : 'primary'}
+                size="sm"
+                loading={submitting}
+                onClick={handleExecuteAction}
+              >
+                Confirm {actionType.charAt(0).toUpperCase() + actionType.slice(1)}
+              </Button>
+            </div>
+          </div>
+        </Modal>
+      )}
     </div>
   );
 }
