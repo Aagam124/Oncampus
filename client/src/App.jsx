@@ -38,9 +38,9 @@ function Layout() {
   }, [location.pathname]);
 
   return (
-    <div className="flex flex-col min-h-screen bg-[#fafbfd] dark:bg-surface-950 text-surface-900 dark:text-surface-100 transition-colors duration-200">
+    <div className="flex flex-col min-h-screen bg-[#faf9f6] dark:bg-[#0c0c0e] text-[#1d1d1f] dark:text-[#f5f5f7] transition-colors duration-200 overflow-x-hidden">
       <Navbar />
-      <main className="flex-1">
+      <main key={location.pathname} className="flex-1 animate-page-enter">
         <Outlet />
       </main>
       <Footer />
