@@ -69,6 +69,16 @@ const orderSchema = new mongoose.Schema(
       ref: 'Review',
       default: null,
     },
+    disputeDetails: {
+      openedBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User', default: null },
+      reason: { type: String, default: '' },
+      evidence: { type: [String], default: [] },
+      internalNotes: { type: String, default: '' },
+      assignedAdmin: { type: mongoose.Schema.Types.ObjectId, ref: 'User', default: null },
+      resolvedAt: { type: Date, default: null },
+      resolution: { type: String, enum: ['buyer', 'seller', 'closed', null], default: null },
+      resolutionNote: { type: String, default: '' },
+    },
   },
   { timestamps: true }
 );

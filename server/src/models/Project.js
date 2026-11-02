@@ -93,6 +93,24 @@ const projectSchema = new mongoose.Schema(
       type: Boolean,
       default: true,
     },
+    portalStatus: {
+      type: String,
+      enum: ['published', 'hidden', 'archived', 'removed'],
+      default: 'published',
+    },
+    archivedAt: {
+      type: Date,
+      default: null,
+    },
+    archivedBy: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+      default: null,
+    },
+    archiveReason: {
+      type: String,
+      default: '',
+    },
   },
   { timestamps: true }
 );

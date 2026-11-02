@@ -102,9 +102,40 @@ const userSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    verificationStatus: {
+      type: String,
+      enum: ['unverified', 'pending', 'verified', 'rejected'],
+      default: 'unverified',
+    },
+    verificationDetails: {
+      universityEmail: { type: String, default: '' },
+      documentUrl: { type: String, default: '' },
+      documentType: { type: String, default: 'Student ID' },
+      submittedAt: { type: Date, default: null },
+      reviewedBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User', default: null },
+      reviewedAt: { type: Date, default: null },
+      rejectionReason: { type: String, default: '' },
+    },
+    adminRole: {
+      type: String,
+      enum: ['super_admin', 'admin', 'moderator', 'none'],
+      default: function () {
+        return this.role === 'admin' ? 'super_admin' : 'none';
+      },
+    },
     isActive: {
       type: Boolean,
       default: true,
+    },
+    suspensionDetails: {
+      reason: { type: String, default: '' },
+      suspendedAt: { type: Date, default: null },
+      suspendedBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User', default: null },
+    },
+    portalStatus: {
+      type: String,
+      enum: ['published', 'hidden', 'archived'],
+      default: 'published',
     },
     refreshToken: {
       type: String,
