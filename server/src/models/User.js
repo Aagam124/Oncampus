@@ -84,6 +84,12 @@ const userSchema = new mongoose.Schema(
       website: { type: String, default: '' },
       twitter: { type: String, default: '' },
     },
+    savedProjects: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Project',
+      },
+    ],
     rating: {
       type: Number,
       default: 0,

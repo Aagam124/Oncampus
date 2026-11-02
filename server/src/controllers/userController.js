@@ -130,3 +130,42 @@ export const getUserReviews = async (req, res) => {
     return error(res, err.message, 500);
   }
 };
+
+export const toggleFavorite = async (req, res) => {
+  try {
+    const { projectId } = req.params;
+    const user = await User.findById(req.user._id);
+    if (!user) {
+      return error(res, 'User not found.', 404);
+    }
+
+    const index = user.savedProjects ? user.savedProjects.indexOf(projectId) : -1;
+    let isFavorite = false;
+
+    if (index > -1) {
+      user.savedProjects.splice(index, 1);
+      isFavorite = false;
+    } else {
+      if (!user.savedProjects) user.savedProjects = [];
+      user.savedProjects.push(projectId);
+      isFavorite = true;
+    }
+
+    await user.save();
+    return success(res, { isFavorite, savedProjects: user.savedProjects });
+  } catch (err) {
+    return error(res, err.message, 500);
+  }
+};
+
+export const getFavorites = async (req, res) => {
+  try {
+    const user = await User.findById(req.user._id).populate({
+      path: 'savedProjects',
+      populate: { path: 'owner', select: 'firstName lastName avatar headline university' },
+    });
+    return success(res, { favorites: user?.savedProjects || [] });
+  } catch (err) {
+    return error(res, err.message, 500);
+  }
+};

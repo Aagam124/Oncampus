@@ -1,4 +1,12 @@
 import mongoose from 'mongoose';
+import dns from 'dns';
+
+// Ensure robust SRV record resolution across all local network DNS proxies
+try {
+  dns.setServers(['8.8.8.8', '1.1.1.1']);
+} catch (e) {
+  // Use default OS resolver if setServers not permitted
+}
 
 const connectDB = async () => {
   try {
