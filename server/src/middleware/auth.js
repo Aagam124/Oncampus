@@ -43,6 +43,25 @@ export const authorize = (...roles) => {
   };
 };
 
+export const authorizeAdminRole = (...adminRoles) => {
+  return (req, res, next) => {
+    if (!req.user) {
+      return error(res, 'Authentication required.', 401);
+    }
+    if (req.user.role !== 'admin') {
+      return error(res, 'Administrative privileges required.', 403);
+    }
+    const currentAdminRole = req.user.adminRole || 'super_admin';
+    if (currentAdminRole === 'super_admin') {
+      return next(); // Super admin has access to everything
+    }
+    if (!adminRoles.includes(currentAdminRole)) {
+      return error(res, `Action requires one of: ${adminRoles.join(', ')} permission.`, 403);
+    }
+    next();
+  };
+};
+
 export const optionalAuth = async (req, res, next) => {
   try {
     const authHeader = req.headers.authorization;

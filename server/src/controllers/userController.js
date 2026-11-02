@@ -6,7 +6,11 @@ import { success, error, paginated } from '../utils/apiResponse.js';
 export const getUsers = async (req, res) => {
   try {
     const { search, skills, university, page = 1, limit = 12 } = req.query;
-    const filter = { isActive: true, role: 'student' };
+    const filter = {
+      isActive: true,
+      role: 'student',
+      portalStatus: { $nin: ['hidden', 'archived'] },
+    };
 
     if (search) {
       filter.$or = [

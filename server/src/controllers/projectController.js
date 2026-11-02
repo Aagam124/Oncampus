@@ -5,7 +5,10 @@ import { success, error, paginated } from '../utils/apiResponse.js';
 export const getProjects = async (req, res) => {
   try {
     const { search, category, type, status, skills, page = 1, limit = 12 } = req.query;
-    const filter = { isActive: true };
+    const filter = {
+      isActive: true,
+      portalStatus: { $nin: ['hidden', 'archived', 'removed'] },
+    };
 
     if (search) {
       filter.$or = [

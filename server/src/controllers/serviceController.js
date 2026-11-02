@@ -8,7 +8,11 @@ export const getServices = async (req, res) => {
       sort = 'newest', page = 1, limit = 12,
     } = req.query;
 
-    const filter = { isActive: true, status: 'active' };
+    const filter = {
+      isActive: true,
+      status: 'active',
+      portalStatus: { $nin: ['hidden', 'archived', 'removed'] },
+    };
 
     if (search) {
       filter.$or = [
