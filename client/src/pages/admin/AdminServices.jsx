@@ -8,6 +8,7 @@ import {
   EyeOff,
   CheckCircle2,
   XCircle,
+  Trash2,
   ExternalLink,
   ChevronLeft,
   ChevronRight,
@@ -81,12 +82,19 @@ export default function AdminServices() {
     if (!selectedService) return;
     try {
       setSubmitting(true);
-      await api.put(`/admin/services/${selectedService._id}/portal-status`, {
-        action: actionType,
-        reason: actionReason,
-      });
+      if (actionType === 'remove' || actionType === 'delete') {
+        await api.delete(`/admin/services/${selectedService._id}`, {
+          data: { reason: actionReason },
+        });
+        addToast('Service removed successfully', 'success');
+      } else {
+        await api.put(`/admin/services/${selectedService._id}/portal-status`, {
+          action: actionType,
+          reason: actionReason,
+        });
+        addToast(`Service updated to ${actionType} successfully`, 'success');
+      }
 
-      addToast(`Service updated to ${actionType} successfully`, 'success');
       setActionOpen(false);
       fetchServices();
     } catch (err) {
@@ -263,6 +271,14 @@ export default function AdminServices() {
                               <Archive className="w-4 h-4" />
                             </button>
                           )}
+
+                          <button
+                            onClick={() => openActionModal(s, 'remove')}
+                            className="p-1.5 rounded-lg text-red-500 hover:bg-red-500/10"
+                            title="Remove Service"
+                          >
+                            <Trash2 className="w-4 h-4" />
+                          </button>
                         </div>
                       </td>
                     </tr>

@@ -81,12 +81,19 @@ export default function AdminProjects() {
     if (!selectedProject) return;
     try {
       setSubmitting(true);
-      await api.put(`/admin/projects/${selectedProject._id}/portal-status`, {
-        action: actionType,
-        reason: actionReason,
-      });
+      if (actionType === 'delete' || actionType === 'remove') {
+        await api.delete(`/admin/projects/${selectedProject._id}`, {
+          data: { reason: actionReason },
+        });
+        addToast('Project removed successfully', 'success');
+      } else {
+        await api.put(`/admin/projects/${selectedProject._id}/portal-status`, {
+          action: actionType,
+          reason: actionReason,
+        });
+        addToast(`Project updated to ${actionType} successfully`, 'success');
+      }
 
-      addToast(`Project updated to ${actionType} successfully`, 'success');
       setActionOpen(false);
       fetchProjects();
     } catch (err) {
@@ -261,6 +268,14 @@ export default function AdminProjects() {
                               <Archive className="w-4 h-4" />
                             </button>
                           )}
+
+                          <button
+                            onClick={() => openActionModal(p, 'remove')}
+                            className="p-1.5 rounded-lg text-red-500 hover:bg-red-500/10"
+                            title="Remove Project"
+                          >
+                            <Trash2 className="w-4 h-4" />
+                          </button>
                         </div>
                       </td>
                     </tr>
