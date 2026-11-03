@@ -6,6 +6,7 @@ import { ToastProvider } from '@/components/Toast';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import LoadingSpinner from '@/components/LoadingSpinner';
+import ErrorBoundary from '@/components/ErrorBoundary';
 
 // Student Pages
 import Landing from '@/pages/Landing';
@@ -105,7 +106,8 @@ export default function App() {
 
   return (
     <ToastProvider>
-      <Routes>
+      <ErrorBoundary>
+        <Routes>
         {/* Admin Command Center (Dedicated Persistent SaaS Layout) */}
         <Route element={<ProtectedRoute adminOnly />}>
           <Route element={<AdminLayout />}>
@@ -158,6 +160,7 @@ export default function App() {
           <Route path="*" element={<Navigate to="/" replace />} />
         </Route>
       </Routes>
-    </ToastProvider>
+    </ErrorBoundary>
+  </ToastProvider>
   );
 }

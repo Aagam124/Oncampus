@@ -33,6 +33,7 @@ import useAuthStore from '@/store/authStore';
 import ThemeToggle from '@/components/ThemeToggle';
 import Avatar from '@/components/Avatar';
 import api from '@/lib/axios';
+import ErrorBoundary from '@/components/ErrorBoundary';
 
 const NAV_SECTIONS = [
   {
@@ -389,7 +390,9 @@ export default function AdminLayout() {
 
         {/* Page Content Container */}
         <main className="flex-1 p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto w-full">
-          <Outlet />
+          <ErrorBoundary>
+            <Outlet />
+          </ErrorBoundary>
         </main>
       </div>
     </div>
