@@ -149,40 +149,40 @@ export default function OrderDetail() {
   const existingReview = isClient ? order.clientReview : order.providerReview;
 
   return (
-    <div className="bg-surface-50 min-h-screen py-10">
+    <div className="bg-surface-50 dark:bg-[#0c0c0e] min-h-screen py-10 text-surface-900 dark:text-white">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
         {/* Navigation & Order ID */}
         <div className="flex flex-wrap items-center justify-between gap-4">
           <Link
             to="/orders"
-            className="inline-flex items-center gap-2 text-sm text-surface-600 hover:text-brand-600 font-medium transition-colors"
+            className="inline-flex items-center gap-2 text-sm text-surface-600 dark:text-surface-400 hover:text-brand-600 dark:hover:text-brand-400 font-medium transition-colors"
           >
             <ArrowLeft className="w-4 h-4" />
             <span>Back to Orders</span>
           </Link>
 
-          <span className="text-xs font-mono text-surface-400 bg-white px-3 py-1.5 rounded-lg border border-surface-200">
+          <span className="text-xs font-mono text-surface-400 dark:text-surface-500 bg-white dark:bg-[#161617] px-3 py-1.5 rounded-lg border border-surface-200 dark:border-white/[0.08]">
             Order ID: {order._id}
           </span>
         </div>
 
         {/* Progress Timeline Header */}
-        <div className="bg-white p-6 sm:p-8 rounded-2xl border border-surface-200 shadow-sm">
+        <div className="bg-white dark:bg-[#161617] p-6 sm:p-8 rounded-2xl border border-surface-200 dark:border-white/[0.08] shadow-sm">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
             <div>
-              <span className="text-xs font-semibold uppercase tracking-wider text-brand-600">
+              <span className="text-xs font-semibold uppercase tracking-wider text-brand-600 dark:text-brand-400">
                 {isClient ? 'You are the Buyer' : 'You are the Service Provider'}
               </span>
-              <h1 className="text-2xl sm:text-3xl font-extrabold text-surface-900 mt-1">
+              <h1 className="text-2xl sm:text-3xl font-extrabold text-surface-900 dark:text-white mt-1">
                 {order.service?.title || 'Service Order'}
               </h1>
             </div>
 
             <div className="text-left sm:text-right">
-              <span className="text-2xl font-extrabold text-surface-900 block">
+              <span className="text-2xl font-extrabold text-surface-900 dark:text-white block">
                 ₹{(order.amount || 0).toLocaleString()}
               </span>
-              <span className="text-xs text-surface-500">
+              <span className="text-xs text-surface-500 dark:text-surface-400">
                 Placed on {new Date(order.createdAt).toLocaleDateString()}
               </span>
             </div>
@@ -191,7 +191,7 @@ export default function OrderDetail() {
           {/* Stepper Pipeline */}
           {order.status !== 'cancelled' ? (
             <div className="relative">
-              <div className="hidden sm:block absolute top-1/2 left-0 right-0 h-1 bg-surface-100 -translate-y-1/2 z-0" />
+              <div className="hidden sm:block absolute top-1/2 left-0 right-0 h-1 bg-surface-100 dark:bg-white/[0.06] -translate-y-1/2 z-0" />
               <div className="grid grid-cols-2 sm:grid-cols-5 gap-4 relative z-10">
                 {ORDER_STEPS.map((step, idx) => {
                   const isDone = currentStepIndex >= idx;
@@ -203,14 +203,14 @@ export default function OrderDetail() {
                         className={`w-9 h-9 rounded-full flex items-center justify-center font-bold text-xs mb-2 transition-all ${
                           isDone
                             ? 'bg-brand-600 text-white shadow-md'
-                            : 'bg-surface-100 text-surface-400 border border-surface-200'
-                        } ${isCurrent ? 'ring-4 ring-brand-100' : ''}`}
+                            : 'bg-surface-100 dark:bg-[#1c1c1e] text-surface-400 dark:text-surface-500 border border-surface-200 dark:border-white/[0.1]'
+                        } ${isCurrent ? 'ring-4 ring-brand-100 dark:ring-brand-900/50' : ''}`}
                       >
                         {isDone ? <CheckCircle className="w-5 h-5" /> : idx + 1}
                       </div>
                       <span
                         className={`text-xs font-semibold ${
-                          isDone ? 'text-surface-900' : 'text-surface-400'
+                          isDone ? 'text-surface-900 dark:text-white' : 'text-surface-400 dark:text-surface-500'
                         }`}
                       >
                         {step.label}
@@ -221,7 +221,7 @@ export default function OrderDetail() {
               </div>
             </div>
           ) : (
-            <div className="p-4 bg-red-50 border border-red-200 rounded-xl flex items-center gap-3 text-red-700 text-sm font-semibold">
+            <div className="p-4 bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-900/50 rounded-xl flex items-center gap-3 text-red-700 dark:text-red-300 text-sm font-semibold">
               <AlertCircle className="w-5 h-5 flex-shrink-0" />
               <span>This order has been cancelled.</span>
             </div>
@@ -229,20 +229,20 @@ export default function OrderDetail() {
         </div>
 
         {/* Action Controls Bar */}
-        <div className="bg-white p-5 rounded-2xl border border-surface-200 shadow-sm flex flex-wrap items-center justify-between gap-4">
+        <div className="bg-white dark:bg-[#161617] p-5 rounded-2xl border border-surface-200 dark:border-white/[0.08] shadow-sm flex flex-wrap items-center justify-between gap-4">
           <div className="flex items-center gap-2">
-            <span className="text-xs font-semibold text-surface-500 uppercase">Current Status:</span>
+            <span className="text-xs font-semibold text-surface-500 dark:text-surface-400 uppercase">Current Status:</span>
             <Badge
               variant={
                 order.status === 'completed'
-                  ? 'success'
+                  ? 'active'
                   : order.status === 'in-progress'
-                  ? 'brand'
+                  ? 'in-progress'
                   : order.status === 'delivered'
-                  ? 'warning'
+                  ? 'delivered'
                   : order.status === 'cancelled'
-                  ? 'danger'
-                  : 'default'
+                  ? 'cancelled'
+                  : 'pending'
               }
             >
               {order.status?.toUpperCase()}
@@ -256,7 +256,7 @@ export default function OrderDetail() {
                 <button
                   onClick={() => handleStatusUpdate('cancelled')}
                   disabled={actionLoading}
-                  className="px-4 py-2 border border-surface-300 rounded-xl text-xs font-semibold text-surface-700 hover:bg-surface-50 transition-colors"
+                  className="px-4 py-2 border border-surface-300 dark:border-white/[0.12] rounded-xl text-xs font-semibold text-surface-700 dark:text-surface-300 hover:bg-surface-50 dark:hover:bg-white/[0.04] transition-colors"
                 >
                   Decline
                 </button>
@@ -306,7 +306,7 @@ export default function OrderDetail() {
               <button
                 onClick={() => handleStatusUpdate('cancelled')}
                 disabled={actionLoading}
-                className="px-4 py-2 text-xs font-semibold text-red-600 hover:bg-red-50 rounded-xl transition-colors"
+                className="px-4 py-2 text-xs font-semibold text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/30 rounded-xl transition-colors"
               >
                 Cancel Order
               </button>
@@ -319,8 +319,8 @@ export default function OrderDetail() {
           {/* Left: Requirements & Counterparty */}
           <div className="space-y-6">
             {/* Counterparty Card */}
-            <div className="bg-white p-5 rounded-2xl border border-surface-200 shadow-sm">
-              <span className="text-xs font-semibold uppercase tracking-wider text-surface-400 block mb-3">
+            <div className="bg-white dark:bg-[#161617] p-5 rounded-2xl border border-surface-200 dark:border-white/[0.08] shadow-sm">
+              <span className="text-xs font-semibold uppercase tracking-wider text-surface-400 dark:text-surface-500 block mb-3">
                 {isClient ? 'Service Provider' : 'Client Student'}
               </span>
               <div className="flex items-center gap-3">
@@ -328,43 +328,43 @@ export default function OrderDetail() {
                 <div>
                   <Link
                     to={`/users/${otherParty?._id}`}
-                    className="font-bold text-surface-900 hover:text-brand-600 text-sm"
+                    className="font-bold text-surface-900 dark:text-white hover:text-brand-600 dark:hover:text-brand-400 text-sm"
                   >
                     {otherName}
                   </Link>
                   {otherParty?.email && (
-                    <p className="text-xs text-surface-400">{otherParty.email}</p>
+                    <p className="text-xs text-surface-400 dark:text-surface-500">{otherParty.email}</p>
                   )}
                 </div>
               </div>
             </div>
 
             {/* Client Requirements */}
-            <div className="bg-white p-5 rounded-2xl border border-surface-200 shadow-sm space-y-3">
-              <div className="flex items-center gap-2 text-surface-800 font-semibold text-sm">
-                <FileText className="w-4 h-4 text-brand-600" />
+            <div className="bg-white dark:bg-[#161617] p-5 rounded-2xl border border-surface-200 dark:border-white/[0.08] shadow-sm space-y-3">
+              <div className="flex items-center gap-2 text-surface-800 dark:text-surface-200 font-semibold text-sm">
+                <FileText className="w-4 h-4 text-brand-600 dark:text-brand-400" />
                 <span>Initial Requirements</span>
               </div>
-              <p className="text-xs sm:text-sm text-surface-600 whitespace-pre-line leading-relaxed bg-surface-50 p-4 rounded-xl border border-surface-200/80">
+              <p className="text-xs sm:text-sm text-surface-600 dark:text-surface-300 whitespace-pre-line leading-relaxed bg-surface-50 dark:bg-[#1c1c1e] p-4 rounded-xl border border-surface-200/80 dark:border-white/[0.08]">
                 {order.requirements || 'No specific requirements submitted.'}
               </p>
             </div>
 
             {/* Review Section */}
             {order.status === 'completed' && (
-              <div className="bg-white p-6 rounded-2xl border border-surface-200 shadow-sm space-y-4">
-                <h3 className="font-bold text-surface-900 text-base">
+              <div className="bg-white dark:bg-[#161617] p-6 rounded-2xl border border-surface-200 dark:border-white/[0.08] shadow-sm space-y-4">
+                <h3 className="font-bold text-surface-900 dark:text-white text-base">
                   {isClient ? 'Review the Provider' : 'Review the Client'}
                 </h3>
 
                 {hasReviewed ? (
-                  <div className="p-4 bg-surface-50 rounded-xl border border-surface-200 space-y-2">
+                  <div className="p-4 bg-surface-50 dark:bg-[#1c1c1e] rounded-xl border border-surface-200 dark:border-white/[0.08] space-y-2">
                     <div className="flex items-center justify-between">
-                      <span className="text-xs font-semibold text-surface-700">Your Rating</span>
+                      <span className="text-xs font-semibold text-surface-700 dark:text-surface-300">Your Rating</span>
                       <StarRating rating={existingReview?.rating || 5} size="sm" />
                     </div>
                     {existingReview?.comment && (
-                      <p className="text-xs text-surface-600 italic">
+                      <p className="text-xs text-surface-600 dark:text-surface-300 italic">
                         "{existingReview.comment}"
                       </p>
                     )}
@@ -372,7 +372,7 @@ export default function OrderDetail() {
                 ) : (
                   <form onSubmit={handleReviewSubmit} className="space-y-3">
                     <div>
-                      <label className="block text-xs font-semibold text-surface-700 mb-1">
+                      <label className="block text-xs font-semibold text-surface-700 dark:text-surface-300 mb-1">
                         Rating (1 to 5 Stars)
                       </label>
                       <div className="flex gap-2">
@@ -387,7 +387,7 @@ export default function OrderDetail() {
                               className={`w-6 h-6 ${
                                 star <= rating
                                   ? 'fill-amber-400 text-amber-400'
-                                  : 'text-surface-300'
+                                  : 'text-surface-300 dark:text-surface-600'
                               }`}
                             />
                           </button>
@@ -396,7 +396,7 @@ export default function OrderDetail() {
                     </div>
 
                     <div>
-                      <label className="block text-xs font-semibold text-surface-700 mb-1">
+                      <label className="block text-xs font-semibold text-surface-700 dark:text-surface-300 mb-1">
                         Feedback / Testimonial
                       </label>
                       <textarea
@@ -405,7 +405,7 @@ export default function OrderDetail() {
                         placeholder="Write an honest review about communication, work quality, and delivery speed..."
                         value={reviewComment}
                         onChange={(e) => setReviewComment(e.target.value)}
-                        className="w-full px-3 py-2 text-xs rounded-xl border border-surface-300 focus:ring-brand-500 focus:border-brand-500 outline-none"
+                        className="w-full px-3 py-2 text-xs rounded-xl border border-surface-300 dark:border-white/[0.12] bg-white dark:bg-[#1c1c1e] text-surface-900 dark:text-white focus:ring-brand-500 focus:border-brand-500 outline-none"
                       />
                     </div>
 
@@ -423,22 +423,22 @@ export default function OrderDetail() {
           </div>
 
           {/* Right: Order Workspace Messages Thread */}
-          <div className="lg:col-span-2 bg-white rounded-2xl border border-surface-200 shadow-sm flex flex-col h-[650px]">
+          <div className="lg:col-span-2 bg-white dark:bg-[#161617] rounded-2xl border border-surface-200 dark:border-white/[0.08] shadow-sm flex flex-col h-[650px]">
             {/* Header */}
-            <div className="p-4 sm:p-5 border-b border-surface-100 flex items-center justify-between">
-              <div className="flex items-center gap-2 font-bold text-surface-900 text-sm">
-                <MessageSquare className="w-4 h-4 text-brand-600" />
+            <div className="p-4 sm:p-5 border-b border-surface-100 dark:border-white/[0.06] flex items-center justify-between">
+              <div className="flex items-center gap-2 font-bold text-surface-900 dark:text-white text-sm">
+                <MessageSquare className="w-4 h-4 text-brand-600 dark:text-brand-400" />
                 <span>Order Collaboration Workspace</span>
               </div>
-              <span className="text-xs text-surface-400">
+              <span className="text-xs text-surface-400 dark:text-surface-500">
                 {order.messages?.length || 0} messages
               </span>
             </div>
 
             {/* Chat Messages Body */}
-            <div className="flex-1 p-4 sm:p-6 overflow-y-auto space-y-4 bg-surface-50/50">
+            <div className="flex-1 p-4 sm:p-6 overflow-y-auto space-y-4 bg-surface-50/50 dark:bg-[#101012]">
               {(!order.messages || order.messages.length === 0) ? (
-                <div className="h-full flex items-center justify-center text-center text-surface-400 text-xs py-10">
+                <div className="h-full flex items-center justify-center text-center text-surface-400 dark:text-surface-500 text-xs py-10">
                   No messages yet. Send updates, deliverables, or questions here.
                 </div>
               ) : (
@@ -463,13 +463,13 @@ export default function OrderDetail() {
                         className={`max-w-[75%] rounded-2xl px-4 py-2.5 text-xs sm:text-sm leading-relaxed ${
                           isMe
                             ? 'bg-brand-600 text-white rounded-br-none shadow-xs'
-                            : 'bg-white border border-surface-200 text-surface-900 rounded-bl-none shadow-xs'
+                            : 'bg-white dark:bg-[#1c1c1e] border border-surface-200 dark:border-white/[0.08] text-surface-900 dark:text-white rounded-bl-none shadow-xs'
                         }`}
                       >
                         <p>{msg.content}</p>
                         <span
                           className={`text-[10px] block mt-1 text-right ${
-                            isMe ? 'text-brand-200' : 'text-surface-400'
+                            isMe ? 'text-brand-200' : 'text-surface-400 dark:text-surface-500'
                           }`}
                         >
                           {new Date(msg.createdAt).toLocaleTimeString([], {
@@ -486,13 +486,13 @@ export default function OrderDetail() {
             </div>
 
             {/* Input Form */}
-            <form onSubmit={handleSendMessage} className="p-3 sm:p-4 border-t border-surface-200 bg-white flex gap-2">
+            <form onSubmit={handleSendMessage} className="p-3 sm:p-4 border-t border-surface-200 dark:border-white/[0.08] bg-white dark:bg-[#161617] flex gap-2">
               <input
                 type="text"
                 placeholder="Share a work update, link to assets, or ask questions..."
                 value={chatMessage}
                 onChange={(e) => setChatMessage(e.target.value)}
-                className="flex-1 px-4 py-2.5 rounded-xl border border-surface-300 text-sm focus:ring-brand-500 focus:border-brand-500 outline-none"
+                className="flex-1 px-4 py-2.5 rounded-xl border border-surface-300 dark:border-white/[0.12] bg-white dark:bg-[#1c1c1e] text-surface-900 dark:text-white placeholder:text-surface-400 text-sm focus:ring-brand-500 focus:border-brand-500 outline-none"
               />
               <button
                 type="submit"

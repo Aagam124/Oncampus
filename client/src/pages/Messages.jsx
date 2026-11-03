@@ -172,24 +172,24 @@ export default function Messages() {
     : 'Campus Peer';
 
   return (
-    <div className="bg-surface-50 min-h-screen py-6 sm:py-8">
+    <div className="bg-surface-50 dark:bg-[#0c0c0e] min-h-screen py-6 sm:py-8 text-surface-900 dark:text-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="bg-white rounded-3xl border border-surface-200 shadow-sm overflow-hidden flex flex-col md:flex-row h-[780px]">
+        <div className="bg-white dark:bg-[#161617] rounded-3xl border border-surface-200 dark:border-white/[0.08] shadow-sm overflow-hidden flex flex-col md:flex-row h-[780px]">
           {/* LEFT SIDEBAR: Conversations List */}
           <div
-            className={`w-full md:w-80 lg:w-96 border-r border-surface-200 flex flex-col ${
+            className={`w-full md:w-80 lg:w-96 border-r border-surface-200 dark:border-white/[0.08] flex flex-col ${
               selectedConv ? 'hidden md:flex' : 'flex'
             }`}
           >
             {/* Sidebar Header */}
-            <div className="p-4 sm:p-5 border-b border-surface-100 flex items-center justify-between">
+            <div className="p-4 sm:p-5 border-b border-surface-100 dark:border-white/[0.06] flex items-center justify-between">
               <div>
-                <h1 className="font-extrabold text-surface-900 text-lg">Messages</h1>
-                <p className="text-xs text-surface-400">Direct campus chat</p>
+                <h1 className="font-extrabold text-surface-900 dark:text-white text-lg">Messages</h1>
+                <p className="text-xs text-surface-400 dark:text-surface-500">Direct campus chat</p>
               </div>
               <button
                 onClick={() => setNewChatModalOpen(true)}
-                className="p-2 rounded-xl bg-brand-50 text-brand-600 hover:bg-brand-100 transition-colors"
+                className="p-2 rounded-xl bg-brand-50 dark:bg-brand-950/40 text-brand-600 dark:text-brand-400 hover:bg-brand-100 dark:hover:bg-brand-900/40 transition-colors"
                 title="New Chat"
               >
                 <Plus className="w-5 h-5" />
@@ -197,18 +197,18 @@ export default function Messages() {
             </div>
 
             {/* Conversation Items */}
-            <div className="flex-1 overflow-y-auto divide-y divide-surface-100">
+            <div className="flex-1 overflow-y-auto divide-y divide-surface-100 dark:divide-white/[0.06]">
               {loadingConvs ? (
                 <div className="py-12 flex justify-center">
                   <LoadingSpinner message="" />
                 </div>
               ) : conversations.length === 0 ? (
-                <div className="p-8 text-center text-surface-400 text-xs space-y-3">
-                  <MessageSquare className="w-8 h-8 mx-auto text-surface-300" />
+                <div className="p-8 text-center text-surface-400 dark:text-surface-500 text-xs space-y-3">
+                  <MessageSquare className="w-8 h-8 mx-auto text-surface-300 dark:text-surface-600" />
                   <p>No conversations yet. Connect with a student provider or project lead to chat.</p>
                   <button
                     onClick={() => setNewChatModalOpen(true)}
-                    className="text-brand-600 font-semibold hover:underline"
+                    className="text-brand-600 dark:text-brand-400 font-semibold hover:underline"
                   >
                     Start a conversation
                   </button>
@@ -226,15 +226,17 @@ export default function Messages() {
                       key={conv._id}
                       onClick={() => setSelectedConv(conv)}
                       className={`w-full text-left p-4 flex items-start gap-3 transition-colors ${
-                        isSelected ? 'bg-brand-50/70 border-l-4 border-brand-600' : 'hover:bg-surface-50'
+                        isSelected
+                          ? 'bg-brand-50/70 dark:bg-brand-950/40 border-l-4 border-brand-600'
+                          : 'hover:bg-surface-50 dark:hover:bg-white/[0.04]'
                       }`}
                     >
                       <Avatar src={other.avatar} name={name} size="md" className="flex-shrink-0" />
                       <div className="flex-1 min-w-0">
                         <div className="flex items-baseline justify-between mb-0.5">
-                          <h4 className="font-semibold text-sm text-surface-900 truncate">{name}</h4>
+                          <h4 className="font-semibold text-sm text-surface-900 dark:text-white truncate">{name}</h4>
                           {conv.lastMessage?.createdAt && (
-                            <span className="text-[10px] text-surface-400 flex-shrink-0">
+                            <span className="text-[10px] text-surface-400 dark:text-surface-500 flex-shrink-0">
                               {new Date(conv.lastMessage.createdAt).toLocaleTimeString([], {
                                 hour: '2-digit',
                                 minute: '2-digit',
@@ -242,7 +244,7 @@ export default function Messages() {
                             </span>
                           )}
                         </div>
-                        <p className="text-xs text-surface-500 truncate">
+                        <p className="text-xs text-surface-500 dark:text-surface-400 truncate">
                           {conv.lastMessage?.content || 'Started conversation'}
                         </p>
                       </div>
@@ -255,18 +257,18 @@ export default function Messages() {
 
           {/* RIGHT WORKSPACE: Active Message Thread */}
           <div
-            className={`flex-1 flex flex-col bg-surface-50/40 ${
+            className={`flex-1 flex flex-col bg-surface-50/40 dark:bg-[#101012] ${
               !selectedConv ? 'hidden md:flex' : 'flex'
             }`}
           >
             {selectedConv ? (
               <>
                 {/* Active Header */}
-                <div className="p-4 sm:p-5 border-b border-surface-200 bg-white flex items-center justify-between">
+                <div className="p-4 sm:p-5 border-b border-surface-200 dark:border-white/[0.08] bg-white dark:bg-[#161617] flex items-center justify-between">
                   <div className="flex items-center gap-3">
                     <button
                       onClick={() => setSelectedConv(null)}
-                      className="md:hidden p-1 text-surface-500 hover:text-surface-900"
+                      className="md:hidden p-1 text-surface-500 dark:text-surface-400 hover:text-surface-900 dark:hover:text-white"
                     >
                       <ChevronLeft className="w-5 h-5" />
                     </button>
@@ -276,11 +278,11 @@ export default function Messages() {
                       size="md"
                     />
                     <div>
-                      <h3 className="font-bold text-surface-900 text-sm sm:text-base">
+                      <h3 className="font-bold text-surface-900 dark:text-white text-sm sm:text-base">
                         {activeCounterpartyName}
                       </h3>
                       {activeCounterparty.headline && (
-                        <p className="text-xs text-surface-500 truncate max-w-xs sm:max-w-md">
+                        <p className="text-xs text-surface-500 dark:text-surface-400 truncate max-w-xs sm:max-w-md">
                           {activeCounterparty.headline}
                         </p>
                       )}
@@ -290,7 +292,7 @@ export default function Messages() {
                   {activeCounterparty._id && (
                     <Link
                       to={`/users/${activeCounterparty._id}`}
-                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-surface-200 text-xs font-semibold text-surface-700 hover:bg-surface-50 transition-colors"
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-surface-200 dark:border-white/[0.12] text-xs font-semibold text-surface-700 dark:text-surface-300 hover:bg-surface-50 dark:hover:bg-white/[0.04] transition-colors"
                     >
                       <span>Profile</span>
                       <ExternalLink className="w-3.5 h-3.5" />
@@ -305,7 +307,7 @@ export default function Messages() {
                       <LoadingSpinner message="" />
                     </div>
                   ) : messages.length === 0 ? (
-                    <div className="h-full flex items-center justify-center text-center text-xs text-surface-400">
+                    <div className="h-full flex items-center justify-center text-center text-xs text-surface-400 dark:text-surface-500">
                       No messages in this conversation yet. Say hello!
                     </div>
                   ) : (
@@ -330,13 +332,13 @@ export default function Messages() {
                             className={`max-w-[70%] sm:max-w-[60%] rounded-2xl px-4 py-2.5 text-xs sm:text-sm leading-relaxed ${
                               isMe
                                 ? 'bg-brand-600 text-white rounded-br-none shadow-xs'
-                                : 'bg-white border border-surface-200 text-surface-900 rounded-bl-none shadow-xs'
+                                : 'bg-white dark:bg-[#1c1c1e] border border-surface-200 dark:border-white/[0.08] text-surface-900 dark:text-white rounded-bl-none shadow-xs'
                             }`}
                           >
                             <p className="whitespace-pre-wrap">{msg.content}</p>
                             <span
                               className={`text-[10px] block mt-1 text-right ${
-                                isMe ? 'text-brand-200' : 'text-surface-400'
+                                isMe ? 'text-brand-200' : 'text-surface-400 dark:text-surface-500'
                               }`}
                             >
                               {new Date(msg.createdAt).toLocaleTimeString([], {
@@ -355,14 +357,14 @@ export default function Messages() {
                 {/* Input Bar */}
                 <form
                   onSubmit={handleSendMessage}
-                  className="p-3 sm:p-4 bg-white border-t border-surface-200 flex gap-2"
+                  className="p-3 sm:p-4 bg-white dark:bg-[#161617] border-t border-surface-200 dark:border-white/[0.08] flex gap-2"
                 >
                   <input
                     type="text"
                     placeholder="Type your message..."
                     value={inputMessage}
                     onChange={(e) => setInputMessage(e.target.value)}
-                    className="flex-1 px-4 py-2.5 rounded-xl border border-surface-300 text-sm focus:ring-brand-500 focus:border-brand-500 outline-none"
+                    className="flex-1 px-4 py-2.5 rounded-xl border border-surface-300 dark:border-white/[0.12] bg-surface-50 dark:bg-[#1c1c1e] text-surface-900 dark:text-white placeholder:text-surface-400 dark:placeholder:text-surface-500 text-sm focus:ring-brand-500 focus:border-brand-500 outline-none"
                   />
                   <button
                     type="submit"
@@ -375,11 +377,11 @@ export default function Messages() {
                 </form>
               </>
             ) : (
-              <div className="h-full flex flex-col items-center justify-center text-center p-8 text-surface-400 space-y-3">
-                <div className="w-16 h-16 rounded-full bg-surface-100 flex items-center justify-center text-surface-400">
+              <div className="h-full flex flex-col items-center justify-center text-center p-8 text-surface-400 dark:text-surface-500 space-y-3">
+                <div className="w-16 h-16 rounded-full bg-surface-100 dark:bg-[#1c1c1e] flex items-center justify-center text-surface-400">
                   <MessageSquare className="w-8 h-8" />
                 </div>
-                <h3 className="font-bold text-surface-800 text-base">Select a conversation</h3>
+                <h3 className="font-bold text-surface-800 dark:text-surface-200 text-base">Select a conversation</h3>
                 <p className="text-xs max-w-sm">
                   Choose from existing chats on the left, or search for student peers to start a new chat.
                 </p>
@@ -392,12 +394,12 @@ export default function Messages() {
       {/* New Chat Modal */}
       {newChatModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-fade-in">
-          <div className="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl border border-surface-200 space-y-4">
+          <div className="bg-white dark:bg-[#161617] rounded-2xl max-w-md w-full p-6 shadow-2xl border border-surface-200 dark:border-white/[0.12] space-y-4">
             <div className="flex items-center justify-between">
-              <h3 className="text-lg font-bold text-surface-900">Start a Conversation</h3>
+              <h3 className="text-lg font-bold text-surface-900 dark:text-white">Start a Conversation</h3>
               <button
                 onClick={() => setNewChatModalOpen(false)}
-                className="text-surface-400 hover:text-surface-700 font-bold text-lg"
+                className="text-surface-400 hover:text-surface-700 dark:hover:text-surface-200 font-bold text-lg"
               >
                 ×
               </button>
@@ -410,15 +412,15 @@ export default function Messages() {
                 placeholder="Search students by name or skill..."
                 value={searchUserQuery}
                 onChange={handleSearchUsers}
-                className="w-full pl-10 pr-4 py-2 text-sm rounded-xl border border-surface-300 focus:ring-brand-500 focus:border-brand-500 outline-none"
+                className="w-full pl-10 pr-4 py-2 text-sm rounded-xl border border-surface-300 dark:border-white/[0.12] bg-surface-50 dark:bg-[#1c1c1e] text-surface-900 dark:text-white placeholder:text-surface-400 focus:ring-brand-500 focus:border-brand-500 outline-none"
               />
             </div>
 
-            <div className="max-h-60 overflow-y-auto divide-y divide-surface-100">
+            <div className="max-h-60 overflow-y-auto divide-y divide-surface-100 dark:divide-white/[0.06]">
               {searchingUsers ? (
-                <p className="text-center text-xs text-surface-400 py-4">Searching students...</p>
+                <p className="text-center text-xs text-surface-400 dark:text-surface-500 py-4">Searching students...</p>
               ) : foundUsers.length === 0 ? (
-                <p className="text-center text-xs text-surface-400 py-4">
+                <p className="text-center text-xs text-surface-400 dark:text-surface-500 py-4">
                   {searchUserQuery ? 'No students found.' : 'Type a name to search.'}
                 </p>
               ) : (
@@ -428,12 +430,12 @@ export default function Messages() {
                     <button
                       key={u._id}
                       onClick={() => handleStartConversationWith(u)}
-                      className="w-full text-left p-3 hover:bg-surface-50 rounded-xl flex items-center gap-3 transition-colors"
+                      className="w-full text-left p-3 hover:bg-surface-50 dark:hover:bg-white/[0.04] rounded-xl flex items-center gap-3 transition-colors"
                     >
                       <Avatar src={u.avatar} name={name} size="sm" />
                       <div className="overflow-hidden">
-                        <p className="font-semibold text-xs text-surface-900 truncate">{name}</p>
-                        <p className="text-[11px] text-surface-500 truncate">{u.university}</p>
+                        <p className="font-semibold text-xs text-surface-900 dark:text-white truncate">{name}</p>
+                        <p className="text-[11px] text-surface-500 dark:text-surface-400 truncate">{u.university}</p>
                       </div>
                     </button>
                   );

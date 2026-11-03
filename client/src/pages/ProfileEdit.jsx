@@ -195,24 +195,24 @@ export default function ProfileEdit() {
   };
 
   return (
-    <div className="bg-surface-50 min-h-screen py-10">
+    <div className="bg-surface-50 dark:bg-[#0c0c0e] min-h-screen py-10 text-surface-900 dark:text-white">
       <div className="max-w-4xl mx-auto px-4 sm:px-6">
         <div className="flex items-center justify-between mb-6">
           <Link
             to={user ? `/users/${user._id}` : '/dashboard'}
-            className="inline-flex items-center gap-2 text-sm text-surface-600 hover:text-brand-600 font-medium transition-colors"
+            className="inline-flex items-center gap-2 text-sm text-surface-600 dark:text-surface-400 hover:text-brand-600 dark:hover:text-brand-400 font-medium transition-colors"
           >
             <ArrowLeft className="w-4 h-4" />
             <span>View Public Profile</span>
           </Link>
         </div>
 
-        <div className="bg-white rounded-2xl border border-surface-200 shadow-sm overflow-hidden">
+        <div className="bg-white dark:bg-[#161617] rounded-2xl border border-surface-200 dark:border-white/[0.08] shadow-sm overflow-hidden">
           {/* Header */}
-          <div className="p-6 sm:p-8 border-b border-surface-100 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div className="p-6 sm:p-8 border-b border-surface-100 dark:border-white/[0.06] flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
-              <h1 className="text-2xl font-bold text-surface-900">Edit Your Profile</h1>
-              <p className="text-sm text-surface-500 mt-0.5">
+              <h1 className="text-2xl font-bold text-surface-900 dark:text-white">Edit Your Profile</h1>
+              <p className="text-sm text-surface-500 dark:text-surface-400 mt-0.5">
                 Keep your campus identity and portfolio up to date.
               </p>
             </div>
@@ -221,7 +221,7 @@ export default function ProfileEdit() {
             <div className="flex items-center gap-3">
               <Avatar src={user?.avatar} name={user?.firstName} size="lg" />
               <div>
-                <label className="cursor-pointer inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-surface-300 text-xs font-semibold text-surface-700 hover:bg-surface-50 transition-colors">
+                <label className="cursor-pointer inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-surface-300 dark:border-white/[0.12] text-xs font-semibold text-surface-700 dark:text-surface-300 hover:bg-surface-50 dark:hover:bg-white/[0.04] transition-colors">
                   <Upload className="w-3.5 h-3.5" />
                   <span>{avatarUploading ? 'Uploading...' : 'Change Photo'}</span>
                   <input
@@ -237,7 +237,7 @@ export default function ProfileEdit() {
           </div>
 
           {/* Sub Navigation Tabs */}
-          <div className="flex overflow-x-auto border-b border-surface-200 bg-surface-50/50 px-6 gap-6 text-sm font-semibold">
+          <div className="flex overflow-x-auto border-b border-surface-200 dark:border-white/[0.08] bg-surface-50/50 dark:bg-[#121214] px-6 gap-6 text-sm font-semibold">
             {[
               { id: 'basic', label: 'Basic Info', icon: User },
               { id: 'skills', label: 'Skills & Tags', icon: Briefcase },
@@ -252,8 +252,8 @@ export default function ProfileEdit() {
                   onClick={() => setActiveTab(tab.id)}
                   className={`flex items-center gap-2 py-4 border-b-2 transition-colors whitespace-nowrap ${
                     activeTab === tab.id
-                      ? 'border-brand-600 text-brand-600'
-                      : 'border-transparent text-surface-500 hover:text-surface-800'
+                      ? 'border-brand-600 text-brand-600 dark:text-brand-400'
+                      : 'border-transparent text-surface-500 dark:text-surface-400 hover:text-surface-800 dark:hover:text-surface-200'
                   }`}
                 >
                   <Icon className="w-4 h-4" />
@@ -269,7 +269,7 @@ export default function ProfileEdit() {
               <div className="space-y-5">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-xs font-semibold uppercase tracking-wider text-surface-700 mb-1.5">
+                    <label className="block text-xs font-semibold uppercase tracking-wider text-surface-700 dark:text-surface-300 mb-1.5">
                       First Name *
                     </label>
                     <input
@@ -278,11 +278,11 @@ export default function ProfileEdit() {
                       required
                       value={formData.firstName}
                       onChange={handleBasicChange}
-                      className="w-full px-3.5 py-2.5 rounded-xl border border-surface-300 text-sm focus:ring-brand-500 focus:border-brand-500 outline-none"
+                      className="w-full px-3.5 py-2.5 rounded-xl border border-surface-300 dark:border-white/[0.12] bg-white dark:bg-[#1c1c1e] text-surface-900 dark:text-white text-sm focus:ring-brand-500 focus:border-brand-500 outline-none"
                     />
                   </div>
                   <div>
-                    <label className="block text-xs font-semibold uppercase tracking-wider text-surface-700 mb-1.5">
+                    <label className="block text-xs font-semibold uppercase tracking-wider text-surface-700 dark:text-surface-300 mb-1.5">
                       Last Name
                     </label>
                     <input
@@ -290,13 +290,13 @@ export default function ProfileEdit() {
                       name="lastName"
                       value={formData.lastName}
                       onChange={handleBasicChange}
-                      className="w-full px-3.5 py-2.5 rounded-xl border border-surface-300 text-sm focus:ring-brand-500 focus:border-brand-500 outline-none"
+                      className="w-full px-3.5 py-2.5 rounded-xl border border-surface-300 dark:border-white/[0.12] bg-white dark:bg-[#1c1c1e] text-surface-900 dark:text-white text-sm focus:ring-brand-500 focus:border-brand-500 outline-none"
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold uppercase tracking-wider text-surface-700 mb-1.5">
+                  <label className="block text-xs font-semibold uppercase tracking-wider text-surface-700 dark:text-surface-300 mb-1.5">
                     Professional Headline
                   </label>
                   <input
@@ -305,13 +305,13 @@ export default function ProfileEdit() {
                     placeholder="e.g. Computer Science Undergrad | React & Flutter Developer"
                     value={formData.headline}
                     onChange={handleBasicChange}
-                    className="w-full px-3.5 py-2.5 rounded-xl border border-surface-300 text-sm focus:ring-brand-500 focus:border-brand-500 outline-none"
+                    className="w-full px-3.5 py-2.5 rounded-xl border border-surface-300 dark:border-white/[0.12] bg-white dark:bg-[#1c1c1e] text-surface-900 dark:text-white placeholder:text-surface-400 dark:placeholder:text-surface-500 text-sm focus:ring-brand-500 focus:border-brand-500 outline-none"
                   />
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                   <div className="sm:col-span-2">
-                    <label className="block text-xs font-semibold uppercase tracking-wider text-surface-700 mb-1.5">
+                    <label className="block text-xs font-semibold uppercase tracking-wider text-surface-700 dark:text-surface-300 mb-1.5">
                       University / College *
                     </label>
                     <input
@@ -320,22 +320,22 @@ export default function ProfileEdit() {
                       placeholder="e.g. IIT Delhi, BITS Pilani"
                       value={formData.university}
                       onChange={handleBasicChange}
-                      className="w-full px-3.5 py-2.5 rounded-xl border border-surface-300 text-sm focus:ring-brand-500 focus:border-brand-500 outline-none"
+                      className="w-full px-3.5 py-2.5 rounded-xl border border-surface-300 dark:border-white/[0.12] bg-white dark:bg-[#1c1c1e] text-surface-900 dark:text-white placeholder:text-surface-400 text-sm focus:ring-brand-500 focus:border-brand-500 outline-none"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-xs font-semibold uppercase tracking-wider text-surface-700 mb-1.5">
+                    <label className="block text-xs font-semibold uppercase tracking-wider text-surface-700 dark:text-surface-300 mb-1.5">
                       Current Year
                     </label>
                     <select
                       name="year"
                       value={formData.year}
                       onChange={handleBasicChange}
-                      className="w-full px-3.5 py-2.5 rounded-xl border border-surface-300 text-sm focus:ring-brand-500 focus:border-brand-500 outline-none bg-white"
+                      className="w-full px-3.5 py-2.5 rounded-xl border border-surface-300 dark:border-white/[0.12] text-sm focus:ring-brand-500 focus:border-brand-500 outline-none bg-white dark:bg-[#1c1c1e] text-surface-900 dark:text-white"
                     >
                       {[1, 2, 3, 4, 5, 6].map((yr) => (
-                        <option key={yr} value={yr}>
+                        <option key={yr} value={yr} className="bg-white dark:bg-[#1c1c1e]">
                           Year {yr}
                         </option>
                       ))}
@@ -344,7 +344,7 @@ export default function ProfileEdit() {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold uppercase tracking-wider text-surface-700 mb-1.5">
+                  <label className="block text-xs font-semibold uppercase tracking-wider text-surface-700 dark:text-surface-300 mb-1.5">
                     Department / Major
                   </label>
                   <input
@@ -353,12 +353,12 @@ export default function ProfileEdit() {
                     placeholder="e.g. Computer Science and Engineering"
                     value={formData.department}
                     onChange={handleBasicChange}
-                    className="w-full px-3.5 py-2.5 rounded-xl border border-surface-300 text-sm focus:ring-brand-500 focus:border-brand-500 outline-none"
+                    className="w-full px-3.5 py-2.5 rounded-xl border border-surface-300 dark:border-white/[0.12] bg-white dark:bg-[#1c1c1e] text-surface-900 dark:text-white placeholder:text-surface-400 text-sm focus:ring-brand-500 focus:border-brand-500 outline-none"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold uppercase tracking-wider text-surface-700 mb-1.5">
+                  <label className="block text-xs font-semibold uppercase tracking-wider text-surface-700 dark:text-surface-300 mb-1.5">
                     Bio / About You
                   </label>
                   <textarea
@@ -367,7 +367,7 @@ export default function ProfileEdit() {
                     placeholder="Share your interests, key achievements, what projects you love working on..."
                     value={formData.bio}
                     onChange={handleBasicChange}
-                    className="w-full px-3.5 py-2.5 rounded-xl border border-surface-300 text-sm focus:ring-brand-500 focus:border-brand-500 outline-none"
+                    className="w-full px-3.5 py-2.5 rounded-xl border border-surface-300 dark:border-white/[0.12] bg-white dark:bg-[#1c1c1e] text-surface-900 dark:text-white placeholder:text-surface-400 text-sm focus:ring-brand-500 focus:border-brand-500 outline-none"
                   />
                 </div>
               </div>
@@ -377,7 +377,7 @@ export default function ProfileEdit() {
             {activeTab === 'skills' && (
               <div className="space-y-6">
                 <div>
-                  <label className="block text-xs font-semibold uppercase tracking-wider text-surface-700 mb-2">
+                  <label className="block text-xs font-semibold uppercase tracking-wider text-surface-700 dark:text-surface-300 mb-2">
                     Add A Skill
                   </label>
                   <div className="flex gap-2">
@@ -386,7 +386,7 @@ export default function ProfileEdit() {
                       placeholder="e.g. Next.js, Figma, Deep Learning"
                       value={newSkill}
                       onChange={(e) => setNewSkill(e.target.value)}
-                      className="flex-1 px-3.5 py-2.5 rounded-xl border border-surface-300 text-sm focus:ring-brand-500 focus:border-brand-500 outline-none"
+                      className="flex-1 px-3.5 py-2.5 rounded-xl border border-surface-300 dark:border-white/[0.12] bg-white dark:bg-[#1c1c1e] text-surface-900 dark:text-white placeholder:text-surface-400 text-sm focus:ring-brand-500 focus:border-brand-500 outline-none"
                     />
                     <button
                       type="button"
@@ -399,17 +399,17 @@ export default function ProfileEdit() {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold uppercase tracking-wider text-surface-700 mb-3">
+                  <label className="block text-xs font-semibold uppercase tracking-wider text-surface-700 dark:text-surface-300 mb-3">
                     Your Current Skills ({formData.skills.length})
                   </label>
                   {formData.skills.length === 0 ? (
-                    <p className="text-sm text-surface-500">No skills added yet.</p>
+                    <p className="text-sm text-surface-500 dark:text-surface-400">No skills added yet.</p>
                   ) : (
                     <div className="flex flex-wrap gap-2">
                       {formData.skills.map((skill, idx) => (
                         <span
                           key={idx}
-                          className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-brand-50 border border-brand-200 text-brand-800 text-xs font-semibold rounded-lg"
+                          className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-brand-50 dark:bg-brand-950/40 border border-brand-200 dark:border-brand-800/50 text-brand-800 dark:text-brand-300 text-xs font-semibold rounded-lg"
                         >
                           <span>{skill}</span>
                           <button
@@ -431,13 +431,13 @@ export default function ProfileEdit() {
             {activeTab === 'education' && (
               <div className="space-y-6">
                 <div className="flex items-center justify-between">
-                  <h3 className="text-sm font-semibold text-surface-800 uppercase tracking-wider">
+                  <h3 className="text-sm font-semibold text-surface-800 dark:text-surface-200 uppercase tracking-wider">
                     Education Entries
                   </h3>
                   <button
                     type="button"
                     onClick={handleAddEducation}
-                    className="inline-flex items-center gap-1.5 text-xs font-semibold text-brand-600 hover:text-brand-800"
+                    className="inline-flex items-center gap-1.5 text-xs font-semibold text-brand-600 dark:text-brand-400 hover:text-brand-800 dark:hover:text-brand-300"
                   >
                     <Plus className="w-3.5 h-3.5" />
                     <span>Add Institution</span>
@@ -445,7 +445,7 @@ export default function ProfileEdit() {
                 </div>
 
                 {formData.education.map((edu, idx) => (
-                  <div key={idx} className="p-4 bg-surface-50 rounded-xl border border-surface-200 space-y-3 relative">
+                  <div key={idx} className="p-4 bg-surface-50 dark:bg-[#1c1c1e] rounded-xl border border-surface-200 dark:border-white/[0.08] space-y-3 relative">
                     <button
                       type="button"
                       onClick={() => handleRemoveEducation(idx)}
@@ -457,7 +457,7 @@ export default function ProfileEdit() {
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pr-8">
                       <div>
-                        <label className="block text-[11px] font-semibold uppercase text-surface-600 mb-1">
+                        <label className="block text-[11px] font-semibold uppercase text-surface-600 dark:text-surface-400 mb-1">
                           Institution *
                         </label>
                         <input
@@ -465,11 +465,11 @@ export default function ProfileEdit() {
                           required
                           value={edu.institution}
                           onChange={(e) => handleUpdateEducation(idx, 'institution', e.target.value)}
-                          className="w-full px-3 py-2 rounded-lg border border-surface-300 text-xs bg-white"
+                          className="w-full px-3 py-2 rounded-lg border border-surface-300 dark:border-white/[0.12] bg-white dark:bg-[#161617] text-surface-900 dark:text-white text-xs"
                         />
                       </div>
                       <div>
-                        <label className="block text-[11px] font-semibold uppercase text-surface-600 mb-1">
+                        <label className="block text-[11px] font-semibold uppercase text-surface-600 dark:text-surface-400 mb-1">
                           Degree *
                         </label>
                         <input
@@ -478,14 +478,14 @@ export default function ProfileEdit() {
                           placeholder="e.g. B.Tech"
                           value={edu.degree}
                           onChange={(e) => handleUpdateEducation(idx, 'degree', e.target.value)}
-                          className="w-full px-3 py-2 rounded-lg border border-surface-300 text-xs bg-white"
+                          className="w-full px-3 py-2 rounded-lg border border-surface-300 dark:border-white/[0.12] bg-white dark:bg-[#161617] text-surface-900 dark:text-white text-xs"
                         />
                       </div>
                     </div>
 
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                       <div>
-                        <label className="block text-[11px] font-semibold uppercase text-surface-600 mb-1">
+                        <label className="block text-[11px] font-semibold uppercase text-surface-600 dark:text-surface-400 mb-1">
                           Field of Study
                         </label>
                         <input
@@ -493,29 +493,29 @@ export default function ProfileEdit() {
                           placeholder="e.g. Mechanical Engineering"
                           value={edu.field}
                           onChange={(e) => handleUpdateEducation(idx, 'field', e.target.value)}
-                          className="w-full px-3 py-2 rounded-lg border border-surface-300 text-xs bg-white"
+                          className="w-full px-3 py-2 rounded-lg border border-surface-300 dark:border-white/[0.12] bg-white dark:bg-[#161617] text-surface-900 dark:text-white text-xs"
                         />
                       </div>
                       <div>
-                        <label className="block text-[11px] font-semibold uppercase text-surface-600 mb-1">
+                        <label className="block text-[11px] font-semibold uppercase text-surface-600 dark:text-surface-400 mb-1">
                           Start Year
                         </label>
                         <input
                           type="number"
                           value={edu.startYear}
                           onChange={(e) => handleUpdateEducation(idx, 'startYear', e.target.value)}
-                          className="w-full px-3 py-2 rounded-lg border border-surface-300 text-xs bg-white"
+                          className="w-full px-3 py-2 rounded-lg border border-surface-300 dark:border-white/[0.12] bg-white dark:bg-[#161617] text-surface-900 dark:text-white text-xs"
                         />
                       </div>
                       <div>
-                        <label className="block text-[11px] font-semibold uppercase text-surface-600 mb-1">
+                        <label className="block text-[11px] font-semibold uppercase text-surface-600 dark:text-surface-400 mb-1">
                           End Year (or Expected)
                         </label>
                         <input
                           type="number"
                           value={edu.endYear}
                           onChange={(e) => handleUpdateEducation(idx, 'endYear', e.target.value)}
-                          className="w-full px-3 py-2 rounded-lg border border-surface-300 text-xs bg-white"
+                          className="w-full px-3 py-2 rounded-lg border border-surface-300 dark:border-white/[0.12] bg-white dark:bg-[#161617] text-surface-900 dark:text-white text-xs"
                         />
                       </div>
                     </div>
@@ -528,13 +528,13 @@ export default function ProfileEdit() {
             {activeTab === 'portfolio' && (
               <div className="space-y-6">
                 <div className="flex items-center justify-between">
-                  <h3 className="text-sm font-semibold text-surface-800 uppercase tracking-wider">
+                  <h3 className="text-sm font-semibold text-surface-800 dark:text-surface-200 uppercase tracking-wider">
                     Portfolio Items & Case Studies
                   </h3>
                   <button
                     type="button"
                     onClick={handleAddPortfolio}
-                    className="inline-flex items-center gap-1.5 text-xs font-semibold text-brand-600 hover:text-brand-800"
+                    className="inline-flex items-center gap-1.5 text-xs font-semibold text-brand-600 dark:text-brand-400 hover:text-brand-800 dark:hover:text-brand-300"
                   >
                     <Plus className="w-3.5 h-3.5" />
                     <span>Add Project Showcase</span>
@@ -542,7 +542,7 @@ export default function ProfileEdit() {
                 </div>
 
                 {formData.portfolio.map((item, idx) => (
-                  <div key={idx} className="p-4 bg-surface-50 rounded-xl border border-surface-200 space-y-3 relative">
+                  <div key={idx} className="p-4 bg-surface-50 dark:bg-[#1c1c1e] rounded-xl border border-surface-200 dark:border-white/[0.08] space-y-3 relative">
                     <button
                       type="button"
                       onClick={() => handleRemovePortfolio(idx)}
@@ -554,7 +554,7 @@ export default function ProfileEdit() {
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pr-8">
                       <div>
-                        <label className="block text-[11px] font-semibold uppercase text-surface-600 mb-1">
+                        <label className="block text-[11px] font-semibold uppercase text-surface-600 dark:text-surface-400 mb-1">
                           Project Title *
                         </label>
                         <input
@@ -562,11 +562,11 @@ export default function ProfileEdit() {
                           required
                           value={item.title}
                           onChange={(e) => handleUpdatePortfolio(idx, 'title', e.target.value)}
-                          className="w-full px-3 py-2 rounded-lg border border-surface-300 text-xs bg-white"
+                          className="w-full px-3 py-2 rounded-lg border border-surface-300 dark:border-white/[0.12] bg-white dark:bg-[#161617] text-surface-900 dark:text-white text-xs"
                         />
                       </div>
                       <div>
-                        <label className="block text-[11px] font-semibold uppercase text-surface-600 mb-1">
+                        <label className="block text-[11px] font-semibold uppercase text-surface-600 dark:text-surface-400 mb-1">
                           Live URL / GitHub Repo
                         </label>
                         <input
@@ -574,13 +574,13 @@ export default function ProfileEdit() {
                           placeholder="https://..."
                           value={item.url}
                           onChange={(e) => handleUpdatePortfolio(idx, 'url', e.target.value)}
-                          className="w-full px-3 py-2 rounded-lg border border-surface-300 text-xs bg-white"
+                          className="w-full px-3 py-2 rounded-lg border border-surface-300 dark:border-white/[0.12] bg-white dark:bg-[#161617] text-surface-900 dark:text-white text-xs"
                         />
                       </div>
                     </div>
 
                     <div>
-                      <label className="block text-[11px] font-semibold uppercase text-surface-600 mb-1">
+                      <label className="block text-[11px] font-semibold uppercase text-surface-600 dark:text-surface-400 mb-1">
                         Preview Image URL
                       </label>
                       <input
@@ -588,19 +588,19 @@ export default function ProfileEdit() {
                         placeholder="https://images.unsplash.com/..."
                         value={item.image}
                         onChange={(e) => handleUpdatePortfolio(idx, 'image', e.target.value)}
-                        className="w-full px-3 py-2 rounded-lg border border-surface-300 text-xs bg-white"
+                        className="w-full px-3 py-2 rounded-lg border border-surface-300 dark:border-white/[0.12] bg-white dark:bg-[#161617] text-surface-900 dark:text-white text-xs"
                       />
                     </div>
 
                     <div>
-                      <label className="block text-[11px] font-semibold uppercase text-surface-600 mb-1">
+                      <label className="block text-[11px] font-semibold uppercase text-surface-600 dark:text-surface-400 mb-1">
                         Summary
                       </label>
                       <textarea
                         rows={2}
                         value={item.description}
                         onChange={(e) => handleUpdatePortfolio(idx, 'description', e.target.value)}
-                        className="w-full px-3 py-2 rounded-lg border border-surface-300 text-xs bg-white"
+                        className="w-full px-3 py-2 rounded-lg border border-surface-300 dark:border-white/[0.12] bg-white dark:bg-[#161617] text-surface-900 dark:text-white text-xs"
                       />
                     </div>
                   </div>
@@ -612,7 +612,7 @@ export default function ProfileEdit() {
             {activeTab === 'social' && (
               <div className="space-y-4">
                 <div>
-                  <label className="block text-xs font-semibold uppercase tracking-wider text-surface-700 mb-1.5">
+                  <label className="block text-xs font-semibold uppercase tracking-wider text-surface-700 dark:text-surface-300 mb-1.5">
                     GitHub Profile
                   </label>
                   <input
@@ -621,12 +621,12 @@ export default function ProfileEdit() {
                     placeholder="https://github.com/username"
                     value={formData.socialLinks.github}
                     onChange={handleSocialChange}
-                    className="w-full px-3.5 py-2.5 rounded-xl border border-surface-300 text-sm focus:ring-brand-500 focus:border-brand-500 outline-none"
+                    className="w-full px-3.5 py-2.5 rounded-xl border border-surface-300 dark:border-white/[0.12] bg-white dark:bg-[#1c1c1e] text-surface-900 dark:text-white text-sm focus:ring-brand-500 focus:border-brand-500 outline-none"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold uppercase tracking-wider text-surface-700 mb-1.5">
+                  <label className="block text-xs font-semibold uppercase tracking-wider text-surface-700 dark:text-surface-300 mb-1.5">
                     LinkedIn Profile
                   </label>
                   <input
@@ -635,12 +635,12 @@ export default function ProfileEdit() {
                     placeholder="https://linkedin.com/in/username"
                     value={formData.socialLinks.linkedin}
                     onChange={handleSocialChange}
-                    className="w-full px-3.5 py-2.5 rounded-xl border border-surface-300 text-sm focus:ring-brand-500 focus:border-brand-500 outline-none"
+                    className="w-full px-3.5 py-2.5 rounded-xl border border-surface-300 dark:border-white/[0.12] bg-white dark:bg-[#1c1c1e] text-surface-900 dark:text-white text-sm focus:ring-brand-500 focus:border-brand-500 outline-none"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold uppercase tracking-wider text-surface-700 mb-1.5">
+                  <label className="block text-xs font-semibold uppercase tracking-wider text-surface-700 dark:text-surface-300 mb-1.5">
                     Personal Portfolio / Blog
                   </label>
                   <input
@@ -649,12 +649,12 @@ export default function ProfileEdit() {
                     placeholder="https://yourname.dev"
                     value={formData.socialLinks.website}
                     onChange={handleSocialChange}
-                    className="w-full px-3.5 py-2.5 rounded-xl border border-surface-300 text-sm focus:ring-brand-500 focus:border-brand-500 outline-none"
+                    className="w-full px-3.5 py-2.5 rounded-xl border border-surface-300 dark:border-white/[0.12] bg-white dark:bg-[#1c1c1e] text-surface-900 dark:text-white text-sm focus:ring-brand-500 focus:border-brand-500 outline-none"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold uppercase tracking-wider text-surface-700 mb-1.5">
+                  <label className="block text-xs font-semibold uppercase tracking-wider text-surface-700 dark:text-surface-300 mb-1.5">
                     Twitter / X Profile
                   </label>
                   <input
@@ -663,17 +663,17 @@ export default function ProfileEdit() {
                     placeholder="https://twitter.com/handle"
                     value={formData.socialLinks.twitter}
                     onChange={handleSocialChange}
-                    className="w-full px-3.5 py-2.5 rounded-xl border border-surface-300 text-sm focus:ring-brand-500 focus:border-brand-500 outline-none"
+                    className="w-full px-3.5 py-2.5 rounded-xl border border-surface-300 dark:border-white/[0.12] bg-white dark:bg-[#1c1c1e] text-surface-900 dark:text-white text-sm focus:ring-brand-500 focus:border-brand-500 outline-none"
                   />
                 </div>
               </div>
             )}
 
             {/* Bottom Actions */}
-            <div className="pt-6 border-t border-surface-100 flex items-center justify-end gap-3">
+            <div className="pt-6 border-t border-surface-100 dark:border-white/[0.06] flex items-center justify-end gap-3">
               <Link
                 to={user ? `/users/${user._id}` : '/dashboard'}
-                className="px-5 py-2.5 text-sm font-medium text-surface-700 hover:bg-surface-100 rounded-xl transition-colors"
+                className="px-5 py-2.5 text-sm font-medium text-surface-700 dark:text-surface-300 hover:bg-surface-100 dark:hover:bg-white/[0.06] rounded-xl transition-colors"
               >
                 Cancel
               </Link>

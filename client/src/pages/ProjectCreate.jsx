@@ -84,27 +84,27 @@ export default function ProjectCreate() {
   };
 
   return (
-    <div className="bg-surface-50 min-h-screen py-10">
+    <div className="bg-surface-50 dark:bg-[#0c0c0e] min-h-screen py-10 text-surface-900 dark:text-white">
       <div className="max-w-3xl mx-auto px-4 sm:px-6">
         <Link
           to="/projects"
-          className="inline-flex items-center gap-2 text-sm text-surface-600 hover:text-brand-600 font-medium mb-6 transition-colors"
+          className="inline-flex items-center gap-2 text-sm text-surface-600 dark:text-surface-400 hover:text-brand-600 dark:hover:text-brand-400 font-medium mb-6 transition-colors"
         >
           <ArrowLeft className="w-4 h-4" />
           <span>Back to Projects</span>
         </Link>
 
-        <div className="bg-white rounded-2xl border border-surface-200 shadow-sm overflow-hidden">
+        <div className="bg-white dark:bg-[#161617] rounded-2xl border border-surface-200 dark:border-white/[0.08] shadow-sm overflow-hidden">
           {/* Header */}
-          <div className="p-6 sm:p-8 border-b border-surface-100 bg-gradient-to-r from-brand-50/50 to-white">
-            <div className="flex items-center gap-2 text-brand-600 font-semibold text-xs tracking-wider uppercase mb-1">
+          <div className="p-6 sm:p-8 border-b border-surface-100 dark:border-white/[0.06] bg-gradient-to-r from-brand-50/50 dark:from-brand-950/20 to-white dark:to-[#161617]">
+            <div className="flex items-center gap-2 text-brand-600 dark:text-brand-400 font-semibold text-xs tracking-wider uppercase mb-1">
               <Sparkles className="w-4 h-4" />
               <span>Campus Teammates</span>
             </div>
-            <h1 className="text-2xl sm:text-3xl font-bold text-surface-900">
+            <h1 className="text-2xl sm:text-3xl font-bold text-surface-900 dark:text-white">
               Post a New Project or Team Search
             </h1>
-            <p className="text-sm text-surface-600 mt-1">
+            <p className="text-sm text-surface-600 dark:text-surface-400 mt-1">
               Find talented student collaborators, co-founders, or teammates with complementary skills.
             </p>
           </div>
@@ -112,7 +112,7 @@ export default function ProjectCreate() {
           <form onSubmit={handleSubmit} className="p-6 sm:p-8 space-y-6">
             {/* Title */}
             <div>
-              <label className="block text-sm font-semibold text-surface-800 mb-1.5">
+              <label className="block text-sm font-semibold text-surface-800 dark:text-surface-200 mb-1.5">
                 Project Title *
               </label>
               <input
@@ -122,39 +122,39 @@ export default function ProjectCreate() {
                 placeholder="e.g. Campus Carpool App for Smart Mobility Hackathon"
                 value={formData.title}
                 onChange={handleChange}
-                className="w-full px-4 py-2.5 rounded-xl border border-surface-300 text-sm focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none"
+                className="w-full px-4 py-2.5 rounded-xl border border-surface-300 dark:border-white/[0.12] bg-white dark:bg-[#1c1c1e] text-surface-900 dark:text-white placeholder:text-surface-400 dark:placeholder:text-surface-500 text-sm focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none"
               />
             </div>
 
             {/* Type & Category */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-semibold text-surface-800 mb-1.5">
+                <label className="block text-sm font-semibold text-surface-800 dark:text-surface-200 mb-1.5">
                   Collaboration Type *
                 </label>
                 <select
                   name="type"
                   value={formData.type}
                   onChange={handleChange}
-                  className="w-full px-4 py-2.5 rounded-xl border border-surface-300 text-sm focus:ring-brand-500 focus:border-brand-500 outline-none bg-white"
+                  className="w-full px-4 py-2.5 rounded-xl border border-surface-300 dark:border-white/[0.12] text-sm focus:ring-brand-500 focus:border-brand-500 outline-none bg-white dark:bg-[#1c1c1e] text-surface-900 dark:text-white"
                 >
-                  <option value="collaboration">Peer Collaboration / Teammates</option>
-                  <option value="hiring">Paid Student Hiring</option>
+                  <option value="collaboration" className="bg-white dark:bg-[#1c1c1e]">Peer Collaboration / Teammates</option>
+                  <option value="hiring" className="bg-white dark:bg-[#1c1c1e]">Paid Student Hiring</option>
                 </select>
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-surface-800 mb-1.5">
+                <label className="block text-sm font-semibold text-surface-800 dark:text-surface-200 mb-1.5">
                   Category *
                 </label>
                 <select
                   name="category"
                   value={formData.category}
                   onChange={handleChange}
-                  className="w-full px-4 py-2.5 rounded-xl border border-surface-300 text-sm focus:ring-brand-500 focus:border-brand-500 outline-none bg-white"
+                  className="w-full px-4 py-2.5 rounded-xl border border-surface-300 dark:border-white/[0.12] text-sm focus:ring-brand-500 focus:border-brand-500 outline-none bg-white dark:bg-[#1c1c1e] text-surface-900 dark:text-white"
                 >
                   {CATEGORIES.map((cat) => (
-                    <option key={cat.value} value={cat.value}>
+                    <option key={cat.value} value={cat.value} className="bg-white dark:bg-[#1c1c1e]">
                       {cat.label}
                     </option>
                   ))}
@@ -164,7 +164,7 @@ export default function ProjectCreate() {
 
             {/* Description */}
             <div>
-              <label className="block text-sm font-semibold text-surface-800 mb-1.5">
+              <label className="block text-sm font-semibold text-surface-800 dark:text-surface-200 mb-1.5">
                 Project Overview & Mission *
               </label>
               <textarea
@@ -174,13 +174,13 @@ export default function ProjectCreate() {
                 placeholder="Explain what problem your project solves, the current stage of development, goals, and what responsibilities team members will take on..."
                 value={formData.description}
                 onChange={handleChange}
-                className="w-full px-4 py-2.5 rounded-xl border border-surface-300 text-sm focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none"
+                className="w-full px-4 py-2.5 rounded-xl border border-surface-300 dark:border-white/[0.12] bg-white dark:bg-[#1c1c1e] text-surface-900 dark:text-white placeholder:text-surface-400 text-sm focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none"
               />
             </div>
 
             {/* Skills */}
             <div>
-              <label className="block text-sm font-semibold text-surface-800 mb-1.5">
+              <label className="block text-sm font-semibold text-surface-800 dark:text-surface-200 mb-1.5">
                 Desired Skills / Tech Stack (comma separated)
               </label>
               <input
@@ -189,14 +189,14 @@ export default function ProjectCreate() {
                 placeholder="e.g. Flutter, Firebase, Figma, Python, NLP"
                 value={formData.skills}
                 onChange={handleChange}
-                className="w-full px-4 py-2.5 rounded-xl border border-surface-300 text-sm focus:ring-brand-500 focus:border-brand-500 outline-none"
+                className="w-full px-4 py-2.5 rounded-xl border border-surface-300 dark:border-white/[0.12] bg-white dark:bg-[#1c1c1e] text-surface-900 dark:text-white placeholder:text-surface-400 text-sm focus:ring-brand-500 focus:border-brand-500 outline-none"
               />
             </div>
 
             {/* Team capacity & Timeline */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-semibold text-surface-800 mb-1.5">
+                <label className="block text-sm font-semibold text-surface-800 dark:text-surface-200 mb-1.5">
                   Max Collaborators
                 </label>
                 <input
@@ -206,12 +206,12 @@ export default function ProjectCreate() {
                   max="20"
                   value={formData.maxCollaborators}
                   onChange={handleChange}
-                  className="w-full px-4 py-2.5 rounded-xl border border-surface-300 text-sm focus:ring-brand-500 focus:border-brand-500 outline-none"
+                  className="w-full px-4 py-2.5 rounded-xl border border-surface-300 dark:border-white/[0.12] bg-white dark:bg-[#1c1c1e] text-surface-900 dark:text-white text-sm focus:ring-brand-500 focus:border-brand-500 outline-none"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-surface-800 mb-1.5">
+                <label className="block text-sm font-semibold text-surface-800 dark:text-surface-200 mb-1.5">
                   Estimated Timeline
                 </label>
                 <input
@@ -220,7 +220,7 @@ export default function ProjectCreate() {
                   placeholder="e.g. 1 month, Hackathon weekend, Ongoing"
                   value={formData.timeline}
                   onChange={handleChange}
-                  className="w-full px-4 py-2.5 rounded-xl border border-surface-300 text-sm focus:ring-brand-500 focus:border-brand-500 outline-none"
+                  className="w-full px-4 py-2.5 rounded-xl border border-surface-300 dark:border-white/[0.12] bg-white dark:bg-[#1c1c1e] text-surface-900 dark:text-white placeholder:text-surface-400 text-sm focus:ring-brand-500 focus:border-brand-500 outline-none"
                 />
               </div>
             </div>
@@ -228,7 +228,7 @@ export default function ProjectCreate() {
             {/* Optional Budget */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-semibold text-surface-800 mb-1.5">
+                <label className="block text-sm font-semibold text-surface-800 dark:text-surface-200 mb-1.5">
                   Min Budget (₹) (Optional)
                 </label>
                 <input
@@ -237,12 +237,12 @@ export default function ProjectCreate() {
                   placeholder="0"
                   value={formData.budgetMin}
                   onChange={handleChange}
-                  className="w-full px-4 py-2.5 rounded-xl border border-surface-300 text-sm focus:ring-brand-500 focus:border-brand-500 outline-none"
+                  className="w-full px-4 py-2.5 rounded-xl border border-surface-300 dark:border-white/[0.12] bg-white dark:bg-[#1c1c1e] text-surface-900 dark:text-white placeholder:text-surface-400 text-sm focus:ring-brand-500 focus:border-brand-500 outline-none"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-surface-800 mb-1.5">
+                <label className="block text-sm font-semibold text-surface-800 dark:text-surface-200 mb-1.5">
                   Max Budget (₹) (Optional)
                 </label>
                 <input
@@ -251,16 +251,16 @@ export default function ProjectCreate() {
                   placeholder="5000"
                   value={formData.budgetMax}
                   onChange={handleChange}
-                  className="w-full px-4 py-2.5 rounded-xl border border-surface-300 text-sm focus:ring-brand-500 focus:border-brand-500 outline-none"
+                  className="w-full px-4 py-2.5 rounded-xl border border-surface-300 dark:border-white/[0.12] bg-white dark:bg-[#1c1c1e] text-surface-900 dark:text-white placeholder:text-surface-400 text-sm focus:ring-brand-500 focus:border-brand-500 outline-none"
                 />
               </div>
             </div>
 
             {/* Actions */}
-            <div className="pt-4 border-t border-surface-100 flex items-center justify-end gap-3">
+            <div className="pt-4 border-t border-surface-100 dark:border-white/[0.06] flex items-center justify-end gap-3">
               <Link
                 to="/projects"
-                className="px-5 py-2.5 text-sm font-medium text-surface-700 hover:bg-surface-100 rounded-xl transition-colors"
+                className="px-5 py-2.5 text-sm font-medium text-surface-700 dark:text-surface-300 hover:bg-surface-100 dark:hover:bg-white/[0.06] rounded-xl transition-colors"
               >
                 Cancel
               </Link>

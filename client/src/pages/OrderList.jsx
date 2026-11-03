@@ -68,34 +68,34 @@ export default function OrderList() {
   const getStatusBadge = (status) => {
     switch (status) {
       case 'completed':
-        return <Badge variant="success">Completed</Badge>;
+        return <Badge variant="completed">Completed</Badge>;
       case 'in-progress':
-        return <Badge variant="brand">In Progress</Badge>;
+        return <Badge variant="in-progress">In Progress</Badge>;
       case 'delivered':
-        return <Badge variant="warning">Delivered</Badge>;
+        return <Badge variant="delivered">Delivered</Badge>;
       case 'accepted':
         return <Badge variant="info">Accepted</Badge>;
       case 'cancelled':
-        return <Badge variant="danger">Cancelled</Badge>;
+        return <Badge variant="cancelled">Cancelled</Badge>;
       default:
-        return <Badge variant="default">Pending</Badge>;
+        return <Badge variant="pending">Pending</Badge>;
     }
   };
 
   return (
-    <div className="bg-surface-50 min-h-screen py-10">
+    <div className="bg-surface-50 dark:bg-[#0c0c0e] min-h-screen py-10 text-surface-900 dark:text-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
-            <h1 className="text-3xl font-extrabold text-surface-900 tracking-tight">Order Management</h1>
-            <p className="text-sm text-surface-600 mt-1">
+            <h1 className="text-3xl font-extrabold text-surface-900 dark:text-white tracking-tight">Order Management</h1>
+            <p className="text-sm text-surface-600 dark:text-surface-400 mt-1">
               Track project milestones, deliveries, order chats, and client approvals.
             </p>
           </div>
 
           {/* Role Filter Pills */}
-          <div className="flex p-1 bg-surface-200/70 rounded-xl max-w-fit">
+          <div className="flex p-1 bg-surface-200/70 dark:bg-white/[0.08] rounded-xl max-w-fit">
             {[
               { id: 'all', label: 'All Orders' },
               { id: 'client', label: 'As Client (Purchased)' },
@@ -106,8 +106,8 @@ export default function OrderList() {
                 onClick={() => setRoleFilter(role.id)}
                 className={`px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all ${
                   roleFilter === role.id
-                    ? 'bg-white text-surface-900 shadow-sm'
-                    : 'text-surface-600 hover:text-surface-900'
+                    ? 'bg-white dark:bg-[#161617] text-surface-900 dark:text-white shadow-sm'
+                    : 'text-surface-600 dark:text-surface-400 hover:text-surface-900 dark:hover:text-white'
                 }`}
               >
                 {role.label}
@@ -117,7 +117,7 @@ export default function OrderList() {
         </div>
 
         {/* Status Tabs Bar */}
-        <div className="flex overflow-x-auto gap-2 border-b border-surface-200 pb-2">
+        <div className="flex overflow-x-auto gap-2 border-b border-surface-200 dark:border-white/[0.08] pb-2">
           {STATUS_TABS.map((tab) => (
             <button
               key={tab.id}
@@ -125,7 +125,7 @@ export default function OrderList() {
               className={`px-3.5 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap transition-colors ${
                 statusFilter === tab.id
                   ? 'bg-brand-600 text-white shadow-xs'
-                  : 'bg-white border border-surface-200 text-surface-600 hover:bg-surface-100'
+                  : 'bg-white dark:bg-[#161617] border border-surface-200 dark:border-white/[0.08] text-surface-600 dark:text-surface-300 hover:bg-surface-100 dark:hover:bg-white/[0.04]'
               }`}
             >
               {tab.label}
@@ -139,7 +139,7 @@ export default function OrderList() {
             <LoadingSpinner message="Loading orders..." />
           </div>
         ) : filteredOrders.length === 0 ? (
-          <div className="bg-white rounded-2xl border border-surface-200 p-12 text-center">
+          <div className="bg-white dark:bg-[#161617] rounded-2xl border border-surface-200 dark:border-white/[0.08] p-12 text-center">
             <EmptyState
               title="No orders found"
               description="You have no orders matching the selected status or role filters."
@@ -160,13 +160,13 @@ export default function OrderList() {
                 <Link
                   key={order._id}
                   to={`/orders/${order._id}`}
-                  className="block bg-white rounded-2xl border border-surface-200 p-5 sm:p-6 shadow-sm hover:shadow-md hover:border-brand-200 transition-all duration-200"
+                  className="block bg-white dark:bg-[#161617] rounded-2xl border border-surface-200 dark:border-white/[0.08] p-5 sm:p-6 shadow-sm hover:shadow-md hover:border-brand-200 dark:hover:border-brand-500/30 transition-all duration-200"
                 >
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                     {/* Left: Service Info & Counterparty */}
                     <div className="flex items-start gap-4">
                       {order.service?.images && order.service.images.length > 0 ? (
-                        <div className="w-16 h-16 rounded-xl overflow-hidden bg-surface-100 flex-shrink-0">
+                        <div className="w-16 h-16 rounded-xl overflow-hidden bg-surface-100 dark:bg-[#1c1c1e] flex-shrink-0">
                           <img
                             src={order.service.images[0]}
                             alt={order.service.title}
@@ -174,25 +174,25 @@ export default function OrderList() {
                           />
                         </div>
                       ) : (
-                        <div className="w-16 h-16 rounded-xl bg-brand-50 text-brand-600 flex items-center justify-center flex-shrink-0">
+                        <div className="w-16 h-16 rounded-xl bg-brand-50 dark:bg-brand-950/40 text-brand-600 dark:text-brand-400 flex items-center justify-center flex-shrink-0">
                           <Package className="w-7 h-7" />
                         </div>
                       )}
 
                       <div>
                         <div className="flex items-center gap-2 mb-1">
-                          <span className="text-xs font-semibold text-brand-700 uppercase tracking-wide">
+                          <span className="text-xs font-semibold text-brand-700 dark:text-brand-400 uppercase tracking-wide">
                             {isClient ? 'Buying from' : 'Delivering to'}
                           </span>
-                          <span className="text-xs text-surface-400">•</span>
-                          <span className="text-xs font-medium text-surface-600">{otherName}</span>
+                          <span className="text-xs text-surface-400 dark:text-surface-500">•</span>
+                          <span className="text-xs font-medium text-surface-600 dark:text-surface-400">{otherName}</span>
                         </div>
 
-                        <h3 className="font-bold text-surface-900 text-base sm:text-lg line-clamp-1">
+                        <h3 className="font-bold text-surface-900 dark:text-white text-base sm:text-lg line-clamp-1">
                           {order.service?.title || 'Custom Service Order'}
                         </h3>
 
-                        <div className="flex flex-wrap items-center gap-4 text-xs text-surface-500 mt-2">
+                        <div className="flex flex-wrap items-center gap-4 text-xs text-surface-500 dark:text-surface-400 mt-2">
                           <span className="flex items-center gap-1">
                             <Clock className="w-3.5 h-3.5" />
                             Placed on {new Date(order.createdAt).toLocaleDateString()}
@@ -207,15 +207,15 @@ export default function OrderList() {
                     </div>
 
                     {/* Right: Price, Status & CTA */}
-                    <div className="flex sm:flex-col items-center sm:items-end justify-between sm:justify-center border-t sm:border-t-0 pt-3 sm:pt-0 border-surface-100 gap-2">
+                    <div className="flex sm:flex-col items-center sm:items-end justify-between sm:justify-center border-t sm:border-t-0 pt-3 sm:pt-0 border-surface-100 dark:border-white/[0.06] gap-2">
                       <div className="text-left sm:text-right">
-                        <span className="text-xl font-extrabold text-surface-900 block">
+                        <span className="text-xl font-extrabold text-surface-900 dark:text-white block">
                           ₹{(order.amount || 0).toLocaleString()}
                         </span>
                         <div className="mt-1">{getStatusBadge(order.status)}</div>
                       </div>
 
-                      <div className="hidden sm:flex items-center gap-1 text-xs font-semibold text-brand-600 group-hover:translate-x-1 transition-transform mt-2">
+                      <div className="hidden sm:flex items-center gap-1 text-xs font-semibold text-brand-600 dark:text-brand-400 group-hover:translate-x-1 transition-transform mt-2">
                         <span>View Details</span>
                         <ChevronRight className="w-4 h-4" />
                       </div>

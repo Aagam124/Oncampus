@@ -159,26 +159,6 @@ export default function Landing() {
               How It Works
             </Button>
           </div>
-
-          {/* Metrics Pill Strip (High-value density) */}
-          <div className="pt-3 flex flex-wrap items-center justify-center gap-3 sm:gap-5 text-xs font-semibold text-[#6e6e73] dark:text-[#a1a1a6]">
-            <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/80 dark:bg-[#161617]/80 border border-black/[0.06] dark:border-white/[0.08] shadow-xs">
-              <ShieldCheck className="w-3.5 h-3.5 text-[#34c759]" />
-              <span>1,200+ Verified Students</span>
-            </div>
-            <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/80 dark:bg-[#161617]/80 border border-black/[0.06] dark:border-white/[0.08] shadow-xs">
-              <TrendingUp className="w-3.5 h-3.5 text-[#0071e3]" />
-              <span>450+ Projects Completed</span>
-            </div>
-            <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/80 dark:bg-[#161617]/80 border border-black/[0.06] dark:border-white/[0.08] shadow-xs">
-              <DollarSign className="w-3.5 h-3.5 text-amber-500" />
-              <span>₹18L+ Earned by Students</span>
-            </div>
-            <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/80 dark:bg-[#161617]/80 border border-black/[0.06] dark:border-white/[0.08] shadow-xs">
-              <CheckCircle2 className="w-3.5 h-3.5 text-[#8b5cf6]" />
-              <span>Milestone Escrow Protection</span>
-            </div>
-          </div>
         </div>
       </section>
 

@@ -100,15 +100,15 @@ export default function ProjectBrowse() {
   const hasActiveFilters = Boolean(search || category || type || status);
 
   return (
-    <div className="bg-surface-50 min-h-screen py-8">
+    <div className="bg-surface-50 dark:bg-[#0c0c0e] min-h-screen py-8 text-surface-900 dark:text-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
           <div>
-            <h1 className="text-3xl sm:text-4xl font-black text-surface-900 tracking-tight">
+            <h1 className="text-3xl sm:text-4xl font-black text-surface-900 dark:text-white tracking-tight">
               Collaborations & Campus Projects
             </h1>
-            <p className="mt-1 text-sm text-surface-600">
+            <p className="mt-1 text-sm text-surface-600 dark:text-surface-400">
               Find hackathon teammates, research partners, or join student startup teams.
             </p>
           </div>
@@ -134,7 +134,7 @@ export default function ProjectBrowse() {
                 className={`px-4 py-2 rounded-full text-xs font-bold whitespace-nowrap transition-all duration-200 ${
                   isActive
                     ? 'bg-brand-600 text-white shadow-glow-sm scale-105'
-                    : 'bg-white hover:bg-surface-100 text-surface-700 border border-surface-200/90'
+                    : 'bg-white dark:bg-[#161617] hover:bg-surface-100 dark:hover:bg-white/[0.06] text-surface-700 dark:text-surface-300 border border-surface-200/90 dark:border-white/[0.08]'
                 }`}
               >
                 {cat.label}
@@ -144,7 +144,7 @@ export default function ProjectBrowse() {
         </div>
 
         {/* Search */}
-        <div className="bg-white p-3 rounded-2xl border border-surface-200/80 shadow-sm mb-8">
+        <div className="bg-white dark:bg-[#161617] p-3 rounded-2xl border border-surface-200/80 dark:border-white/[0.08] shadow-sm mb-8">
           <form onSubmit={handleSearchSubmit} className="flex gap-2">
             <div className="relative flex-1">
               <Search className="w-5 h-5 absolute left-4 top-1/2 -translate-y-1/2 text-surface-400" />
@@ -153,7 +153,7 @@ export default function ProjectBrowse() {
                 placeholder="Search projects by title, description or skills (e.g. AI, Flutter, Marketing)..."
                 value={searchInput}
                 onChange={(e) => setSearchInput(e.target.value)}
-                className="w-full pl-11 pr-4 py-2.5 rounded-xl bg-surface-50 focus:bg-white text-sm outline-none border border-transparent focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 text-surface-900 transition-all"
+                className="w-full pl-11 pr-4 py-2.5 rounded-xl bg-surface-50 dark:bg-[#1c1c1e] focus:bg-white dark:focus:bg-[#202024] text-sm outline-none border border-transparent focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 text-surface-900 dark:text-white placeholder:text-surface-400 dark:placeholder:text-surface-500 transition-all"
               />
             </div>
             <button
@@ -165,7 +165,7 @@ export default function ProjectBrowse() {
             <button
               type="button"
               onClick={() => setShowMobileFilters(!showMobileFilters)}
-              className="md:hidden px-3.5 py-2.5 border border-surface-300 rounded-xl text-surface-700 hover:bg-surface-50 flex items-center gap-1.5"
+              className="md:hidden px-3.5 py-2.5 border border-surface-300 dark:border-white/[0.12] rounded-xl text-surface-700 dark:text-surface-300 hover:bg-surface-50 dark:hover:bg-white/[0.05] flex items-center gap-1.5"
             >
               <SlidersHorizontal className="w-4 h-4" />
             </button>
@@ -175,14 +175,14 @@ export default function ProjectBrowse() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           {/* Sidebar Filters */}
           <div className={`md:block ${showMobileFilters ? 'block' : 'hidden'} md:col-span-1`}>
-            <div className="bg-white p-5 rounded-xl border border-surface-200 shadow-sm space-y-6">
-              <div className="flex items-center justify-between pb-3 border-b border-surface-100">
-                <div className="flex items-center gap-2 font-semibold text-surface-900">
-                  <Filter className="w-4 h-4 text-brand-600" />
+            <div className="bg-white dark:bg-[#161617] p-5 rounded-xl border border-surface-200 dark:border-white/[0.08] shadow-sm space-y-6">
+              <div className="flex items-center justify-between pb-3 border-b border-surface-100 dark:border-white/[0.06]">
+                <div className="flex items-center gap-2 font-semibold text-surface-900 dark:text-white">
+                  <Filter className="w-4 h-4 text-brand-600 dark:text-brand-400" />
                   <span>Filters</span>
                 </div>
                 {hasActiveFilters && (
-                  <button onClick={resetFilters} className="text-xs text-brand-600 hover:text-brand-800 font-medium">
+                  <button onClick={resetFilters} className="text-xs text-brand-600 dark:text-brand-400 hover:text-brand-800 dark:hover:text-brand-300 font-medium">
                     Reset
                   </button>
                 )}
@@ -190,16 +190,16 @@ export default function ProjectBrowse() {
 
               {/* Category */}
               <div>
-                <label className="block text-xs font-semibold text-surface-700 uppercase tracking-wider mb-2">
+                <label className="block text-xs font-semibold text-surface-700 dark:text-surface-300 uppercase tracking-wider mb-2">
                   Category
                 </label>
                 <select
                   value={category}
                   onChange={(e) => updateParam('category', e.target.value)}
-                  className="w-full px-3 py-2 text-sm rounded-lg border border-surface-300 bg-white"
+                  className="w-full px-3 py-2 text-sm rounded-lg border border-surface-300 dark:border-white/[0.12] bg-white dark:bg-[#1c1c1e] text-surface-900 dark:text-white"
                 >
                   {CATEGORIES.map((cat) => (
-                    <option key={cat.value} value={cat.value}>
+                    <option key={cat.value} value={cat.value} className="bg-white dark:bg-[#1c1c1e] text-surface-900 dark:text-white">
                       {cat.label}
                     </option>
                   ))}
@@ -208,7 +208,7 @@ export default function ProjectBrowse() {
 
               {/* Type */}
               <div>
-                <label className="block text-xs font-semibold text-surface-700 uppercase tracking-wider mb-2">
+                <label className="block text-xs font-semibold text-surface-700 dark:text-surface-300 uppercase tracking-wider mb-2">
                   Project Type
                 </label>
                 <div className="space-y-2">
@@ -217,13 +217,13 @@ export default function ProjectBrowse() {
                     { val: 'collaboration', label: 'Peer Collaboration' },
                     { val: 'hiring', label: 'Paid Hiring' },
                   ].map((t) => (
-                    <label key={t.val} className="flex items-center gap-2 text-sm text-surface-700 cursor-pointer">
+                    <label key={t.val} className="flex items-center gap-2 text-sm text-surface-700 dark:text-surface-300 cursor-pointer">
                       <input
                         type="radio"
                         name="projectType"
                         checked={type === t.val}
                         onChange={() => updateParam('type', t.val)}
-                        className="text-brand-600 focus:ring-brand-500"
+                        className="text-brand-600 focus:ring-brand-500 dark:bg-[#1c1c1e] dark:border-white/[0.2]"
                       />
                       <span>{t.label}</span>
                     </label>
@@ -233,18 +233,18 @@ export default function ProjectBrowse() {
 
               {/* Status */}
               <div>
-                <label className="block text-xs font-semibold text-surface-700 uppercase tracking-wider mb-2">
+                <label className="block text-xs font-semibold text-surface-700 dark:text-surface-300 uppercase tracking-wider mb-2">
                   Status
                 </label>
                 <select
                   value={status}
                   onChange={(e) => updateParam('status', e.target.value)}
-                  className="w-full px-3 py-2 text-sm rounded-lg border border-surface-300 bg-white"
+                  className="w-full px-3 py-2 text-sm rounded-lg border border-surface-300 dark:border-white/[0.12] bg-white dark:bg-[#1c1c1e] text-surface-900 dark:text-white"
                 >
-                  <option value="">Any Status</option>
-                  <option value="open">Open for Members</option>
-                  <option value="in-progress">In Progress</option>
-                  <option value="completed">Completed</option>
+                  <option value="" className="bg-white dark:bg-[#1c1c1e]">Any Status</option>
+                  <option value="open" className="bg-white dark:bg-[#1c1c1e]">Open for Members</option>
+                  <option value="in-progress" className="bg-white dark:bg-[#1c1c1e]">In Progress</option>
+                  <option value="completed" className="bg-white dark:bg-[#1c1c1e]">Completed</option>
                 </select>
               </div>
             </div>
@@ -254,21 +254,21 @@ export default function ProjectBrowse() {
           <div className="md:col-span-3">
             {hasActiveFilters && (
               <div className="flex flex-wrap items-center gap-2 mb-4">
-                <span className="text-xs text-surface-500">Active filters:</span>
+                <span className="text-xs text-surface-500 dark:text-surface-400">Active filters:</span>
                 {category && (
-                  <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs bg-brand-50 text-brand-700 border border-brand-200">
+                  <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs bg-brand-50 dark:bg-brand-950/40 text-brand-700 dark:text-brand-300 border border-brand-200 dark:border-brand-800/50">
                     Category: {category}
                     <X className="w-3 h-3 cursor-pointer" onClick={() => updateParam('category', '')} />
                   </span>
                 )}
                 {type && (
-                  <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs bg-brand-50 text-brand-700 border border-brand-200">
+                  <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs bg-brand-50 dark:bg-brand-950/40 text-brand-700 dark:text-brand-300 border border-brand-200 dark:border-brand-800/50">
                     Type: {type}
                     <X className="w-3 h-3 cursor-pointer" onClick={() => updateParam('type', '')} />
                   </span>
                 )}
                 {search && (
-                  <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs bg-brand-50 text-brand-700 border border-brand-200">
+                  <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs bg-brand-50 dark:bg-brand-950/40 text-brand-700 dark:text-brand-300 border border-brand-200 dark:border-brand-800/50">
                     "{search}"
                     <X className="w-3 h-3 cursor-pointer" onClick={() => updateParam('search', '')} />
                   </span>

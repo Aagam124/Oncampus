@@ -39,7 +39,7 @@ export default function Avatar({ src, name = '', size = 'md', className = '' }) 
       <img
         src={src}
         alt={name}
-        className={`${sizeClass} rounded-full object-cover ring-2 ring-white ${className}`}
+        className={`${sizeClass} rounded-full object-cover ring-2 ring-white dark:ring-[#161617] ${className}`}
       />
     );
   }
@@ -49,7 +49,7 @@ export default function Avatar({ src, name = '', size = 'md', className = '' }) 
 
   return (
     <div
-      className={`${sizeClass} ${bgColor} rounded-full flex items-center justify-center font-semibold text-white ring-2 ring-white ${className}`}
+      className={`${sizeClass} ${bgColor} rounded-full flex items-center justify-center font-semibold text-white ring-2 ring-white dark:ring-[#161617] ${className}`}
       aria-label={name}
     >
       {initials}

@@ -94,10 +94,10 @@ export default function PublicProfile() {
   const fullName = `${profileUser.firstName} ${profileUser.lastName || ''}`;
 
   return (
-    <div className="bg-surface-50 min-h-screen py-10">
+    <div className="bg-surface-50 dark:bg-[#0c0c0e] min-h-screen py-10 text-surface-900 dark:text-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
         {/* Profile Header Banner Card */}
-        <div className="bg-white rounded-3xl border border-surface-200 shadow-sm overflow-hidden">
+        <div className="bg-white dark:bg-[#161617] rounded-3xl border border-surface-200 dark:border-white/[0.08] shadow-sm overflow-hidden">
           {/* Top Banner Gradient */}
           <div className="h-44 sm:h-52 bg-gradient-to-r from-brand-600 via-brand-700 to-indigo-800 relative">
             <div className="absolute inset-0 bg-black/10"></div>
@@ -107,7 +107,7 @@ export default function PublicProfile() {
             {/* Avatar Row */}
             <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 -mt-16 sm:-mt-20 mb-6">
               <div className="relative inline-block">
-                <div className="ring-4 ring-white rounded-full bg-white shadow-xl overflow-hidden w-28 h-28 sm:w-36 sm:h-36">
+                <div className="ring-4 ring-white dark:ring-[#161617] rounded-full bg-white dark:bg-[#161617] shadow-xl overflow-hidden w-28 h-28 sm:w-36 sm:h-36">
                   <Avatar
                     src={profileUser.avatar}
                     name={fullName}
@@ -116,7 +116,7 @@ export default function PublicProfile() {
                   />
                 </div>
                 {profileUser.isVerified && (
-                  <div className="absolute bottom-1 right-1 bg-brand-600 text-white p-1 rounded-full ring-2 ring-white">
+                  <div className="absolute bottom-1 right-1 bg-brand-600 text-white p-1 rounded-full ring-2 ring-white dark:ring-[#161617]">
                     <CheckCircle className="w-5 h-5" />
                   </div>
                 )}
@@ -127,7 +127,7 @@ export default function PublicProfile() {
                 {isOwner ? (
                   <Link
                     to="/profile/edit"
-                    className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl border border-surface-300 bg-white hover:bg-surface-50 text-surface-800 font-semibold text-sm transition-colors shadow-sm"
+                    className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl border border-surface-300 dark:border-white/[0.12] bg-white dark:bg-[#1c1c1e] hover:bg-surface-50 dark:hover:bg-white/[0.04] text-surface-800 dark:text-surface-200 font-semibold text-sm transition-colors shadow-sm"
                   >
                     <Edit className="w-4 h-4" />
                     <span>Edit Profile</span>
@@ -148,7 +148,7 @@ export default function PublicProfile() {
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
               <div className="lg:col-span-2 space-y-3">
                 <div className="flex flex-wrap items-center gap-2.5">
-                  <h1 className="text-2xl sm:text-3xl font-extrabold text-surface-900 tracking-tight">
+                  <h1 className="text-2xl sm:text-3xl font-extrabold text-surface-900 dark:text-white tracking-tight">
                     {fullName}
                   </h1>
                   {profileUser.isVerified && (
@@ -159,57 +159,57 @@ export default function PublicProfile() {
                 </div>
 
                 {profileUser.headline && (
-                  <p className="text-base text-surface-700 font-medium leading-relaxed">
+                  <p className="text-base text-surface-700 dark:text-surface-300 font-medium leading-relaxed">
                     {profileUser.headline}
                   </p>
                 )}
 
                 {/* Campus info */}
-                <div className="flex flex-wrap items-center gap-4 text-sm text-surface-600 pt-1">
+                <div className="flex flex-wrap items-center gap-4 text-sm text-surface-600 dark:text-surface-400 pt-1">
                   {profileUser.university && (
-                    <div className="flex items-center gap-1.5 font-medium text-brand-700">
+                    <div className="flex items-center gap-1.5 font-medium text-brand-700 dark:text-brand-400">
                       <GraduationCap className="w-4 h-4" />
                       <span>{profileUser.university}</span>
                     </div>
                   )}
                   {profileUser.department && (
                     <div className="flex items-center gap-1.5">
-                      <MapPin className="w-4 h-4 text-surface-400" />
+                      <MapPin className="w-4 h-4 text-surface-400 dark:text-surface-500" />
                       <span>{profileUser.department}</span>
                     </div>
                   )}
                   {profileUser.year && (
-                    <div className="text-xs px-2.5 py-0.5 rounded-full bg-surface-100 text-surface-600 font-semibold">
+                    <div className="text-xs px-2.5 py-0.5 rounded-full bg-surface-100 dark:bg-white/[0.08] text-surface-600 dark:text-surface-300 font-semibold">
                       Year {profileUser.year}
                     </div>
                   )}
                 </div>
 
                 {profileUser.bio && (
-                  <p className="text-sm text-surface-600 pt-2 leading-relaxed">
+                  <p className="text-sm text-surface-600 dark:text-surface-300 pt-2 leading-relaxed">
                     {profileUser.bio}
                   </p>
                 )}
               </div>
 
               {/* Stats & Social box */}
-              <div className="bg-surface-50 p-5 rounded-2xl border border-surface-200/80 space-y-4">
+              <div className="bg-surface-50 dark:bg-[#1c1c1e] p-5 rounded-2xl border border-surface-200/80 dark:border-white/[0.08] space-y-4">
                 <div className="grid grid-cols-2 gap-4 text-center">
-                  <div className="p-3 bg-white rounded-xl border border-surface-200">
-                    <div className="flex items-center justify-center gap-1 text-surface-900 font-bold text-xl">
+                  <div className="p-3 bg-white dark:bg-[#202024] rounded-xl border border-surface-200 dark:border-white/[0.08]">
+                    <div className="flex items-center justify-center gap-1 text-surface-900 dark:text-white font-bold text-xl">
                       <Star className="w-5 h-5 fill-amber-400 text-amber-400" />
                       <span>{(profileUser.rating || 0).toFixed(1)}</span>
                     </div>
-                    <span className="text-xs text-surface-500 font-medium">
+                    <span className="text-xs text-surface-500 dark:text-surface-400 font-medium">
                       {profileUser.reviewCount || 0} reviews
                     </span>
                   </div>
 
-                  <div className="p-3 bg-white rounded-xl border border-surface-200">
-                    <span className="text-xl font-bold text-surface-900 block">
+                  <div className="p-3 bg-white dark:bg-[#202024] rounded-xl border border-surface-200 dark:border-white/[0.08]">
+                    <span className="text-xl font-bold text-surface-900 dark:text-white block">
                       {services.length}
                     </span>
-                    <span className="text-xs text-surface-500 font-medium">Services Active</span>
+                    <span className="text-xs text-surface-500 dark:text-surface-400 font-medium">Services Active</span>
                   </div>
                 </div>
 
@@ -221,7 +221,7 @@ export default function PublicProfile() {
                         href={profileUser.socialLinks.github}
                         target="_blank"
                         rel="noreferrer"
-                        className="p-2 text-surface-600 hover:text-surface-900 hover:bg-white rounded-lg transition-colors border border-transparent hover:border-surface-200"
+                        className="p-2 text-surface-600 dark:text-surface-400 hover:text-surface-900 dark:hover:text-white hover:bg-white dark:hover:bg-white/[0.06] rounded-lg transition-colors border border-transparent hover:border-surface-200 dark:hover:border-white/[0.1]"
                         title="GitHub"
                       >
                         <Github className="w-4 h-4" />
@@ -232,7 +232,7 @@ export default function PublicProfile() {
                         href={profileUser.socialLinks.linkedin}
                         target="_blank"
                         rel="noreferrer"
-                        className="p-2 text-surface-600 hover:text-brand-600 hover:bg-white rounded-lg transition-colors border border-transparent hover:border-surface-200"
+                        className="p-2 text-surface-600 dark:text-surface-400 hover:text-brand-600 dark:hover:text-brand-400 hover:bg-white dark:hover:bg-white/[0.06] rounded-lg transition-colors border border-transparent hover:border-surface-200 dark:hover:border-white/[0.1]"
                         title="LinkedIn"
                       >
                         <Linkedin className="w-4 h-4" />
@@ -243,7 +243,7 @@ export default function PublicProfile() {
                         href={profileUser.socialLinks.website}
                         target="_blank"
                         rel="noreferrer"
-                        className="p-2 text-surface-600 hover:text-surface-900 hover:bg-white rounded-lg transition-colors border border-transparent hover:border-surface-200"
+                        className="p-2 text-surface-600 dark:text-surface-400 hover:text-surface-900 dark:hover:text-white hover:bg-white dark:hover:bg-white/[0.06] rounded-lg transition-colors border border-transparent hover:border-surface-200 dark:hover:border-white/[0.1]"
                         title="Website"
                       >
                         <Globe className="w-4 h-4" />
@@ -254,7 +254,7 @@ export default function PublicProfile() {
                         href={profileUser.socialLinks.twitter}
                         target="_blank"
                         rel="noreferrer"
-                        className="p-2 text-surface-600 hover:text-sky-500 hover:bg-white rounded-lg transition-colors border border-transparent hover:border-surface-200"
+                        className="p-2 text-surface-600 dark:text-surface-400 hover:text-sky-500 hover:bg-white dark:hover:bg-white/[0.06] rounded-lg transition-colors border border-transparent hover:border-surface-200 dark:hover:border-white/[0.1]"
                         title="Twitter / X"
                       >
                         <Twitter className="w-4 h-4" />
@@ -267,15 +267,15 @@ export default function PublicProfile() {
 
             {/* Skills Pills */}
             {profileUser.skills && profileUser.skills.length > 0 && (
-              <div className="mt-6 pt-6 border-t border-surface-100">
-                <span className="text-xs font-semibold uppercase tracking-wider text-surface-400 block mb-2">
+              <div className="mt-6 pt-6 border-t border-surface-100 dark:border-white/[0.06]">
+                <span className="text-xs font-semibold uppercase tracking-wider text-surface-400 dark:text-surface-500 block mb-2">
                   Skills & Endorsements
                 </span>
                 <div className="flex flex-wrap gap-2">
                   {profileUser.skills.map((skill, idx) => (
                     <span
                       key={idx}
-                      className="px-3 py-1 bg-surface-100 text-surface-800 text-xs font-semibold rounded-lg"
+                      className="px-3 py-1 bg-surface-100 dark:bg-white/[0.06] text-surface-800 dark:text-surface-200 text-xs font-semibold rounded-lg"
                     >
                       {skill}
                     </span>
@@ -287,7 +287,7 @@ export default function PublicProfile() {
         </div>
 
         {/* Tab Navigation */}
-        <div className="flex border-b border-surface-200 gap-8 text-sm font-semibold">
+        <div className="flex border-b border-surface-200 dark:border-white/[0.08] gap-8 text-sm font-semibold">
           {[
             { id: 'services', label: `Services (${services.length})` },
             { id: 'portfolio', label: `Portfolio (${profileUser.portfolio?.length || 0})` },
@@ -299,8 +299,8 @@ export default function PublicProfile() {
               onClick={() => setActiveTab(tab.id)}
               className={`pb-3 border-b-2 transition-colors ${
                 activeTab === tab.id
-                  ? 'border-brand-600 text-brand-600'
-                  : 'border-transparent text-surface-500 hover:text-surface-800'
+                  ? 'border-brand-600 text-brand-600 dark:text-brand-400'
+                  : 'border-transparent text-surface-500 dark:text-surface-400 hover:text-surface-800 dark:hover:text-surface-200'
               }`}
             >
               {tab.label}
@@ -312,7 +312,7 @@ export default function PublicProfile() {
         {activeTab === 'services' && (
           <div>
             {services.length === 0 ? (
-              <div className="p-12 text-center bg-white rounded-2xl border border-surface-200 text-surface-500">
+              <div className="p-12 text-center bg-white dark:bg-[#161617] rounded-2xl border border-surface-200 dark:border-white/[0.08] text-surface-500 dark:text-surface-400">
                 No active services published yet.
               </div>
             ) : (
@@ -328,7 +328,7 @@ export default function PublicProfile() {
         {activeTab === 'portfolio' && (
           <div>
             {(!profileUser.portfolio || profileUser.portfolio.length === 0) ? (
-              <div className="p-12 text-center bg-white rounded-2xl border border-surface-200 text-surface-500">
+              <div className="p-12 text-center bg-white dark:bg-[#161617] rounded-2xl border border-surface-200 dark:border-white/[0.08] text-surface-500 dark:text-surface-400">
                 No portfolio items added yet.
               </div>
             ) : (
@@ -336,10 +336,10 @@ export default function PublicProfile() {
                 {profileUser.portfolio.map((item, idx) => (
                   <div
                     key={idx}
-                    className="bg-white rounded-2xl border border-surface-200 shadow-sm overflow-hidden flex flex-col"
+                    className="bg-white dark:bg-[#161617] rounded-2xl border border-surface-200 dark:border-white/[0.08] shadow-sm overflow-hidden flex flex-col"
                   >
                     {item.image && (
-                      <div className="aspect-video bg-surface-100 overflow-hidden">
+                      <div className="aspect-video bg-surface-100 dark:bg-[#1c1c1e] overflow-hidden">
                         <img
                           src={item.image}
                           alt={item.title}
@@ -349,15 +349,15 @@ export default function PublicProfile() {
                     )}
                     <div className="p-5 flex-1 flex flex-col justify-between">
                       <div>
-                        <h3 className="font-bold text-surface-900 text-base mb-1.5">{item.title}</h3>
-                        <p className="text-xs text-surface-600 leading-relaxed">{item.description}</p>
+                        <h3 className="font-bold text-surface-900 dark:text-white text-base mb-1.5">{item.title}</h3>
+                        <p className="text-xs text-surface-600 dark:text-surface-300 leading-relaxed">{item.description}</p>
                       </div>
                       {item.url && (
                         <a
                           href={item.url}
                           target="_blank"
                           rel="noreferrer"
-                          className="mt-4 inline-flex items-center gap-1.5 text-xs font-semibold text-brand-600 hover:text-brand-800 transition-colors"
+                          className="mt-4 inline-flex items-center gap-1.5 text-xs font-semibold text-brand-600 dark:text-brand-400 hover:text-brand-800 dark:hover:text-brand-300 transition-colors"
                         >
                           <span>View Live Work</span>
                           <ExternalLink className="w-3.5 h-3.5" />
@@ -372,29 +372,29 @@ export default function PublicProfile() {
         )}
 
         {activeTab === 'education' && (
-          <div className="bg-white rounded-2xl border border-surface-200 p-6 sm:p-8">
-            <h2 className="text-lg font-bold text-surface-900 mb-6 flex items-center gap-2">
-              <GraduationCap className="w-5 h-5 text-brand-600" />
+          <div className="bg-white dark:bg-[#161617] rounded-2xl border border-surface-200 dark:border-white/[0.08] p-6 sm:p-8">
+            <h2 className="text-lg font-bold text-surface-900 dark:text-white mb-6 flex items-center gap-2">
+              <GraduationCap className="w-5 h-5 text-brand-600 dark:text-brand-400" />
               <span>Academic Background</span>
             </h2>
 
             {(!profileUser.education || profileUser.education.length === 0) ? (
-              <p className="text-sm text-surface-500 text-center py-6">
+              <p className="text-sm text-surface-500 dark:text-surface-400 text-center py-6">
                 No formal education history specified yet.
               </p>
             ) : (
               <div className="space-y-6">
                 {profileUser.education.map((edu, idx) => (
-                  <div key={idx} className="flex items-start gap-4 pb-6 border-b border-surface-100 last:border-0 last:pb-0">
-                    <div className="p-2.5 rounded-xl bg-brand-50 text-brand-700">
+                  <div key={idx} className="flex items-start gap-4 pb-6 border-b border-surface-100 dark:border-white/[0.06] last:border-0 last:pb-0">
+                    <div className="p-2.5 rounded-xl bg-brand-50 dark:bg-brand-950/40 text-brand-700 dark:text-brand-300">
                       <GraduationCap className="w-5 h-5" />
                     </div>
                     <div>
-                      <h3 className="font-bold text-surface-900 text-base">{edu.institution}</h3>
-                      <p className="text-sm text-surface-700 font-medium">
+                      <h3 className="font-bold text-surface-900 dark:text-white text-base">{edu.institution}</h3>
+                      <p className="text-sm text-surface-700 dark:text-surface-300 font-medium">
                         {edu.degree} in {edu.field}
                       </p>
-                      <p className="text-xs text-surface-400 mt-1">
+                      <p className="text-xs text-surface-400 dark:text-surface-500 mt-1">
                         {edu.startYear} — {edu.endYear || 'Present'}
                       </p>
                     </div>
@@ -406,17 +406,17 @@ export default function PublicProfile() {
         )}
 
         {activeTab === 'reviews' && (
-          <div className="bg-white rounded-2xl border border-surface-200 p-6 sm:p-8">
-            <h2 className="text-lg font-bold text-surface-900 mb-6">
+          <div className="bg-white dark:bg-[#161617] rounded-2xl border border-surface-200 dark:border-white/[0.08] p-6 sm:p-8">
+            <h2 className="text-lg font-bold text-surface-900 dark:text-white mb-6">
               Client Reviews & Testimonials ({reviews.length})
             </h2>
 
             {reviews.length === 0 ? (
-              <p className="text-sm text-surface-500 text-center py-6">
+              <p className="text-sm text-surface-500 dark:text-surface-400 text-center py-6">
                 No reviews recorded for this student yet.
               </p>
             ) : (
-              <div className="divide-y divide-surface-100 space-y-6">
+              <div className="divide-y divide-surface-100 dark:divide-white/[0.06] space-y-6">
                 {reviews.map((rev) => {
                   const revName = rev.reviewer?.firstName
                     ? `${rev.reviewer.firstName} ${rev.reviewer.lastName || ''}`
@@ -428,16 +428,16 @@ export default function PublicProfile() {
                         <div className="flex items-center gap-3">
                           <Avatar src={rev.reviewer?.avatar} name={revName} size="sm" />
                           <div>
-                            <span className="font-semibold text-sm text-surface-900">{revName}</span>
+                            <span className="font-semibold text-sm text-surface-900 dark:text-white">{revName}</span>
                             {rev.service?.title && (
-                              <p className="text-xs text-surface-500">For "{rev.service.title}"</p>
+                              <p className="text-xs text-surface-500 dark:text-surface-400">For "{rev.service.title}"</p>
                             )}
                           </div>
                         </div>
                         <StarRating rating={rev.rating} size="sm" />
                       </div>
-                      <p className="text-sm text-surface-700 leading-relaxed">{rev.comment}</p>
-                      <p className="text-xs text-surface-400">
+                      <p className="text-sm text-surface-700 dark:text-surface-300 leading-relaxed">{rev.comment}</p>
+                      <p className="text-xs text-surface-400 dark:text-surface-500">
                         {new Date(rev.createdAt).toLocaleDateString()}
                       </p>
                     </div>

@@ -135,27 +135,27 @@ export default function ServiceCreate({ isEdit = false }) {
   }
 
   return (
-    <div className="bg-surface-50 min-h-screen py-10">
+    <div className="bg-surface-50 dark:bg-[#0c0c0e] min-h-screen py-10 text-surface-900 dark:text-white">
       <div className="max-w-3xl mx-auto px-4 sm:px-6">
         <Link
           to={isEdit ? `/services/${id}` : '/services'}
-          className="inline-flex items-center gap-2 text-sm text-surface-600 hover:text-brand-600 font-medium mb-6 transition-colors"
+          className="inline-flex items-center gap-2 text-sm text-surface-600 dark:text-surface-400 hover:text-brand-600 dark:hover:text-brand-400 font-medium mb-6 transition-colors"
         >
           <ArrowLeft className="w-4 h-4" />
           <span>Back to {isEdit ? 'Service' : 'Services'}</span>
         </Link>
 
-        <div className="bg-white rounded-2xl border border-surface-200 shadow-sm overflow-hidden">
+        <div className="bg-white dark:bg-[#161617] rounded-2xl border border-surface-200 dark:border-white/[0.08] shadow-sm overflow-hidden">
           {/* Header */}
-          <div className="p-6 sm:p-8 border-b border-surface-100 bg-gradient-to-r from-brand-50/50 to-white">
-            <div className="flex items-center gap-2 text-brand-600 font-semibold text-xs tracking-wider uppercase mb-1">
+          <div className="p-6 sm:p-8 border-b border-surface-100 dark:border-white/[0.06] bg-gradient-to-r from-brand-50/50 dark:from-brand-950/20 to-white dark:to-[#161617]">
+            <div className="flex items-center gap-2 text-brand-600 dark:text-brand-400 font-semibold text-xs tracking-wider uppercase mb-1">
               <Sparkles className="w-4 h-4" />
               <span>Campus Talent Network</span>
             </div>
-            <h1 className="text-2xl sm:text-3xl font-bold text-surface-900">
+            <h1 className="text-2xl sm:text-3xl font-bold text-surface-900 dark:text-white">
               {isEdit ? 'Edit Your Service Listing' : 'Publish a New Service'}
             </h1>
-            <p className="text-sm text-surface-600 mt-1">
+            <p className="text-sm text-surface-600 dark:text-surface-400 mt-1">
               Provide accurate details so student peers and campus clients know exactly what you deliver.
             </p>
           </div>
@@ -163,7 +163,7 @@ export default function ServiceCreate({ isEdit = false }) {
           <form onSubmit={handleSubmit} className="p-6 sm:p-8 space-y-6">
             {/* Title */}
             <div>
-              <label className="block text-sm font-semibold text-surface-800 mb-1.5">
+              <label className="block text-sm font-semibold text-surface-800 dark:text-surface-200 mb-1.5">
                 Service Title *
               </label>
               <input
@@ -173,26 +173,26 @@ export default function ServiceCreate({ isEdit = false }) {
                 placeholder="e.g. Full-stack React & Node.js Website Development"
                 value={formData.title}
                 onChange={handleChange}
-                className="w-full px-4 py-2.5 rounded-xl border border-surface-300 text-sm focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none"
+                className="w-full px-4 py-2.5 rounded-xl border border-surface-300 dark:border-white/[0.12] bg-white dark:bg-[#1c1c1e] text-surface-900 dark:text-white placeholder:text-surface-400 dark:placeholder:text-surface-500 text-sm focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none"
               />
-              <p className="text-xs text-surface-400 mt-1">
+              <p className="text-xs text-surface-400 dark:text-surface-500 mt-1">
                 Be specific and descriptive about the tangible outcome.
               </p>
             </div>
 
             {/* Category */}
             <div>
-              <label className="block text-sm font-semibold text-surface-800 mb-1.5">
+              <label className="block text-sm font-semibold text-surface-800 dark:text-surface-200 mb-1.5">
                 Category *
               </label>
               <select
                 name="category"
                 value={formData.category}
                 onChange={handleChange}
-                className="w-full px-4 py-2.5 rounded-xl border border-surface-300 text-sm focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none bg-white"
+                className="w-full px-4 py-2.5 rounded-xl border border-surface-300 dark:border-white/[0.12] text-sm focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none bg-white dark:bg-[#1c1c1e] text-surface-900 dark:text-white"
               >
                 {CATEGORIES.map((cat) => (
-                  <option key={cat.value} value={cat.value}>
+                  <option key={cat.value} value={cat.value} className="bg-white dark:bg-[#1c1c1e]">
                     {cat.label}
                   </option>
                 ))}
@@ -201,7 +201,7 @@ export default function ServiceCreate({ isEdit = false }) {
 
             {/* Description */}
             <div>
-              <label className="block text-sm font-semibold text-surface-800 mb-1.5">
+              <label className="block text-sm font-semibold text-surface-800 dark:text-surface-200 mb-1.5">
                 Description & Scope of Work *
               </label>
               <textarea
@@ -211,30 +211,30 @@ export default function ServiceCreate({ isEdit = false }) {
                 placeholder="Explain what is included in this service, your technical stack, what the client needs to provide, and revisions policy..."
                 value={formData.description}
                 onChange={handleChange}
-                className="w-full px-4 py-2.5 rounded-xl border border-surface-300 text-sm focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none"
+                className="w-full px-4 py-2.5 rounded-xl border border-surface-300 dark:border-white/[0.12] bg-white dark:bg-[#1c1c1e] text-surface-900 dark:text-white placeholder:text-surface-400 text-sm focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none"
               />
             </div>
 
             {/* Pricing Grid */}
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               <div>
-                <label className="block text-sm font-semibold text-surface-800 mb-1.5">
+                <label className="block text-sm font-semibold text-surface-800 dark:text-surface-200 mb-1.5">
                   Pricing Model *
                 </label>
                 <select
                   name="pricingType"
                   value={formData.pricingType}
                   onChange={handleChange}
-                  className="w-full px-4 py-2.5 rounded-xl border border-surface-300 text-sm focus:ring-brand-500 focus:border-brand-500 outline-none bg-white"
+                  className="w-full px-4 py-2.5 rounded-xl border border-surface-300 dark:border-white/[0.12] text-sm focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none bg-white dark:bg-[#1c1c1e] text-surface-900 dark:text-white"
                 >
-                  <option value="fixed">Fixed Price</option>
-                  <option value="hourly">Hourly Rate</option>
-                  <option value="negotiable">Negotiable</option>
+                  <option value="fixed" className="bg-white dark:bg-[#1c1c1e]">Fixed Price</option>
+                  <option value="hourly" className="bg-white dark:bg-[#1c1c1e]">Hourly Rate</option>
+                  <option value="negotiable" className="bg-white dark:bg-[#1c1c1e]">Negotiable</option>
                 </select>
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-surface-800 mb-1.5">
+                <label className="block text-sm font-semibold text-surface-800 dark:text-surface-200 mb-1.5">
                   Amount (₹) *
                 </label>
                 <input
@@ -245,12 +245,12 @@ export default function ServiceCreate({ isEdit = false }) {
                   required
                   value={formData.price}
                   onChange={handleChange}
-                  className="w-full px-4 py-2.5 rounded-xl border border-surface-300 text-sm focus:ring-brand-500 focus:border-brand-500 outline-none"
+                  className="w-full px-4 py-2.5 rounded-xl border border-surface-300 dark:border-white/[0.12] bg-white dark:bg-[#1c1c1e] text-surface-900 dark:text-white text-sm focus:ring-brand-500 focus:border-brand-500 outline-none"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-surface-800 mb-1.5">
+                <label className="block text-sm font-semibold text-surface-800 dark:text-surface-200 mb-1.5">
                   Delivery (Days) *
                 </label>
                 <input
@@ -260,14 +260,14 @@ export default function ServiceCreate({ isEdit = false }) {
                   required
                   value={formData.deliveryTime}
                   onChange={handleChange}
-                  className="w-full px-4 py-2.5 rounded-xl border border-surface-300 text-sm focus:ring-brand-500 focus:border-brand-500 outline-none"
+                  className="w-full px-4 py-2.5 rounded-xl border border-surface-300 dark:border-white/[0.12] bg-white dark:bg-[#1c1c1e] text-surface-900 dark:text-white text-sm focus:ring-brand-500 focus:border-brand-500 outline-none"
                 />
               </div>
             </div>
 
             {/* Tags */}
             <div>
-              <label className="block text-sm font-semibold text-surface-800 mb-1.5">
+              <label className="block text-sm font-semibold text-surface-800 dark:text-surface-200 mb-1.5">
                 Skills / Tags (comma separated)
               </label>
               <input
@@ -276,13 +276,13 @@ export default function ServiceCreate({ isEdit = false }) {
                 placeholder="e.g. React, Tailwind CSS, TypeScript, MongoDB"
                 value={formData.tags}
                 onChange={handleChange}
-                className="w-full px-4 py-2.5 rounded-xl border border-surface-300 text-sm focus:ring-brand-500 focus:border-brand-500 outline-none"
+                className="w-full px-4 py-2.5 rounded-xl border border-surface-300 dark:border-white/[0.12] bg-white dark:bg-[#1c1c1e] text-surface-900 dark:text-white placeholder:text-surface-400 text-sm focus:ring-brand-500 focus:border-brand-500 outline-none"
               />
             </div>
 
             {/* Images */}
             <div>
-              <label className="block text-sm font-semibold text-surface-800 mb-1.5">
+              <label className="block text-sm font-semibold text-surface-800 dark:text-surface-200 mb-1.5">
                 Showcase Image URLs (comma separated)
               </label>
               <input
@@ -291,18 +291,18 @@ export default function ServiceCreate({ isEdit = false }) {
                 placeholder="https://images.unsplash.com/..., https://..."
                 value={formData.images}
                 onChange={handleChange}
-                className="w-full px-4 py-2.5 rounded-xl border border-surface-300 text-sm focus:ring-brand-500 focus:border-brand-500 outline-none"
+                className="w-full px-4 py-2.5 rounded-xl border border-surface-300 dark:border-white/[0.12] bg-white dark:bg-[#1c1c1e] text-surface-900 dark:text-white placeholder:text-surface-400 text-sm focus:ring-brand-500 focus:border-brand-500 outline-none"
               />
-              <p className="text-xs text-surface-400 mt-1">
+              <p className="text-xs text-surface-400 dark:text-surface-500 mt-1">
                 Provide direct image links. If left empty, an aesthetic preview image will be assigned.
               </p>
             </div>
 
             {/* Submit */}
-            <div className="pt-4 border-t border-surface-100 flex items-center justify-end gap-3">
+            <div className="pt-4 border-t border-surface-100 dark:border-white/[0.06] flex items-center justify-end gap-3">
               <Link
                 to={isEdit ? `/services/${id}` : '/services'}
-                className="px-5 py-2.5 text-sm font-medium text-surface-700 hover:bg-surface-100 rounded-xl transition-colors"
+                className="px-5 py-2.5 text-sm font-medium text-surface-700 dark:text-surface-300 hover:bg-surface-100 dark:hover:bg-white/[0.06] rounded-xl transition-colors"
               >
                 Cancel
               </Link>

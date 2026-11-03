@@ -149,30 +149,30 @@ export default function ServiceDetail() {
     pType === 'free' ? 'Free' : pType === 'negotiable' ? 'Negotiable' : `₹${amount.toLocaleString()}`;
 
   return (
-    <div className="bg-surface-50 min-h-screen py-10">
+    <div className="bg-surface-50 dark:bg-[#0c0c0e] min-h-screen py-10 text-surface-900 dark:text-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Breadcrumb & Actions */}
         <div className="flex flex-wrap items-center justify-between gap-4 mb-6 text-sm">
-          <div className="flex items-center gap-2 text-surface-500">
-            <Link to="/services" className="hover:text-brand-600 transition-colors">
+          <div className="flex items-center gap-2 text-surface-500 dark:text-surface-400">
+            <Link to="/services" className="hover:text-brand-600 dark:hover:text-brand-400 transition-colors">
               Services
             </Link>
             <span>/</span>
-            <span className="text-surface-700 capitalize">{service.category?.replace(/-/g, ' ')}</span>
+            <span className="text-surface-700 dark:text-surface-300 capitalize">{service.category?.replace(/-/g, ' ')}</span>
           </div>
 
           {isOwner && (
             <div className="flex items-center gap-3">
               <Link
                 to={`/services/${service._id}/edit`}
-                className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg border border-surface-300 bg-white hover:bg-surface-50 text-surface-700 font-medium text-sm transition-colors"
+                className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg border border-surface-300 dark:border-white/[0.12] bg-white dark:bg-[#161617] hover:bg-surface-50 dark:hover:bg-white/[0.04] text-surface-700 dark:text-surface-200 font-medium text-sm transition-colors"
               >
                 <Edit3 className="w-4 h-4" />
                 <span>Edit</span>
               </Link>
               <button
                 onClick={() => setDeleteConfirmOpen(true)}
-                className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg border border-red-200 bg-red-50 hover:bg-red-100 text-red-600 font-medium text-sm transition-colors"
+                className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg border border-red-200 dark:border-red-900/50 bg-red-50 dark:bg-red-950/30 hover:bg-red-100 dark:hover:bg-red-900/40 text-red-600 dark:text-red-400 font-medium text-sm transition-colors"
               >
                 <Trash2 className="w-4 h-4" />
                 <span>Delete</span>
@@ -186,38 +186,38 @@ export default function ServiceDetail() {
           {/* Left Column (2 Cols): Gallery, Details, Description, Reviews */}
           <div className="lg:col-span-2 space-y-8">
             {/* Title & Category Header */}
-            <div className="bg-white p-6 rounded-2xl border border-surface-200 shadow-sm">
+            <div className="bg-white dark:bg-[#161617] p-6 rounded-2xl border border-surface-200 dark:border-white/[0.08] shadow-sm">
               <div className="flex items-center gap-2.5 mb-3">
                 <Badge variant="brand">{service.category?.replace(/-/g, ' ')}</Badge>
-                {service.status === 'active' && <Badge variant="success">Active</Badge>}
+                {service.status === 'active' && <Badge variant="active">Active</Badge>}
               </div>
 
-              <h1 className="text-2xl sm:text-3xl font-bold text-surface-900 tracking-tight leading-snug mb-4">
+              <h1 className="text-2xl sm:text-3xl font-bold text-surface-900 dark:text-white tracking-tight leading-snug mb-4">
                 {service.title}
               </h1>
 
               {/* Quick stats bar */}
-              <div className="flex flex-wrap items-center gap-5 text-sm text-surface-600 pt-3 border-t border-surface-100">
+              <div className="flex flex-wrap items-center gap-5 text-sm text-surface-600 dark:text-surface-400 pt-3 border-t border-surface-100 dark:border-white/[0.06]">
                 <div className="flex items-center gap-1.5">
                   <Star className="w-4 h-4 fill-amber-400 text-amber-400" />
-                  <span className="font-semibold text-surface-900">{(service.rating || 0).toFixed(1)}</span>
-                  <span className="text-surface-400">({service.reviewCount || 0} reviews)</span>
+                  <span className="font-semibold text-surface-900 dark:text-white">{(service.rating || 0).toFixed(1)}</span>
+                  <span className="text-surface-400 dark:text-surface-500">({service.reviewCount || 0} reviews)</span>
                 </div>
                 <div className="flex items-center gap-1.5">
                   <Clock className="w-4 h-4 text-surface-400" />
                   <span>{service.deliveryTime || 3} days delivery</span>
                 </div>
                 <div className="flex items-center gap-1.5">
-                  <ShieldCheck className="w-4 h-4 text-emerald-600" />
-                  <span className="text-emerald-700 font-medium">Campus Verified</span>
+                  <ShieldCheck className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+                  <span className="text-emerald-700 dark:text-emerald-300 font-medium">Campus Verified</span>
                 </div>
               </div>
             </div>
 
             {/* Image Gallery */}
             {service.images && service.images.length > 0 && (
-              <div className="bg-white p-4 rounded-2xl border border-surface-200 shadow-sm space-y-3">
-                <div className="relative aspect-video rounded-xl overflow-hidden bg-surface-100">
+              <div className="bg-white dark:bg-[#161617] p-4 rounded-2xl border border-surface-200 dark:border-white/[0.08] shadow-sm space-y-3">
+                <div className="relative aspect-video rounded-xl overflow-hidden bg-surface-100 dark:bg-[#1c1c1e]">
                   <img
                     src={service.images[activeImage]}
                     alt={service.title}
@@ -231,7 +231,7 @@ export default function ServiceDetail() {
                         key={idx}
                         onClick={() => setActiveImage(idx)}
                         className={`relative w-20 h-14 rounded-lg overflow-hidden border-2 transition-all flex-shrink-0 ${
-                          activeImage === idx ? 'border-brand-600 ring-2 ring-brand-100' : 'border-transparent opacity-70 hover:opacity-100'
+                          activeImage === idx ? 'border-brand-600 ring-2 ring-brand-100 dark:ring-brand-900/50' : 'border-transparent opacity-70 hover:opacity-100'
                         }`}
                       >
                         <img src={img} alt="" className="w-full h-full object-cover" />
@@ -243,16 +243,16 @@ export default function ServiceDetail() {
             )}
 
             {/* Description */}
-            <div className="bg-white p-6 rounded-2xl border border-surface-200 shadow-sm">
-              <h2 className="text-lg font-bold text-surface-900 mb-4">About this service</h2>
-              <div className="prose prose-surface max-w-none text-surface-700 whitespace-pre-line leading-relaxed text-sm sm:text-base">
+            <div className="bg-white dark:bg-[#161617] p-6 rounded-2xl border border-surface-200 dark:border-white/[0.08] shadow-sm">
+              <h2 className="text-lg font-bold text-surface-900 dark:text-white mb-4">About this service</h2>
+              <div className="prose prose-surface dark:prose-invert max-w-none text-surface-700 dark:text-surface-300 whitespace-pre-line leading-relaxed text-sm sm:text-base">
                 {service.description}
               </div>
 
               {/* Tags */}
               {service.tags && service.tags.length > 0 && (
-                <div className="mt-6 pt-6 border-t border-surface-100">
-                  <h3 className="text-xs font-semibold uppercase tracking-wider text-surface-500 mb-3 flex items-center gap-1.5">
+                <div className="mt-6 pt-6 border-t border-surface-100 dark:border-white/[0.06]">
+                  <h3 className="text-xs font-semibold uppercase tracking-wider text-surface-500 dark:text-surface-400 mb-3 flex items-center gap-1.5">
                     <Tag className="w-3.5 h-3.5" />
                     <span>Skills & Technologies</span>
                   </h3>
@@ -260,7 +260,7 @@ export default function ServiceDetail() {
                     {service.tags.map((tag, idx) => (
                       <span
                         key={idx}
-                        className="px-3 py-1 bg-surface-100 text-surface-700 text-xs font-medium rounded-lg"
+                        className="px-3 py-1 bg-surface-100 dark:bg-white/[0.06] text-surface-700 dark:text-surface-300 text-xs font-medium rounded-lg"
                       >
                         {tag}
                       </span>
@@ -271,23 +271,23 @@ export default function ServiceDetail() {
             </div>
 
             {/* Reviews Section */}
-            <div className="bg-white p-6 rounded-2xl border border-surface-200 shadow-sm">
+            <div className="bg-white dark:bg-[#161617] p-6 rounded-2xl border border-surface-200 dark:border-white/[0.08] shadow-sm">
               <div className="flex items-center justify-between mb-6">
-                <h2 className="text-lg font-bold text-surface-900">
+                <h2 className="text-lg font-bold text-surface-900 dark:text-white">
                   Student Feedback ({reviews.length})
                 </h2>
-                <div className="flex items-center gap-1 text-sm font-semibold text-surface-800">
+                <div className="flex items-center gap-1 text-sm font-semibold text-surface-800 dark:text-surface-200">
                   <Star className="w-4 h-4 fill-amber-400 text-amber-400" />
                   <span>{(service.rating || 0).toFixed(1)} out of 5</span>
                 </div>
               </div>
 
               {reviews.length === 0 ? (
-                <p className="text-sm text-surface-500 py-4 text-center">
+                <p className="text-sm text-surface-500 dark:text-surface-400 py-4 text-center">
                   No reviews yet. Be the first student client to order and review this service!
                 </p>
               ) : (
-                <div className="divide-y divide-surface-100 space-y-4">
+                <div className="divide-y divide-surface-100 dark:divide-white/[0.06] space-y-4">
                   {reviews.map((rev) => {
                     const reviewer = rev.reviewer || {};
                     const reviewerName = reviewer.firstName
@@ -300,16 +300,16 @@ export default function ServiceDetail() {
                           <div className="flex items-center gap-2.5">
                             <Avatar src={reviewer.avatar} name={reviewerName} size="sm" />
                             <div>
-                              <p className="text-sm font-semibold text-surface-800">{reviewerName}</p>
+                              <p className="text-sm font-semibold text-surface-800 dark:text-surface-200">{reviewerName}</p>
                               {reviewer.university && (
-                                <p className="text-xs text-surface-400">{reviewer.university}</p>
+                                <p className="text-xs text-surface-400 dark:text-surface-500">{reviewer.university}</p>
                               )}
                             </div>
                           </div>
                           <StarRating rating={rev.rating} size="sm" />
                         </div>
-                        <p className="text-sm text-surface-600 mt-2">{rev.comment}</p>
-                        <p className="text-xs text-surface-400 mt-1">
+                        <p className="text-sm text-surface-600 dark:text-surface-300 mt-2">{rev.comment}</p>
+                        <p className="text-xs text-surface-400 dark:text-surface-500 mt-1">
                           {new Date(rev.createdAt).toLocaleDateString(undefined, {
                             month: 'short',
                             day: 'numeric',
@@ -327,34 +327,34 @@ export default function ServiceDetail() {
           {/* Right Column (1 Col): Order Card & Provider Info */}
           <div className="space-y-6">
             {/* Order Card */}
-            <div className="bg-white p-6 rounded-2xl border border-brand-200 shadow-lg sticky top-20">
+            <div className="bg-white dark:bg-[#161617] p-6 rounded-2xl border border-brand-200 dark:border-brand-900/50 shadow-lg sticky top-20">
               <div className="flex items-baseline justify-between mb-4">
-                <span className="text-sm font-medium text-surface-500">Service Fee</span>
+                <span className="text-sm font-medium text-surface-500 dark:text-surface-400">Service Fee</span>
                 <div className="text-right">
-                  <span className="text-3xl font-extrabold text-surface-900">{displayPrice}</span>
-                  {pType === 'hourly' && <span className="text-xs text-surface-500"> / hr</span>}
+                  <span className="text-3xl font-extrabold text-surface-900 dark:text-white">{displayPrice}</span>
+                  {pType === 'hourly' && <span className="text-xs text-surface-500 dark:text-surface-400"> / hr</span>}
                 </div>
               </div>
 
-              <div className="space-y-3 py-4 border-y border-surface-100 text-sm text-surface-600 mb-6">
+              <div className="space-y-3 py-4 border-y border-surface-100 dark:border-white/[0.06] text-sm text-surface-600 dark:text-surface-300 mb-6">
                 <div className="flex items-center justify-between">
                   <span className="flex items-center gap-2">
                     <Clock className="w-4 h-4 text-surface-400" />
                     Delivery Timeline
                   </span>
-                  <span className="font-semibold text-surface-800">{service.deliveryTime || 3} Days</span>
+                  <span className="font-semibold text-surface-800 dark:text-surface-200">{service.deliveryTime || 3} Days</span>
                 </div>
                 <div className="flex items-center justify-between">
                   <span className="flex items-center gap-2">
                     <CheckCircle className="w-4 h-4 text-emerald-500" />
                     Campus Guarantee
                   </span>
-                  <span className="font-medium text-surface-800">Direct Support</span>
+                  <span className="font-medium text-surface-800 dark:text-surface-200">Direct Support</span>
                 </div>
               </div>
 
               {isOwner ? (
-                <div className="text-center p-3 bg-surface-50 rounded-xl border border-surface-200 text-sm text-surface-600">
+                <div className="text-center p-3 bg-surface-50 dark:bg-[#1c1c1e] rounded-xl border border-surface-200 dark:border-white/[0.08] text-sm text-surface-600 dark:text-surface-400">
                   This is your service listing.
                 </div>
               ) : (
@@ -369,7 +369,7 @@ export default function ServiceDetail() {
               <div className="mt-4 text-center">
                 <button
                   onClick={handleStartMessage}
-                  className="text-sm font-medium text-brand-600 hover:text-brand-800 inline-flex items-center gap-1.5 transition-colors"
+                  className="text-sm font-medium text-brand-600 dark:text-brand-400 hover:text-brand-800 dark:hover:text-brand-300 inline-flex items-center gap-1.5 transition-colors"
                 >
                   <MessageSquare className="w-4 h-4" />
                   <span>Message {provider.firstName || 'Provider'}</span>
@@ -378,8 +378,8 @@ export default function ServiceDetail() {
             </div>
 
             {/* Provider Card */}
-            <div className="bg-white p-6 rounded-2xl border border-surface-200 shadow-sm">
-              <h3 className="text-xs font-semibold uppercase tracking-wider text-surface-500 mb-4">
+            <div className="bg-white dark:bg-[#161617] p-6 rounded-2xl border border-surface-200 dark:border-white/[0.08] shadow-sm">
+              <h3 className="text-xs font-semibold uppercase tracking-wider text-surface-500 dark:text-surface-400 mb-4">
                 About The Provider
               </h3>
 
@@ -388,28 +388,28 @@ export default function ServiceDetail() {
                 <div>
                   <Link
                     to={`/users/${provider._id}`}
-                    className="font-bold text-surface-900 hover:text-brand-600 text-base"
+                    className="font-bold text-surface-900 dark:text-white hover:text-brand-600 dark:hover:text-brand-400 text-base"
                   >
                     {providerName}
                   </Link>
                   {provider.headline && (
-                    <p className="text-xs text-surface-600 line-clamp-1">{provider.headline}</p>
+                    <p className="text-xs text-surface-600 dark:text-surface-400 line-clamp-1">{provider.headline}</p>
                   )}
                   {provider.university && (
-                    <p className="text-xs text-brand-700 font-medium mt-0.5">{provider.university}</p>
+                    <p className="text-xs text-brand-700 dark:text-brand-300 font-medium mt-0.5">{provider.university}</p>
                   )}
                 </div>
               </div>
 
               {provider.bio && (
-                <p className="text-xs text-surface-600 line-clamp-3 mb-4 leading-relaxed">
+                <p className="text-xs text-surface-600 dark:text-surface-300 line-clamp-3 mb-4 leading-relaxed">
                   {provider.bio}
                 </p>
               )}
 
-              <div className="pt-4 border-t border-surface-100 flex items-center justify-between text-xs">
-                <span className="text-surface-500">Overall Rating</span>
-                <div className="flex items-center gap-1 font-semibold text-surface-800">
+              <div className="pt-4 border-t border-surface-100 dark:border-white/[0.06] flex items-center justify-between text-xs">
+                <span className="text-surface-500 dark:text-surface-400">Overall Rating</span>
+                <div className="flex items-center gap-1 font-semibold text-surface-800 dark:text-surface-200">
                   <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
                   <span>{(provider.rating || 0).toFixed(1)}</span>
                 </div>
@@ -417,7 +417,7 @@ export default function ServiceDetail() {
 
               <Link
                 to={`/users/${provider._id}`}
-                className="mt-4 block w-full text-center py-2 px-3 border border-surface-300 rounded-lg text-xs font-semibold text-surface-700 hover:bg-surface-50 transition-colors"
+                className="mt-4 block w-full text-center py-2 px-3 border border-surface-300 dark:border-white/[0.12] rounded-lg text-xs font-semibold text-surface-700 dark:text-surface-300 hover:bg-surface-50 dark:hover:bg-white/[0.04] transition-colors"
               >
                 View Full Profile & Portfolio
               </Link>
@@ -429,17 +429,17 @@ export default function ServiceDetail() {
       {/* Order Modal */}
       {orderModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-fade-in">
-          <div className="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl border border-surface-200 space-y-5">
+          <div className="bg-white dark:bg-[#161617] rounded-2xl max-w-lg w-full p-6 shadow-2xl border border-surface-200 dark:border-white/[0.12] space-y-5">
             <div>
-              <h3 className="text-xl font-bold text-surface-900">Place Your Order</h3>
-              <p className="text-xs text-surface-500 mt-1">
-                You are ordering <span className="font-semibold text-surface-700">{service.title}</span> for {displayPrice}.
+              <h3 className="text-xl font-bold text-surface-900 dark:text-white">Place Your Order</h3>
+              <p className="text-xs text-surface-500 dark:text-surface-400 mt-1">
+                You are ordering <span className="font-semibold text-surface-700 dark:text-surface-300">{service.title}</span> for {displayPrice}.
               </p>
             </div>
 
             <form onSubmit={handleOrderSubmit} className="space-y-4">
               <div>
-                <label className="block text-sm font-semibold text-surface-800 mb-1.5">
+                <label className="block text-sm font-semibold text-surface-800 dark:text-surface-200 mb-1.5">
                   Order Requirements & Instructions *
                 </label>
                 <textarea
@@ -448,12 +448,12 @@ export default function ServiceDetail() {
                   placeholder="Detail your requirements, project scope, deadlines, asset links, or specific instructions for the student freelancer..."
                   value={requirements}
                   onChange={(e) => setRequirements(e.target.value)}
-                  className="w-full px-3.5 py-2.5 rounded-xl border border-surface-300 text-sm focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none"
+                  className="w-full px-3.5 py-2.5 rounded-xl border border-surface-300 dark:border-white/[0.12] bg-white dark:bg-[#1c1c1e] text-surface-900 dark:text-white text-sm focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none placeholder:text-surface-400"
                 />
               </div>
 
-              <div className="p-3 bg-surface-50 rounded-xl text-xs text-surface-600 flex items-start gap-2">
-                <ShieldCheck className="w-4 h-4 text-brand-600 flex-shrink-0 mt-0.5" />
+              <div className="p-3 bg-surface-50 dark:bg-[#1c1c1e] rounded-xl text-xs text-surface-600 dark:text-surface-400 flex items-start gap-2">
+                <ShieldCheck className="w-4 h-4 text-brand-600 dark:text-brand-400 flex-shrink-0 mt-0.5" />
                 <span>
                   The student will be notified immediately to review your requirements and begin work. You can message back and forth inside the order thread.
                 </span>
@@ -463,7 +463,7 @@ export default function ServiceDetail() {
                 <button
                   type="button"
                   onClick={() => setOrderModalOpen(false)}
-                  className="px-4 py-2 text-sm font-medium text-surface-700 hover:bg-surface-100 rounded-lg transition-colors"
+                  className="px-4 py-2 text-sm font-medium text-surface-700 dark:text-surface-300 hover:bg-surface-100 dark:hover:bg-white/[0.06] rounded-lg transition-colors"
                 >
                   Cancel
                 </button>
