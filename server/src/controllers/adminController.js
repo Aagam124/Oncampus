@@ -290,6 +290,7 @@ export const getAdminUsers = async (req, res) => {
       university,
       department,
       status, // 'active', 'suspended'
+      portalStatus, // 'published', 'hidden', 'archived', 'removed'
       verificationStatus, // 'verified', 'pending', 'unverified', 'rejected'
       sort = 'newest',
       page = 1,
@@ -297,6 +298,8 @@ export const getAdminUsers = async (req, res) => {
     } = req.query;
 
     const filter = { role: 'student' };
+
+    if (portalStatus) filter.portalStatus = portalStatus;
 
     if (search) {
       filter.$or = [
@@ -384,7 +387,8 @@ export const getAdminUserDetail = async (req, res) => {
 
 export const updateUserStatus = async (req, res) => {
   try {
-    const { action, reason = '' } = req.body; // 'suspend', 'reactivate', 'verify', 'unverify'
+    const { action, reason = '', cascadeServices = false, cascadeProjects = false } = req.body;
+    // Supported: 'suspend', 'reactivate', 'verify', 'unverify', 'hide', 'restore', 'archive', 'remove'
     const user = await User.findById(req.params.id);
 
     if (!user) {
@@ -395,6 +399,7 @@ export const updateUserStatus = async (req, res) => {
       isActive: user.isActive,
       isVerified: user.isVerified,
       verificationStatus: user.verificationStatus,
+      portalStatus: user.portalStatus,
       suspensionDetails: user.suspensionDetails,
     };
 
@@ -402,15 +407,26 @@ export const updateUserStatus = async (req, res) => {
       case 'suspend':
       case 'ban':
         user.isActive = false;
+        user.portalStatus = 'removed';
         user.suspensionDetails = {
           reason: reason || 'Violation of platform community standards',
           suspendedAt: new Date(),
           suspendedBy: req.user._id,
         };
+        // Automatically remove all services and projects from the portal when a user is suspended
+        await Service.updateMany(
+          { provider: user._id },
+          { portalStatus: 'removed', isActive: false, status: 'paused' }
+        );
+        await Project.updateMany(
+          { owner: user._id },
+          { portalStatus: 'removed', isActive: false, status: 'closed' }
+        );
         break;
       case 'reactivate':
       case 'unban':
         user.isActive = true;
+        user.portalStatus = 'published';
         user.suspensionDetails = { reason: '', suspendedAt: null, suspendedBy: null };
         break;
       case 'verify':
@@ -427,11 +443,60 @@ export const updateUserStatus = async (req, res) => {
         user.isVerified = false;
         user.verificationStatus = 'unverified';
         break;
+      case 'hide':
+        user.portalStatus = 'hidden';
+        break;
+      case 'restore':
+      case 'publish':
+        user.portalStatus = 'published';
+        break;
+      case 'archive':
+        user.portalStatus = 'archived';
+        break;
+      case 'remove':
+        user.portalStatus = 'removed';
+        user.isActive = false;
+        break;
       default:
-        return error(res, 'Invalid action. Supported: "suspend", "reactivate", "verify", "unverify"', 400);
+        return error(
+          res,
+          'Invalid action. Supported: "suspend", "reactivate", "verify", "unverify", "hide", "restore", "archive", "remove"',
+          400
+        );
     }
 
     await user.save();
+
+    // Cascading updates for services and projects if requested
+    if (cascadeServices) {
+      if (action === 'hide') {
+        await Service.updateMany({ provider: user._id }, { portalStatus: 'hidden', isActive: false });
+      } else if (action === 'restore' || action === 'publish') {
+        await Service.updateMany({ provider: user._id, portalStatus: 'hidden' }, { portalStatus: 'published', isActive: true });
+      } else if (action === 'archive') {
+        await Service.updateMany(
+          { provider: user._id },
+          { portalStatus: 'archived', isActive: false, archivedAt: new Date(), archivedBy: req.user._id, archiveReason: reason || 'Account archived' }
+        );
+      } else if (action === 'remove' || action === 'suspend') {
+        await Service.updateMany({ provider: user._id }, { portalStatus: 'removed', isActive: false });
+      }
+    }
+
+    if (cascadeProjects) {
+      if (action === 'hide') {
+        await Project.updateMany({ owner: user._id }, { portalStatus: 'hidden', isActive: false });
+      } else if (action === 'restore' || action === 'publish') {
+        await Project.updateMany({ owner: user._id, portalStatus: 'hidden' }, { portalStatus: 'published', isActive: true });
+      } else if (action === 'archive') {
+        await Project.updateMany(
+          { owner: user._id },
+          { portalStatus: 'archived', isActive: false, archivedAt: new Date(), archivedBy: req.user._id, archiveReason: reason || 'Account archived' }
+        );
+      } else if (action === 'remove' || action === 'suspend') {
+        await Project.updateMany({ owner: user._id }, { portalStatus: 'removed', isActive: false });
+      }
+    }
 
     // Record audit log
     await recordAuditLog({
@@ -441,22 +506,44 @@ export const updateUserStatus = async (req, res) => {
       entityId: user._id,
       entityTitle: `${user.firstName} ${user.lastName} (${user.email})`,
       previousState,
-      newState: { isActive: user.isActive, isVerified: user.isVerified, verificationStatus: user.verificationStatus },
+      newState: {
+        isActive: user.isActive,
+        isVerified: user.isVerified,
+        verificationStatus: user.verificationStatus,
+        portalStatus: user.portalStatus,
+        cascadeServices,
+        cascadeProjects,
+      },
       reason,
       req,
     });
 
     // Notify user
+    const actionNotificationTitles = {
+      suspend: 'Account Suspended',
+      reactivate: 'Account Reactivated',
+      verify: 'Account Verified!',
+      unverify: 'Verification Status Updated',
+      hide: 'Profile Visibility Updated',
+      restore: 'Profile Restored to Public',
+      archive: 'Account Archived',
+      remove: 'Account Removed',
+    };
+
     await Notification.create({
       recipient: user._id,
       type: 'system',
-      title: action === 'suspend' ? 'Account Suspended' : action === 'verify' ? 'Account Verified!' : 'Account Status Updated',
+      title: actionNotificationTitles[action] || 'Account Status Updated',
       message:
         action === 'suspend'
           ? `Your account was suspended by administration. Reason: ${reason || 'Terms violation'}`
           : action === 'verify'
           ? 'Congratulations! Your student verification was approved by administration.'
-          : 'Your account status has been updated by administration.',
+          : action === 'hide'
+          ? 'Your profile has been hidden from the public portal by administration.'
+          : action === 'restore'
+          ? 'Your profile has been restored to the public OnCampus portal.'
+          : `Your account status has been updated by administration.${reason ? ` Reason: ${reason}` : ''}`,
     });
 
     return success(res, { user: user.toPublicProfile() });
@@ -760,6 +847,118 @@ export const updateServicePortalStatus = async (req, res) => {
     });
 
     return success(res, { service });
+  } catch (err) {
+    return error(res, err.message, 500);
+  }
+};
+
+export const deleteAdminService = async (req, res) => {
+  try {
+    const { reason = '', permanent = false } = req.body;
+    const service = await Service.findById(req.params.id);
+
+    if (!service) {
+      return error(res, 'Service not found.', 404);
+    }
+
+    // Check for active orders
+    const activeOrders = await Order.countDocuments({
+      service: service._id,
+      status: { $in: ['pending', 'in_progress', 'disputed'] },
+    });
+
+    if (activeOrders > 0) {
+      return error(
+        res,
+        `Cannot delete service linked to ${activeOrders} active or pending order(s). Unpublish or hide it instead.`,
+        400
+      );
+    }
+
+    const previousState = {
+      portalStatus: service.portalStatus,
+      isActive: service.isActive,
+      status: service.status,
+    };
+
+    if (permanent) {
+      await Service.findByIdAndDelete(service._id);
+    } else {
+      service.portalStatus = 'removed';
+      service.isActive = false;
+      service.status = 'paused';
+      await service.save();
+    }
+
+    await recordAuditLog({
+      admin: req.user._id,
+      action: permanent ? 'SERVICE_PERMANENT_DELETE' : 'SERVICE_REMOVE',
+      entityType: 'Service',
+      entityId: service._id,
+      entityTitle: service.title,
+      previousState,
+      newState: { portalStatus: 'removed', isActive: false, permanent },
+      reason,
+      req,
+    });
+
+    await Notification.create({
+      recipient: service.provider,
+      type: 'system',
+      title: 'Service Removed by Administration',
+      message: `Your service "${service.title}" has been removed by platform moderation.${reason ? ` Reason: ${reason}` : ''}`,
+    });
+
+    return success(res, { message: 'Service removed successfully.' });
+  } catch (err) {
+    return error(res, err.message, 500);
+  }
+};
+
+export const deleteAdminProject = async (req, res) => {
+  try {
+    const { reason = '', permanent = false } = req.body;
+    const project = await Project.findById(req.params.id);
+
+    if (!project) {
+      return error(res, 'Project not found.', 404);
+    }
+
+    const previousState = {
+      portalStatus: project.portalStatus,
+      isActive: project.isActive,
+      status: project.status,
+    };
+
+    if (permanent) {
+      await Project.findByIdAndDelete(project._id);
+    } else {
+      project.portalStatus = 'removed';
+      project.isActive = false;
+      project.status = 'closed';
+      await project.save();
+    }
+
+    await recordAuditLog({
+      admin: req.user._id,
+      action: permanent ? 'PROJECT_PERMANENT_DELETE' : 'PROJECT_REMOVE',
+      entityType: 'Project',
+      entityId: project._id,
+      entityTitle: project.title,
+      previousState,
+      newState: { portalStatus: 'removed', isActive: false, permanent },
+      reason,
+      req,
+    });
+
+    await Notification.create({
+      recipient: project.owner,
+      type: 'project',
+      title: 'Project Removed by Administration',
+      message: `Your project "${project.title}" has been removed by administration.${reason ? ` Reason: ${reason}` : ''}`,
+    });
+
+    return success(res, { message: 'Project removed successfully.' });
   } catch (err) {
     return error(res, err.message, 500);
   }

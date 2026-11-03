@@ -43,12 +43,22 @@ export const getProjects = async (req, res) => {
 export const getProjectById = async (req, res) => {
   try {
     const project = await Project.findById(req.params.id)
-      .populate('owner', 'firstName lastName avatar headline university bio skills')
+      .populate('owner', 'firstName lastName avatar headline university bio skills isActive portalStatus')
       .populate('members', 'firstName lastName avatar headline')
       .populate('applications.applicant', 'firstName lastName avatar headline skills');
 
     if (!project) {
       return error(res, 'Project not found.', 404);
+    }
+
+    if (
+      (!project.isActive ||
+        ['hidden', 'archived', 'removed'].includes(project.portalStatus) ||
+        !project.owner?.isActive ||
+        ['hidden', 'archived', 'removed'].includes(project.owner?.portalStatus)) &&
+      req.user?.role !== 'admin'
+    ) {
+      return error(res, 'This project is currently unavailable or has been removed from the portal.', 404);
     }
 
     return success(res, { project });

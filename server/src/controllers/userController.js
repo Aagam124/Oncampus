@@ -9,7 +9,7 @@ export const getUsers = async (req, res) => {
     const filter = {
       isActive: true,
       role: 'student',
-      portalStatus: { $nin: ['hidden', 'archived'] },
+      portalStatus: { $nin: ['hidden', 'archived', 'removed'] },
     };
 
     if (search) {
@@ -53,6 +53,12 @@ export const getUserById = async (req, res) => {
     if (!user) {
       return error(res, 'User not found.', 404);
     }
+
+    // Suspended or removed students are not accessible on public portal (except to admins)
+    if ((!user.isActive || ['hidden', 'archived', 'removed'].includes(user.portalStatus)) && req.user?.role !== 'admin') {
+      return error(res, 'This user profile is no longer available on OnCampus.', 404);
+    }
+
     return success(res, { user });
   } catch (err) {
     return error(res, err.message, 500);
@@ -110,10 +116,16 @@ export const updateAvatar = async (req, res) => {
 
 export const getUserServices = async (req, res) => {
   try {
+    const user = await User.findById(req.params.id);
+    if (!user || !user.isActive || ['hidden', 'archived', 'removed'].includes(user.portalStatus)) {
+      return success(res, { services: [] });
+    }
+
     const services = await Service.find({
       provider: req.params.id,
       isActive: true,
       status: 'active',
+      portalStatus: { $nin: ['hidden', 'archived', 'removed'] },
     }).populate('provider', 'firstName lastName avatar headline');
 
     return success(res, { services });

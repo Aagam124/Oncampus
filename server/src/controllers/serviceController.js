@@ -53,10 +53,20 @@ export const getServices = async (req, res) => {
 export const getServiceById = async (req, res) => {
   try {
     const service = await Service.findById(req.params.id)
-      .populate('provider', 'firstName lastName avatar headline university bio rating reviewCount skills socialLinks');
+      .populate('provider', 'firstName lastName avatar headline university bio rating reviewCount skills socialLinks isActive portalStatus');
 
     if (!service) {
       return error(res, 'Service not found.', 404);
+    }
+
+    if (
+      (!service.isActive ||
+        ['hidden', 'archived', 'removed'].includes(service.portalStatus) ||
+        !service.provider?.isActive ||
+        ['hidden', 'archived', 'removed'].includes(service.provider?.portalStatus)) &&
+      req.user?.role !== 'admin'
+    ) {
+      return error(res, 'This service is currently unavailable or has been removed from the portal.', 404);
     }
 
     return success(res, { service });

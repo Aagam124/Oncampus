@@ -11,8 +11,10 @@ import {
   getVerifications,
   getAdminProjects,
   updateProjectPortalStatus,
+  deleteAdminProject,
   getAdminServices,
   updateServicePortalStatus,
+  deleteAdminService,
   getAdminOrders,
   getAdminOrderDetail,
   resolveDispute,
@@ -48,14 +50,17 @@ router.get('/activity', getRecentActivity);
 router.get('/users', getAdminUsers);
 router.get('/users/:id', getAdminUserDetail);
 router.put('/users/:id/status', updateUserStatus);
+router.put('/users/:id/portal-status', updateUserStatus);
 router.put('/users/:id/verify', verifyStudentDecision);
 router.get('/verifications', getVerifications);
 
 // 3. Marketplace: Projects, Services, Orders & Disputes
 router.get('/projects', getAdminProjects);
 router.put('/projects/:id/portal-status', updateProjectPortalStatus);
+router.delete('/projects/:id', deleteAdminProject);
 router.get('/services', getAdminServices);
 router.put('/services/:id/portal-status', updateServicePortalStatus);
+router.delete('/services/:id', deleteAdminService);
 router.get('/orders', getAdminOrders);
 router.get('/orders/:id', getAdminOrderDetail);
 router.put('/orders/:id/resolve-dispute', resolveDispute);

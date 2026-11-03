@@ -134,7 +134,7 @@ const userSchema = new mongoose.Schema(
     },
     portalStatus: {
       type: String,
-      enum: ['published', 'hidden', 'archived'],
+      enum: ['published', 'hidden', 'archived', 'removed'],
       default: 'published',
     },
     refreshToken: {

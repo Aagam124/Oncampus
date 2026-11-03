@@ -73,7 +73,7 @@ const serviceSchema = new mongoose.Schema(
     },
     status: {
       type: String,
-      enum: ['active', 'paused', 'under-review', 'rejected'],
+      enum: ['active', 'paused', 'under-review', 'rejected', 'inactive'],
       default: 'active',
     },
     isActive: {
