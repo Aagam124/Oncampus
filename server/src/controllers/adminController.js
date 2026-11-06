@@ -340,7 +340,8 @@ export const getAdminUsers = async (req, res) => {
       .select('-password -refreshToken')
       .sort(sortOption)
       .skip(skip)
-      .limit(parseInt(limit));
+      .limit(parseInt(limit))
+      .lean();
 
     return paginated(res, users, page, limit, total);
   } catch (err) {
@@ -634,7 +635,8 @@ export const getVerifications = async (req, res) => {
       .populate('verificationDetails.reviewedBy', 'firstName lastName email')
       .sort({ 'verificationDetails.submittedAt': -1, createdAt: -1 })
       .skip(skip)
-      .limit(parseInt(limit));
+      .limit(parseInt(limit))
+      .lean();
 
     return paginated(res, verifications, page, limit, total);
   } catch (err) {
@@ -670,7 +672,8 @@ export const getAdminProjects = async (req, res) => {
       .populate('archivedBy', 'firstName lastName')
       .sort({ createdAt: -1 })
       .skip(skip)
-      .limit(parseInt(limit));
+      .limit(parseInt(limit))
+      .lean();
 
     return paginated(res, projects, page, limit, total);
   } catch (err) {
@@ -770,7 +773,8 @@ export const getAdminServices = async (req, res) => {
       .populate('archivedBy', 'firstName lastName')
       .sort({ createdAt: -1 })
       .skip(skip)
-      .limit(parseInt(limit));
+      .limit(parseInt(limit))
+      .lean();
 
     return paginated(res, services, page, limit, total);
   } catch (err) {
@@ -983,7 +987,8 @@ export const getAdminOrders = async (req, res) => {
       .populate('provider', 'firstName lastName email avatar')
       .sort({ createdAt: -1 })
       .skip(skip)
-      .limit(parseInt(limit));
+      .limit(parseInt(limit))
+      .lean();
 
     return paginated(res, orders, page, limit, total);
   } catch (err) {
@@ -1318,7 +1323,8 @@ export const getReports = async (req, res) => {
       .populate('resolvedBy', 'firstName lastName email')
       .sort({ createdAt: -1 })
       .skip(skip)
-      .limit(parseInt(limit));
+      .limit(parseInt(limit))
+      .lean();
 
     return paginated(res, reports, page, limit, total);
   } catch (err) {
@@ -1557,7 +1563,8 @@ export const getAuditLogs = async (req, res) => {
       .populate('admin', 'firstName lastName email avatar role adminRole')
       .sort({ createdAt: -1 })
       .skip(skip)
-      .limit(parseInt(limit));
+      .limit(parseInt(limit))
+      .lean();
 
     return paginated(res, logs, page, limit, total);
   } catch (err) {

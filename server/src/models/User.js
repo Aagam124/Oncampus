@@ -170,5 +170,11 @@ userSchema.methods.toPublicProfile = function () {
   return obj;
 };
 
+// High-performance indexes for directory search, moderation, and auth
+userSchema.index({ role: 1, isActive: 1, portalStatus: 1 });
+userSchema.index({ verificationStatus: 1 });
+userSchema.index({ createdAt: -1 });
+userSchema.index({ firstName: 'text', lastName: 'text', university: 'text', department: 'text' });
+
 const User = mongoose.model('User', userSchema);
 export default User;

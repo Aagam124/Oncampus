@@ -42,7 +42,8 @@ export const getServices = async (req, res) => {
       .populate('provider', 'firstName lastName avatar headline university rating')
       .sort(sortOption)
       .skip(skip)
-      .limit(parseInt(limit));
+      .limit(parseInt(limit))
+      .lean();
 
     return paginated(res, services, page, limit, total);
   } catch (err) {

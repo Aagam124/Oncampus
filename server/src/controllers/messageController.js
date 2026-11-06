@@ -10,7 +10,8 @@ export const getConversations = async (req, res) => {
     })
       .populate('participants', 'firstName lastName avatar headline')
       .populate('lastMessage.sender', 'firstName lastName')
-      .sort({ updatedAt: -1 });
+      .sort({ updatedAt: -1 })
+      .lean();
 
     return success(res, { conversations });
   } catch (err) {
@@ -67,7 +68,8 @@ export const getMessages = async (req, res) => {
       .populate('sender', 'firstName lastName avatar')
       .sort({ createdAt: -1 })
       .skip(skip)
-      .limit(parseInt(limit));
+      .limit(parseInt(limit))
+      .lean();
 
     // Mark unread messages as read
     await Message.updateMany(

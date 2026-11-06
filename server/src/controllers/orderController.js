@@ -72,7 +72,8 @@ export const getOrders = async (req, res) => {
       .populate('service', 'title pricing images')
       .sort({ createdAt: -1 })
       .skip(skip)
-      .limit(parseInt(limit));
+      .limit(parseInt(limit))
+      .lean();
 
     return success(res, {
       orders,

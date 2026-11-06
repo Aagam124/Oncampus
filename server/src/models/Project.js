@@ -116,6 +116,10 @@ const projectSchema = new mongoose.Schema(
 );
 
 projectSchema.index({ title: 'text', description: 'text', skills: 'text' });
+projectSchema.index({ owner: 1, status: 1 });
+projectSchema.index({ category: 1, status: 1, portalStatus: 1 });
+projectSchema.index({ status: 1, portalStatus: 1, createdAt: -1 });
+projectSchema.index({ members: 1 });
 
 const Project = mongoose.model('Project', projectSchema);
 export default Project;

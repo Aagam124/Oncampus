@@ -1,6 +1,7 @@
 import 'dotenv/config';
 import express from 'express';
 import cors from 'cors';
+import compression from 'compression';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import connectDB from './db.js';
@@ -24,11 +25,15 @@ const PORT = process.env.PORT || 5000;
 
 // Middleware
 app.use(cors());
+app.use(compression()); // Gzip/deflate compression for all API responses and static assets
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
-// Serve uploads as static files
-app.use('/uploads', express.static(path.join(__dirname, '..', 'uploads')));
+// Serve uploads as static files with cache control
+app.use('/uploads', express.static(path.join(__dirname, '..', 'uploads'), {
+  maxAge: '7d',
+  immutable: true,
+}));
 
 // API Routes
 app.use('/api/auth', authRoutes);
@@ -46,9 +51,17 @@ app.get('/api/health', (req, res) => {
   res.json({ success: true, data: { status: 'ok', timestamp: new Date().toISOString() } });
 });
 
-// Serve frontend static build in production
+// Serve frontend static build in production with optimal asset caching
 const clientDistPath = path.join(__dirname, '..', '..', 'client', 'dist');
-app.use(express.static(clientDistPath));
+app.use(express.static(clientDistPath, {
+  maxAge: '1d',
+  setHeaders: (res, filePath) => {
+    // If it's a versioned asset in /assets, cache for 1 year
+    if (filePath.includes(path.sep + 'assets' + path.sep)) {
+      res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
+    }
+  },
+}));
 
 app.get('*', (req, res, next) => {
   if (req.path.startsWith('/api') || req.path.startsWith('/uploads')) {

@@ -103,6 +103,11 @@ const serviceSchema = new mongoose.Schema(
 );
 
 serviceSchema.index({ title: 'text', description: 'text', tags: 'text' });
+serviceSchema.index({ provider: 1, status: 1 });
+serviceSchema.index({ category: 1, status: 1, portalStatus: 1 });
+serviceSchema.index({ status: 1, portalStatus: 1, createdAt: -1 });
+serviceSchema.index({ 'pricing.amount': 1 });
+serviceSchema.index({ rating: -1 });
 
 const Service = mongoose.model('Service', serviceSchema);
 export default Service;

@@ -32,7 +32,8 @@ export const getProjects = async (req, res) => {
       .populate('members', 'firstName lastName avatar')
       .sort({ createdAt: -1 })
       .skip(skip)
-      .limit(parseInt(limit));
+      .limit(parseInt(limit))
+      .lean();
 
     return paginated(res, projects, page, limit, total);
   } catch (err) {
